@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-import RegisterScreen from "./RegisterScreen";
 import { NavigationActions } from "react-navigation";
 
 const LoginScreen = props => {
@@ -11,7 +10,7 @@ const LoginScreen = props => {
         console.log(typeof (username));
         formdata.append("username", username);
         formdata.append("password", password);
-        fetch('http://192.168.1.19:8008/login', {
+        fetch('http://172.20.10.2:8008/login', {
             method: "POST",
             body: formdata
         })
