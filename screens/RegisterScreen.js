@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, ScrollView, Button } from "react-native";
 import ModalDropdown from "react-native-modal-dropdown";
+import ApiService from "../ApiService";
+
 
 
 const RegisterScreen = props => {
@@ -17,25 +19,24 @@ const RegisterScreen = props => {
     { value: 'Female' }
   ];
 
-  // const finishRegistration = () => {
-  //   let formdata = new FormData();
-  //   console.log(typeof (username));
-  //   formdata.append("username", username);
-  //   formdata.append("password", password);
-  //   formdata.append("email", email);
-  //   formdata.append("verifyPassword", verifyPassword);
-  //   formdata.append("age", age);
-  //   formdata.append("city", city);
-  //   formdata.append("sex", sex);
-  //   fetch('http://192.168.1.19:8008/login', {
-  //     method: "POST",
-  //     body: formdata
-  //   })
-  //     .then(resp => resp.json())
-  //     .then(resp => console.log(resp))
-  //     .catch(error => console.log(error));
-  //   // API.loginUser({"username":username, "password": password});
-  // };
+  const finishRegistration = () => {
+    let formdata = new FormData();
+    formdata.append("username", username);
+    formdata.append("password", password);
+    formdata.append("email", email);
+    //formdata.append("verifyPassword", verifyPassword);
+    formdata.append("age", age);
+    formdata.append("city", city);
+    formdata.append("sex", sex);
+    fetch(`${ApiService.ipAddress}/register`, {
+      method: "POST",
+      body: formdata
+    })
+      .then(resp => resp.json())
+      .then(resp => console.log(resp))
+      .catch(error => console.log(error));
+    props.navigation.goBack();
+  };
 
 
   return (
@@ -72,10 +73,11 @@ const RegisterScreen = props => {
         <ModalDropdown
           style={styles.input}
           isFullWidth={true}
-          dropdownTextStyle={{fontSize:15}}
+          dropdownTextStyle={{ fontSize: 15 }}
           defaultValue='מין'
-          options={['זכר' , 'נקבה']}
+          options={['זכר', 'נקבה']}
           placeholder="מין"
+          onSelect={sex => sex == 0 ? setSex("זכר") : setSex("נקבה")}
         />
         <TextInput
           style={styles.input}
@@ -93,7 +95,7 @@ const RegisterScreen = props => {
       </View>
       <Button
         title="סיום"
-      // onPress={finishRegistration}
+        onPress={finishRegistration}
       />
     </ScrollView>
   );
@@ -115,7 +117,16 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     backgroundColor: '#fff',
-  }
+  },
+  dropdown: {
+    position: 'absolute',
+    height: (33 + StyleSheet.hairlineWidth) * 5,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: 'lightgray',
+    borderRadius: 2,
+    backgroundColor: 'white',
+    justifyContent: 'center'
+  },
 });
 
 RegisterScreen.navigationOptions = () => {
