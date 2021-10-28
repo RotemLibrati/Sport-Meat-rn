@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import { NavigationActions } from "react-navigation";
+import ApiService from "../ApiService";
 
 const LoginScreen = props => {
     const [username, setUsername] = useState('')
@@ -10,14 +11,13 @@ const LoginScreen = props => {
         console.log(typeof (username));
         formdata.append("username", username);
         formdata.append("password", password);
-        fetch('http://172.20.10.2:8008/login', {
+        fetch(`${ApiService.ipAddress}/login`, {
             method: "POST",
             body: formdata
         })
             .then(resp => resp.json())
             .then(resp => console.log(resp))
             .catch(error => console.log(error));
-        // API.loginUser({"username":username, "password": password});
     };
     return (
         <View style={styles.container}>
