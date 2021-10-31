@@ -1,7 +1,9 @@
-import StartScreen from '../screens/StartScreen';
-import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
+import StartScreen from '../screens/start/StartScreen';
+import RegisterScreen from '../screens/start/RegisterScreen';
+import LoginScreen from '../screens/start/LoginScreen';
 import MainScreen from '../screens/MainScreen';
+import GamesScreen from '../screens/games/GamesScreen';
+import GameDetails from '../components/games/GameDetails';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -16,12 +18,18 @@ const EnterNavigator = createStackNavigator({
   
 });
 
+const MainScreenNavigator = createStackNavigator({
+  MainScreen: MainScreen,
+  GamesScreen: GamesScreen,
+  GameDetails: GameDetails
+});
+
 const SportMeetTabNavigator = createBottomTabNavigator({
   Start: {
     screen: EnterNavigator
   },
   Main: {
-    screen: MainScreen
+    screen: MainScreenNavigator
   }
 });
 
