@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import RecentGame from "../components/games/RecentGame";
-import API from '../ApiService';
-import axios from "axios";
+import Teams from "../components/teams/Teams";
 
 const MainScreen = props => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>שלום</Text>
       <RecentGame navigation={props.navigation}/>
+      <Teams navigation={props.navigation}/>
     </View>
   );
 };
