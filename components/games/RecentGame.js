@@ -20,7 +20,7 @@ const RecentGame = (props) => {
     };
     return (
         isLoading ? (<Loading />) : (
-            <View style={styles.top}>
+            <View style={styles.box}>
                 <View style={styles.title}><Text style={styles.title} >משחקים קרובים</Text></View>
                 <View style={styles.games}>
                     {games.games.map(game => (
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         marginTop: 50,
         alignItems: 'center'
     },
-    top: {
+    box: {
         flex: 0.5,
         backgroundColor: "beige",
         borderWidth: 5,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     button: {
-        margin: 70
+        margin: 50
     }
 })
 
