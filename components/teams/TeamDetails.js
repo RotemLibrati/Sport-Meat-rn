@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList, Text, View } from 'react-native';
-import { v4 as uuidv4 } from 'uuid';
+import uuid from 'react-native-uuid';
+
 
 const TeamDetails = props => {
     const team = props.navigation.getParam("team", null);
@@ -10,7 +11,7 @@ const TeamDetails = props => {
             <Text>מנהל הקבוצה : {team.admin}</Text>
             <Text>סוג הספורט : {team.sport}</Text>
             <Text>חברי הקבוצה:</Text>
-            {team.members.map(mem => (<Text key={uuidv4()} >{mem}</Text>))}
+            {team.members.map(mem => (<Text key={uuid.v4()} >{mem}</Text>))}
         </View>
     )
 };
