@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import AllTeams from '../../components/teams/AllTeams';
 
-const TeamScreen = () => {
+const TeamsScreen = props => {
     return (
         <View>
             <AllTeams navigation={props.navigation}/>
@@ -10,9 +10,9 @@ const TeamScreen = () => {
     )
 };
 
-TeamScreen.navigationOptions = () => {
+TeamsScreen.navigationOptions = () => {
     return {
         headerTitle: "הקבוצות שלי"
     }
   };
-export default TeamScreen;
+export default TeamsScreen;
