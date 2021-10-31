@@ -4,6 +4,8 @@ import LoginScreen from '../screens/start/LoginScreen';
 import MainScreen from '../screens/MainScreen';
 import GamesScreen from '../screens/games/GamesScreen';
 import GameDetails from '../components/games/GameDetails';
+import TeamDetails from '../components/teams/TeamDetails';
+import TeamScreen from '../screens/teams/TeamScreen';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -21,8 +23,12 @@ const EnterNavigator = createStackNavigator({
 const MainScreenNavigator = createStackNavigator({
   MainScreen: MainScreen,
   GamesScreen: GamesScreen,
-  GameDetails: GameDetails
+  GameDetails: GameDetails,
+  TeamScreen: TeamScreen,
+  TeamDetails: TeamDetails,
+
 });
+
 
 const SportMeetTabNavigator = createBottomTabNavigator({
   Start: {
