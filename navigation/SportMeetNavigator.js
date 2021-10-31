@@ -5,7 +5,7 @@ import MainScreen from '../screens/MainScreen';
 import GamesScreen from '../screens/games/GamesScreen';
 import GameDetails from '../components/games/GameDetails';
 import TeamDetails from '../components/teams/TeamDetails';
-import TeamScreen from '../screens/teams/TeamScreen';
+import TeamsScreen from '../screens/teams/TeamsScreen';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -24,7 +24,7 @@ const MainScreenNavigator = createStackNavigator({
   MainScreen: MainScreen,
   GamesScreen: GamesScreen,
   GameDetails: GameDetails,
-  TeamScreen: TeamScreen,
+  TeamsScreen: TeamsScreen,
   TeamDetails: TeamDetails,
 
 });
