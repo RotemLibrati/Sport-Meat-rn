@@ -18,7 +18,7 @@ const AllGames = props => {
     }, [])
     return (
         isLoading ? (<Loading />) : (
-            <View >
+            <View style={{backgroundColor:"white"}} >
             {games.games.map(game => (
                 <Game key={game.id} game={game} navigation={props.navigation} />
             ))}
