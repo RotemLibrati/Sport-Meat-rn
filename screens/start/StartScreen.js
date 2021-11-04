@@ -18,7 +18,7 @@ const StartScreen = props => {
 };
 StartScreen.navigationOptions = () => {
   return {
-      headerTitle: "תפריט ראשי"
+      headerTitle: "דף כניסה"
   }
 };
 const styles = StyleSheet.create({
