@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
-import { NavigationActions } from "react-navigation";
 import API from "../../ApiService";
 
 const LoginScreen = props => {

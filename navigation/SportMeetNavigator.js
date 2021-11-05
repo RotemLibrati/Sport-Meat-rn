@@ -42,7 +42,7 @@ const TeamScreen = createStackNavigator({
 
 const ProfileScreenNavigator = createStackNavigator({
   MyProfileScreen: MyProfileScreen,
-})
+});
 
 
 const SportMeetTabNavigator = createBottomTabNavigator({
