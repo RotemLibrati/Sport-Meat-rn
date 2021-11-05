@@ -10,6 +10,7 @@ import TeamDetails from '../components/teams/TeamDetails';
 import TeamsScreen from '../screens/teams/TeamsScreen';
 import CreateNewTeam from '../components/teams/CreateNewTeam';
 import MyProfileScreen from '../screens/profile/MyProfileScreen';
+import EditProfile from '../components/profile/EditProfile';
 import { AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -42,6 +43,7 @@ const TeamScreen = createStackNavigator({
 
 const ProfileScreenNavigator = createStackNavigator({
   MyProfileScreen: MyProfileScreen,
+  EditProfile: EditProfile
 });
 
 
