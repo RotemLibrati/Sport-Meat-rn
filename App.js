@@ -1,14 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import SportMeetNavigator from './navigation/SportMeetNavigator';
-import MainScreen from './screens/MainScreen';
+import SetTokenProvider from './context/SetToken';
 
-
-
-export default function App() {
+const App = () => {
   return (
-    <SportMeetNavigator />
+    <SetTokenProvider>
+      <SportMeetNavigator />
+    </SetTokenProvider>
+
   );
 }
 
@@ -20,3 +21,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+export default App;
