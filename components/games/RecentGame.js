@@ -1,22 +1,43 @@
 import axios from 'axios';
-import React, { useEffect, useState, Component } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import API from '../../ApiService';
 import Game from './Game';
 import Loading from '../Loading';
+import { SetToken } from '../../context/SetToken';
 const RecentGame = (props) => {
+    const { token, username } = useContext(SetToken);
     const [isLoading, setIsLoading] = useState(true);
     const [games, setGames] = useState([]);
+
     useEffect(() => {
+
         const fetchGames = async () => {
-            const result = await axios.get(`${API.ipAddress}/recent-games/admin`);
-            setGames(result.data);
-            setIsLoading(false);
+            console.log("username " + username);
+            console.log("token " + token);
+            const auth = `Bearer ${token}`
+            console.log("auth " + auth);
+            let config = {
+                method: 'get',
+                url: `${API.ipAddress}/recent-games/${username}/`,
+                headers: {
+                    'Authorization': `${auth}`
+                }
+            }
+            await axios(config)
+                .then(function (response) {
+                    console.log(JSON.stringify(response.data));
+                    setGames(response.data);
+                    setIsLoading(false);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         };
         fetchGames();
-    }, [])
+    }, [username])
     const clickAllGames = () => {
-        props.navigation.navigate("GamesScreen", {navigation: props});
+        props.navigation.navigate("GamesScreen", { navigation: props });
     };
     return (
         isLoading ? (<Loading />) : (
@@ -24,7 +45,7 @@ const RecentGame = (props) => {
                 <View style={styles.title}><Text style={styles.title} >משחקים קרובים</Text></View>
                 <View style={styles.games}>
                     {games.games.map(game => (
-                        <Game key={game.id} game={game} navigation={props.navigation}/>
+                        <Game key={game.id} game={game} navigation={props.navigation} />
                     ))}
                 </View>
                 <View style={styles.button}>
