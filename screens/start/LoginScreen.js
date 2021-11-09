@@ -1,46 +1,65 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import React, { useState, useContext, useEffect } from "react";
+import { View, Text, StyleSheet, TextInput, Button, ScrollView } from "react-native";
 import API from "../../ApiService";
+import { SetToken } from "../../context/SetToken";
 
 const LoginScreen = props => {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const { addToken, addUsername } = useContext(SetToken);
+    const [tryLoggedin, setTryLoggedin] = useState(false);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [accessToken, setAccessToken] = useState('');
     const loginUser = () => {
         let formdata = new FormData();
-        console.log(typeof (username));
         formdata.append("username", username);
         formdata.append("password", password);
-        fetch(`${API.ipAddress}/login`, {
+        formdata.append("grant_type", "password");
+        formdata.append("client_id", API.clientID);
+        fetch(`${API.ipAddress}/o/token/`, {
             method: "POST",
             body: formdata
         })
             .then(resp => resp.json())
-            .then(resp => console.log(resp))
-            .catch(error => console.log(error));
-    };
+            .then(function(resp){ 
+                setAccessToken(resp.access_token)
+                if (accessToken) {
+                    addToken(accessToken);
+                    addUsername(username);
+                    props.navigation.navigate("MainScreen");
+                } else
+                    setTryLoggedin(true);
+            })
+            //.then(resp => console.log(resp))
+            .catch(error => console.log(error))
+        }
+    
     return (
-        <View style={styles.container}>
-            <Text>התחברות</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="שם משתמש"
-                onChangeText={setUsername}
-                value={username}
-            />
-            <TextInput
-                secureTextEntry={true}
-                style={styles.input}
-                placeholder="סיסמה"
-                onChangeText={setPassword}
-                value={password}
-            />
-            <Button title="התחבר"
-                onPress={loginUser} />
-        </View>
+        <ScrollView keyboardShouldPersistTaps='always'>
+            {/* <View style={styles.container}> */}
+                <Text>התחברות</Text>
+                {/* {tryLoggedin ? <Text>שם המשתמש או הסיסמה אינם נכונים</Text> : */}
+                    <Text>אנא הכנס שם משתמש וסיסמה</Text>
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="שם משתמש"
+                    onChangeText={setUsername}
+                    value={username}
+                />
+                <TextInput
+                    secureTextEntry={true}
+                    style={styles.input}
+                    placeholder="סיסמה"
+                    onChangeText={setPassword}
+                    value={password}
+                />
+                <Button title="התחבר"
+                    onPress={loginUser} />
+            {/* </View> */}
+        </ScrollView>
     );
 };
 // () => props.navigation.navigate("RegisterScreen")
-
 LoginScreen.navigationOptions = () => {
     return {
         headerTitle: "התחברות"

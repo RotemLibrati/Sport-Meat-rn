@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Button, TextInput } fr
 const MyProfile = props => {
     const profile = props.profile;
     const editField = () => {
-        return <TextInput title="מגורים" />
+        return <View><TextInput title="מגורים" /></View>
     }
     return (
         // <View>
@@ -41,7 +41,7 @@ const MyProfile = props => {
 
             <View style={styles.body}>
                 <View style={styles.bodyContent}>
-                    <TouchableOpacity style={styles.buttonContainer}>
+                    <TouchableOpacity onPressOut={editField} style={styles.buttonContainer}>
                             <Text>{profile.city}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.buttonContainer}>

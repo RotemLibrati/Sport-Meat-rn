@@ -13,10 +13,7 @@ const RecentGame = (props) => {
     useEffect(() => {
 
         const fetchGames = async () => {
-            console.log("username " + username);
-            console.log("token " + token);
             const auth = `Bearer ${token}`
-            console.log("auth " + auth);
             let config = {
                 method: 'get',
                 url: `${API.ipAddress}/recent-games/${username}/`,
@@ -26,7 +23,6 @@ const RecentGame = (props) => {
             }
             await axios(config)
                 .then(function (response) {
-                    console.log(JSON.stringify(response.data));
                     setGames(response.data);
                     setIsLoading(false);
                 })

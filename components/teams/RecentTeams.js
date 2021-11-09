@@ -1,23 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import API from '../../ApiService';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import Loading from '../Loading';
 import Team from './Team';
+import { SetToken } from '../../context/SetToken';
 
 const Teams = props => {
+    const { token, username } = useContext(SetToken);
     const [isLoading, setIsLoading] = useState(true);
     const [teams, setTeams] = useState([]);
     useEffect(() => {
+        
         const fetchTeams = async () => {
-            const result = await axios.get(`${API.ipAddress}/teams/admin`);
-            setTeams(result.data);
-            setIsLoading(false);
+            let config = {
+                method: 'get',
+                url: `${API.ipAddress}/teams/${username}/`,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            await axios(config).
+                then(function (response) {
+                    setTeams(response.data);
+                    setIsLoading(false);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            
         };
         fetchTeams();
-    }, [])
+    }, [username])
     const clickedAllTeams = () => {
-        props.navigation.navigate("TeamsScreen", {navigation: props.navigation});
+        props.navigation.navigate("TeamsScreen", { navigation: props.navigation });
     }
     return (
         isLoading ? (<Loading />) : (

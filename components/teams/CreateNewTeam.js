@@ -1,22 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, Button } from 'react-native';
 import ModalDropdown from "react-native-modal-dropdown";
 import API from '../../ApiService';
+import { SetToken } from '../../context/SetToken';
 
 
 const CreateNewTeam = props => {
+    const { token, username } = useContext(SetToken);
     const [name, setName] = useState('');
     const [sport, setSport] = useState('');
     let data = ['כדורגל', 'כדורסל', 'טניס'];
     const createTeamHandler = () => {
+        let myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
         let formdata = new FormData();
         formdata.append("name", name);
         formdata.append("sport", sport);
-        fetch(`${API.ipAddress}/create-team`, {
+        
+        let requestOptions = {
             method: 'POST',
-            body: formdata
-        })
-            .then(res => res.json())
+            headers: myHeaders,
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        fetch(`${API.ipAddress}/create-team`,
+            requestOptions)
+            .then(res => res.text())
             .catch(error => console.log(error))
         props.navigation.goBack()
     }
@@ -52,7 +62,7 @@ const CreateNewTeam = props => {
 CreateNewTeam.navigationOptions = {
     headerTitle: 'יצירת קבוצה'
 }
- 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

@@ -8,10 +8,10 @@ const TeamDetails = props => {
     return (
         <View>
             <Text>שם הקבוצה : {team.name}</Text>
-            <Text>מנהל הקבוצה : {team.admin}</Text>
+            <Text>מנהל הקבוצה : {team.admin.user.username}</Text>
             <Text>סוג הספורט : {team.sport}</Text>
             <Text>חברי הקבוצה:</Text>
-            {team.members.map(mem => (<Text key={uuid.v4()} >{mem}</Text>))}
+            {team.members.map(mem => (<Text key={uuid.v4()} >{mem.user.username}</Text>))}
         </View>
     )
 };

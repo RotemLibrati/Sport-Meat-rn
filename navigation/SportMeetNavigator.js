@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text } from 'react-native';
 import StartScreen from '../screens/start/StartScreen';
 import RegisterScreen from '../screens/start/RegisterScreen';
@@ -16,15 +16,19 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator } from 'react-navigation-drawer';
+import { SetToken } from '../context/SetToken';
 
-
+const SportMeetNavigator = () => {
+  const { token } = useContext(SetToken);
+  console.log("Token");
+  return;
+};
 
 
 const EnterNavigator = createStackNavigator({
   StartScreen: StartScreen,
   RegisterScreen: RegisterScreen,
   LoginScreen: LoginScreen,
-
 });
 
 const MainScreenNavigator = createStackNavigator({
@@ -48,9 +52,6 @@ const ProfileScreenNavigator = createStackNavigator({
 
 
 const SportMeetTabNavigator = createBottomTabNavigator({
-  Start: {
-    screen: EnterNavigator,
-  },
   Main: {
     screen: MainScreenNavigator
   },
@@ -68,6 +69,14 @@ const SportMeetTabNavigator = createBottomTabNavigator({
 });
 
 const MainNavigation = createDrawerNavigator({
+  // ...(token = useContext(SetToken)),
+  Enter: {
+    screen: EnterNavigator, navigationOptions: {
+      // drawerLabel: token ? 'התנתקות' : 'כניסה',
+      // drawerLabel: 'כניסה',
+      // drawerIcon: <Ionicons name="enter-outline" size={24} color="black" />
+    }
+  },
   SportMeet: {
     screen: SportMeetTabNavigator
   },
@@ -83,12 +92,7 @@ const MainNavigation = createDrawerNavigator({
       drawerIcon: <AntDesign name="profile" size={24} color="black" />
     }
   },
-  Enter: {
-    screen: EnterNavigator, navigationOptions: {
-      drawerLabel: 'כניסה',
-      drawerIcon: <Ionicons name="enter-outline" size={24} color="black" />
-    }
-  },
+  
   TeamScreen: {
     screen: TeamScreen, navigationOptions: {
       drawerLabel: 'הקבוצות שלי',

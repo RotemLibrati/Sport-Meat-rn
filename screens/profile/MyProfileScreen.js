@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import MyProfile from '../../components/profile/MyProfile';
 import axios from 'axios';
@@ -7,19 +7,36 @@ import Loading from '../../components/Loading';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../../components/HeaderButton';
 import EditProfile from '../../components/profile/EditProfile';
+import { SetToken } from '../../context/SetToken';
 
 const MyProfileScreen = props => {
+    const { token, username } = useContext(SetToken);
     const [myProfile, setMyProfile] = useState();
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         const fetchProfile = async () => {
-            const profile = await axios.get(`${API.ipAddress}/profiles/admin`)
-            setMyProfile(profile.data);
-            setIsLoading(false);
+            let config = {
+                method: 'get',
+                url: `${API.ipAddress}/profiles/${username}/`,
+                headers: { 
+                  'Authorization': `Bearer ${token}`
+                }
+              };
+            await axios(config)
+            .then(function (response) {
+                console.log(response.data);
+                setMyProfile(response.data);
+                setIsLoading(false);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
         }
         fetchProfile();
-    },[]);
-
+    },[username]);
+    const clickEditProfile = () => {
+        props.navigation.navigate("EditProfile");
+    }
     return (
         isLoading ? (<Loading />) :(
         <View>
@@ -29,7 +46,7 @@ const MyProfileScreen = props => {
     )
 };
 
-MyProfileScreen.navigationOptions = navData =>{
+MyProfileScreen.navigationOptions = (navData, props) =>{
     return {
         headerTitle: "הפרופיל שלי",
         headerStyle: {
@@ -40,7 +57,7 @@ MyProfileScreen.navigationOptions = navData =>{
           },
         headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item title="Edit" iconName="edit"
-                onPress={() => console.log("Edit")}
+                onPress={() => navData.navigation.navigate("EditProfile")}
             />
         </HeaderButtons>,
         headerLeft: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>

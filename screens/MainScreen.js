@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import RecentGame from "../components/games/RecentGame";
 import RecentTeams from "../components/teams/RecentTeams";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../components/HeaderButton";
+import { SetToken } from "../context/SetToken";
+
+
+
+
 
 const MainScreen = props => {
+  const { token, username } = useContext(SetToken);
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>שלום</Text>
+      <Text style={styles.title}>שלום {username}</Text>
       <RecentGame navigation={props.navigation} />
       <RecentTeams navigation={props.navigation} />
     </View>
@@ -17,6 +23,12 @@ const MainScreen = props => {
 MainScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "ראשי",
+    headerLeft: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+      <Item
+        title="Menu"
+        iconName="menu"
+        onPress={() => { navData.navigation.toggleDrawer() }} />
+    </HeaderButtons>,
     headerLeft: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
       <Item
         title="Menu"

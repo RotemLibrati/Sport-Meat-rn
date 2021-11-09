@@ -1,18 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import axios from 'axios';
 import API from '../../ApiService';
 import Loading from '../Loading';
 import Team from './Team';
+import { SetToken } from '../../context/SetToken';
 
 const AllTeams = props => {
+    const { token, username } = useContext(SetToken);
     const [teams, setTeams] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         const fetchTeams = async () => {
-            const result = await axios.get(`${API.ipAddress}/all-teams/admin`);
-            setTeams(result.data);
-            setIsLoading(false);
+            let config = {
+                method: 'get',
+                url: `${API.ipAddress}/all-teams/${username}/`,
+                headers: { 
+                    'Authorization': `Bearer ${token}`
+                  }
+            };
+            await axios(config)
+                .then(function (response) {
+                    setTeams(response.data);
+                    setIsLoading(false);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });  
         };
         fetchTeams();
     }, []);
@@ -27,7 +41,7 @@ const AllTeams = props => {
                         <Team key={team.id} team={team} navigation={props.navigation} />
                     ))}
                 </View>
-                <Button title="צור קבוצה חדשה" 
+                <Button title="צור קבוצה חדשה"
                     onPress={clickCreateTeam}
                 />
             </View>
