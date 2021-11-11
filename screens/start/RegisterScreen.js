@@ -13,12 +13,6 @@ const RegisterScreen = props => {
   const [email, setEmail] = useState('');
   const [sex, setSex] = useState('');
   const [city, setCity] = useState('');
-
-  let data = [
-    { value: 'Male' },
-    { value: 'Female' }
-  ];
-
   const finishRegistration = () => {
     let formdata = new FormData();
     formdata.append("username", username);

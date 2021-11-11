@@ -13,40 +13,44 @@ const MyProfileScreen = props => {
     const { token, username } = useContext(SetToken);
     const [myProfile, setMyProfile] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    //const [edit, setEdit] = useState(false);
+    
+    
     useEffect(() => {
         const fetchProfile = async () => {
             let config = {
                 method: 'get',
                 url: `${API.ipAddress}/profiles/${username}/`,
-                headers: { 
-                  'Authorization': `Bearer ${token}`
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 }
-              };
+            };
             await axios(config)
-            .then(function (response) {
-                console.log(response.data);
-                setMyProfile(response.data);
-                setIsLoading(false);
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
+                .then(function (response) {
+                    setMyProfile(response.data);
+                    setIsLoading(false);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
         fetchProfile();
-    },[username]);
-    const clickEditProfile = () => {
-        props.navigation.navigate("EditProfile");
-    }
+    }, [username]);
+    useEffect(() => {
+        if (myProfile) { //check that myProfile is not empty to send to EditProfile component 
+            props.navigation.setParams({ profile: myProfile });
+        }
+    }, [myProfile]);
     return (
-        isLoading ? (<Loading />) :(
-        <View>
-            <MyProfile profile={myProfile}/>
-        </View>
+        isLoading ? (<Loading />) : (
+            <View>
+                <MyProfile profile={myProfile} />
+            </View>
         )
     )
 };
 
-MyProfileScreen.navigationOptions = (navData, props) =>{
+MyProfileScreen.navigationOptions = (navData) => {
     return {
         headerTitle: "הפרופיל שלי",
         headerStyle: {
@@ -54,20 +58,24 @@ MyProfileScreen.navigationOptions = (navData, props) =>{
         },
         tabBarOptions: {
             activeTintColor: 'white'
-          },
+        },
         headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item title="Edit" iconName="edit"
-                onPress={() => navData.navigation.navigate("EditProfile")}
+                onPress={() => navData.navigation.navigate("EditProfile", {
+                    profile: navData.navigation.getParam('profile'),
+
+                })}
+
             />
         </HeaderButtons>,
         headerLeft: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item
-          title="Menu"
-          iconName="menu"
-          onPress={() => { navData.navigation.toggleDrawer() }} />
-      </HeaderButtons>
+            <Item
+                title="Menu"
+                iconName="menu"
+                onPress={() => { navData.navigation.toggleDrawer() }} />
+        </HeaderButtons>
 
-    } 
+    }
 
 }
 
