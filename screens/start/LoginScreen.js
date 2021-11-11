@@ -4,7 +4,7 @@ import API from "../../ApiService";
 import { SetToken } from "../../context/SetToken";
 
 const LoginScreen = props => {
-    const { addToken, addUsername } = useContext(SetToken);
+    const { addToken, addUsername, loginHandler } = useContext(SetToken);
     const [tryLoggedin, setTryLoggedin] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -25,6 +25,7 @@ const LoginScreen = props => {
                 if (accessToken) {
                     addToken(accessToken);
                     addUsername(username);
+                    loginHandler(true);
                     props.navigation.navigate("MainScreen");
                 } else
                     setTryLoggedin(true);
