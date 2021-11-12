@@ -1,6 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
 import AllTeams from '../../components/teams/AllTeams';
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import CustomHeaderButton from '../../components/HeaderButton';
 
 const TeamsScreen = props => {
     return (
@@ -10,9 +12,15 @@ const TeamsScreen = props => {
     )
 };
 
-TeamsScreen.navigationOptions = () => {
+TeamsScreen.navigationOptions = (navData) => {
     return {
-        headerTitle: "הקבוצות שלי"
+        headerTitle: "הקבוצות שלי",
+        headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+      <Item
+        title="Menu"
+        iconName="menu"
+        onPress={() => { navData.navigation.toggleDrawer() }} />
+    </HeaderButtons>
     }
   };
 export default TeamsScreen;

@@ -16,6 +16,7 @@ const MainScreen = props => {
     <View style={styles.container}>
       <Text style={styles.title}>שלום {username}</Text>
       <RecentGame navigation={props.navigation} />
+      <Button title="קבוצה חדשה" onPress={() => props.navigation.navigate("CreateNewGame")}/>
       <RecentTeams navigation={props.navigation} />
     </View>
   );
@@ -29,12 +30,6 @@ MainScreen.navigationOptions = (navData) => {
         iconName="menu"
         onPress={() => { navData.navigation.toggleDrawer() }} />
     </HeaderButtons>,
-    headerLeft: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-      <Item
-        title="Menu"
-        iconName="menu"
-        onPress={() => { navData.navigation.toggleDrawer() }} />
-    </HeaderButtons>
   }
 };
 const styles = StyleSheet.create({

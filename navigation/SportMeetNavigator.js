@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import { Text } from 'react-native';
-import StartScreen from '../screens/start/StartScreen';
-import RegisterScreen from '../screens/start/RegisterScreen';
-import LoginScreen from '../screens/start/LoginScreen';
+import CreateNewGame from '../screens/games/CreateNewGame';
 import MainScreen from '../screens/MainScreen';
 import GamesScreen from '../screens/games/GamesScreen';
 import GameDetails from '../components/games/GameDetails';
@@ -30,6 +28,11 @@ import { SetToken } from '../context/SetToken';
 //   RegisterScreen: RegisterScreen,
 //   LoginScreen: LoginScreen,
 // });
+const TeamScreen = createStackNavigator({
+  TeamScreen: TeamsScreen,
+  TeamDetails: TeamDetails,
+  CreateNewTeam: CreateNewTeam
+});
 
 const MainScreenNavigator = createStackNavigator({
   MainScreen: MainScreen,
@@ -37,13 +40,12 @@ const MainScreenNavigator = createStackNavigator({
   GameDetails: GameDetails,
   TeamsScreen: TeamsScreen,
   TeamDetails: TeamDetails,
-  CreateNewTeam: CreateNewTeam
+  CreateNewTeam: CreateNewTeam,
+  CreateNewGame: CreateNewGame
 
 });
 
-const TeamScreen = createStackNavigator({
-  TeamScreen: TeamsScreen,
-});
+
 
 const ProfileScreenNavigator = createStackNavigator({
   MyProfileScreen: MyProfileScreen,
@@ -96,7 +98,7 @@ const MainNavigation = createDrawerNavigator({
   TeamScreen: {
     screen: TeamScreen, navigationOptions: {
       drawerLabel: 'הקבוצות שלי',
-      drawerIcon: <FontAwesome name="group" size={24} color="black" />
+      drawerIcon: <FontAwesome name="group" size={24} color="black" />,
     }
     
   }
