@@ -3,13 +3,15 @@ import { View, Text, StyleSheet, ScrollView, TextInput, Button } from 'react-nat
 import ModalDropdown from "react-native-modal-dropdown";
 import API from '../../ApiService';
 import { SetToken } from '../../context/SetToken';
+import Data from '../../data/data'
+import SelectDropdown from 'react-native-select-dropdown';
 
 
 const CreateNewTeam = props => {
     const { token, username } = useContext(SetToken);
     const [name, setName] = useState('');
     const [sport, setSport] = useState('');
-    let data = ['כדורגל', 'כדורסל', 'טניס'];
+    let data = Data.typeSport
     const createTeamHandler = () => {
         let myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${token}`);
@@ -40,17 +42,20 @@ const CreateNewTeam = props => {
                     onChangeText={setName}
                     value={name}
                 />
-                <ModalDropdown
-                    style={styles.input}
-                    isFullWidth={true}
-                    dropdownTextStyle={{ fontSize: 15 }}
-                    defaultValue='סוג הספורט'
-                    options={data}
-                    placeholder="סוג הספורט"
-                    onSelect={sport => sport == 0 ? setSport("כדורגל") :
-                        sport == 1 ? setSport("כדורסל") :
-                            setSport("טניס")}
-                />
+                <SelectDropdown
+                        defaultButtonText="בחר סוג ספורט"
+                        onSelect={(index) => {
+                            setSport(index);
+                            
+                        }}
+                        data={data}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                            return selectedItem
+                        }}
+                        rowTextForSelection={(item, index) => {
+                            return item
+                        }}
+                    />
             </View>
             <Button title="צור קבוצה"
                 onPress={createTeamHandler}

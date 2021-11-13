@@ -16,7 +16,7 @@ const MainScreen = props => {
     <View style={styles.container}>
       <Text style={styles.title}>שלום {username}</Text>
       <RecentGame navigation={props.navigation} />
-      <Button title="קבוצה חדשה" onPress={() => props.navigation.navigate("CreateNewGame")}/>
+      <Button title="פתח משחק" onPress={() => props.navigation.navigate("CreateNewGame")}/>
       <RecentTeams navigation={props.navigation} />
     </View>
   );

@@ -6,6 +6,8 @@ import SelectDropdown from 'react-native-select-dropdown';
 import API from '../../ApiService';
 import axios from 'axios';
 import Loading from '../../components/Loading';
+import { Switch } from 'react-native-elements';
+import Data from '../../data/data';
 
 
 const CreateNewGame = props => {
@@ -16,20 +18,32 @@ const CreateNewGame = props => {
     const [selectedLocation, setSelectedLocation] = useState();
     const [isLoadingLoc, setIsLoadingLoc] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
-    const [datetime, setDatetime] = useState(new Date().toLocaleString('he-IL',{dateStyle:"short",timeStyle:"short"}));
+    const [date, setDate] = useState(new Date().toLocaleString('he-IL', { dateStyle: "short" }));
+    const [time, setTime] = useState(new Date().toLocaleString('he-IL', { timeStyle: "short" }));
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+    const [checked, setChecked] = useState(false);
+    const [typeSport, setTypeSport] = useState('');
+    const type = Data.typeSport;
     const showDatePicker = () => {
-        //setDatetime(datetime);
         setDatePickerVisibility(true);
     };
-
+    const showTimePicker = () => {
+        setTimePickerVisibility(true);
+    };
     const hideDatePicker = () => {
         setDatePickerVisibility(false);
     };
-
+    const hideTimePicker = () => {
+        setTimePickerVisibility(false);
+    };
     const handleConfirm = (date) => {
-        setDatetime(date.toLocaleString("he-IL", {dateStyle:"short",timeStyle:"short"}));
+        setDate(date.toLocaleString("he-IL", { dateStyle: "short" }));
         hideDatePicker();
+    };
+    const handleConfirmForTime = (time) => {
+        setTime(time.toLocaleString("he-IL", { timeStyle: "short" }));
+        hideTimePicker();
     };
     console.log()
     useEffect(() => {
@@ -51,7 +65,7 @@ const CreateNewGame = props => {
                 });
         };
         fetchTeams();
-    },[]);
+    }, []);
     useEffect(() => {
         const fetchTeams = async () => {
             let config = {
@@ -71,58 +85,107 @@ const CreateNewGame = props => {
                 });
         };
         fetchTeams();
-    },[]);
+    }, []);
+    const createGameHandler = () => {
+        let myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+        //myHeaders.append("Content-Type", "application/json");
+        let formdata = new FormData();
+        formdata.append("team", selectedTeam);
+        formdata.append("location", selectedLocation);
+        formdata.append("date", date);
+        formdata.append("time", time);
+        formdata.append("type", typeSport);
+
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        fetch(`${API.ipAddress}/create-game`,
+            requestOptions)
+            .then(res => res.text())
+            .catch(error => console.log(error))
+        props.navigation.goBack()
+    }
     return (
         <View>
-            <Button title={datetime}
+
+            <Text style={{ alignContent: 'center' }}>בחר תאריך</Text>
+            <Button title={date}
                 onPress={showDatePicker}
-                />
+            />
             <DateTimePickerModal
                 isVisible={isDatePickerVisible}
-                mode="datetime"
+                mode="date"
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
                 minimumDate={new Date()}
-
             />
-            { isLoading ? <Loading /> : 
-            <SelectDropdown
-                data={teams.teams.map(team => team.name)}
-                onSelect={(selectedItem, index) => {
-                    setSelectedTeam(teams.teams[index]);
-                }}
-                buttonTextAfterSelection={(selectedItem, index) => {
-                    // text represented after item is selected
-                    // if data array is an array of objects then return selectedItem.property to render after item is selected
-
-                    return selectedItem
-                }}
-                rowTextForSelection={(item, index) => {
-                    // text represented for each item in dropdown
-                    // if data array is an array of objects then return item.property to represent item in dropdown
-                    return item
-                }}
-                defaultValue="ללא קבוצה"
-            />}
-            { isLoadingLoc ? <Loading /> : 
-            <SelectDropdown
-                data={location.locations.map(loc => loc.city)}
-                onSelect={(selectedItem, index) => {
-                    setSelectedLocation(location.locations[index]);
-                }}
-                buttonTextAfterSelection={(selectedItem, index) => {
-                    // text represented after item is selected
-                    // if data array is an array of objects then return selectedItem.property to render after item is selected
-
-                    return selectedItem
-                }}
-                rowTextForSelection={(item, index) => {
-                    // text represented for each item in dropdown
-                    // if data array is an array of objects then return item.property to represent item in dropdown
-                    return item
-                }}
-            />}
-            <Button title="סיום"/>
+            <Button title={time}
+                onPress={showTimePicker}
+            />
+            <DateTimePickerModal
+                isVisible={isTimePickerVisible}
+                mode="time"
+                onConfirm={handleConfirmForTime}
+                onCancel={hideTimePicker}
+            />
+            <Switch
+                value={checked}
+                onValueChange={(value) => setChecked(value)}
+            />
+            {!checked ?
+                <View>
+                    <Text>ללא קבוצה</Text>
+                    <SelectDropdown
+                        defaultButtonText="בחר סוג ספורט"
+                        onSelect={(index) => {
+                            setTypeSport(index);
+                            
+                        }}
+                        data={type}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                            return selectedItem
+                        }}
+                        rowTextForSelection={(item, index) => {
+                            return item
+                        }}
+                    />
+                </View>
+                :
+                (isLoading ? <Loading /> :
+                    <SelectDropdown
+                        defaultButtonText="בחר קבוצה"
+                        data={teams.teams.map(team => team.name)}
+                        onSelect={(selectedItem, index) => {
+                            setSelectedTeam(teams.teams[index].id);
+                        }}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                            return selectedItem
+                        }}
+                        rowTextForSelection={(item, index) => {
+                            return item
+                        }}
+                    />)}
+            {isLoadingLoc ? <Loading /> :
+                <SelectDropdown
+                    defaultButtonText="מיקום"
+                    data={location.locations.map(loc => loc.city)}
+                    onSelect={(selectedItem, index) => {
+                        setSelectedLocation(location.locations[index].id);
+                    }}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                        return selectedItem
+                    }}
+                    rowTextForSelection={(item, index) => {
+                        return item
+                    }}
+                />}
+            <Button title="סיום"
+                onPress={createGameHandler} />
 
         </View>
     );

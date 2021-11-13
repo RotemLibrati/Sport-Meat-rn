@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, ScrollView, Button } from "react-native";
 import ModalDropdown from "react-native-modal-dropdown";
 import API from "../../ApiService";
+import SelectDropdown from 'react-native-select-dropdown';
 
 
 
@@ -13,6 +14,7 @@ const RegisterScreen = props => {
   const [email, setEmail] = useState('');
   const [sex, setSex] = useState('');
   const [city, setCity] = useState('');
+  const yourSex = ['זכר', 'נקבה'];
   const finishRegistration = () => {
     let formdata = new FormData();
     formdata.append("username", username);
@@ -64,7 +66,20 @@ const RegisterScreen = props => {
           value={email}
           keyboardType="email-address"
         />
-        <ModalDropdown
+        <SelectDropdown
+          defaultButtonText="מין"
+          onSelect={(index)=>{
+            setSex(index)
+          }}
+          data={yourSex}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            return selectedItem
+          }}
+          rowTextForSelection={(item, index) => {
+            return item
+          }}
+        />
+        {/* <ModalDropdown
           style={styles.input}
           isFullWidth={true}
           dropdownTextStyle={{ fontSize: 15 }}
@@ -72,7 +87,7 @@ const RegisterScreen = props => {
           options={['זכר', 'נקבה']}
           placeholder="מין"
           onSelect={sex => sex == 0 ? setSex("זכר") : setSex("נקבה")}
-        />
+        /> */}
         <TextInput
           style={styles.input}
           placeholder="גיל"
