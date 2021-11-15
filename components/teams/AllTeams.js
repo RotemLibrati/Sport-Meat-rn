@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, StyleSheet, FlatList, Image, TouchableHighlight, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, FlatList, Image, TouchableHighlight, Dimensions, Button } from 'react-native';
 import axios from 'axios';
 import API from '../../ApiService';
 import Loading from '../Loading';
-import Team from './Team';
 import { SetToken } from '../../context/SetToken';
-import { AppStyles } from '../styles/AppStyles';
 const TEAM_ITEM_HEIGHT = 150;
 const TEAM_ITEM_MARGIN = 20;
 const teamNumColums = 2;
@@ -40,14 +38,14 @@ const AllTeams = props => {
         props.navigation.navigate("CreateNewTeam");
     };
     const onPressTeam = (item) => {
-        props.navigation.navigate("TeamDetails", { team :item });
+        props.navigation.navigate("TeamDetails", { team: item });
     };
     const renderTeams = ({ item }) => (
         <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressTeam(item)}>
             <View style={styles.container}>
                 <Image style={styles.photo} source={item.sport == 'כדורגל' ? require('../../assets/pictures/soccer.jpg')
-                : item.sport == 'כדורסל' ? require('../../assets/pictures/basketball.jpg') :
-                  require('../../assets/pictures/tennis.jpg') }/>
+                    : item.sport == 'כדורסל' ? require('../../assets/pictures/basketball.jpg') :
+                        require('../../assets/pictures/tennis.jpg')} />
                 <Text style={styles.title}>{item.name}</Text>
                 <Text style={styles.category}>{item.sport}</Text>
             </View>
@@ -68,11 +66,16 @@ const AllTeams = props => {
     //     )
     // )
     return (
-        <View>
-            <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={teams.teams} renderItem={renderTeams} 
-                keyExtractor={(item) => item.id}
-            />
-        </View>
+        isLoading ? (<Loading />) : (
+            <View>
+                <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={teams.teams} renderItem={renderTeams}
+                    keyExtractor={(item) => item.id}
+                />
+                <Button title="צור קבוצה חדשה"
+                    onPress={clickCreateTeam}
+                />
+            </View>
+        )
     );
 };
 const styles = StyleSheet.create({

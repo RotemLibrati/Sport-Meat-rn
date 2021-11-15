@@ -9,6 +9,7 @@ import TeamsScreen from '../screens/teams/TeamsScreen';
 import CreateNewTeam from '../components/teams/CreateNewTeam';
 import MyProfileScreen from '../screens/profile/MyProfileScreen';
 import EditProfile from '../components/profile/EditProfile';
+import TeamMessages from '../components/messages/TeamMessages';
 import { AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -31,7 +32,9 @@ import { SetToken } from '../context/SetToken';
 const TeamScreen = createStackNavigator({
   TeamScreen: TeamsScreen,
   TeamDetails: TeamDetails,
-  CreateNewTeam: CreateNewTeam
+  CreateNewTeam: CreateNewTeam,
+  TeamMessages: TeamMessages,
+  
 });
 
 const MainScreenNavigator = createStackNavigator({
@@ -40,6 +43,7 @@ const MainScreenNavigator = createStackNavigator({
   GameDetails: GameDetails,
   TeamsScreen: TeamsScreen,
   TeamDetails: TeamDetails,
+  TeamMessages: TeamMessages,
   CreateNewTeam: CreateNewTeam,
   CreateNewGame: CreateNewGame
 

@@ -5,6 +5,9 @@ import uuid from 'react-native-uuid';
 
 const TeamDetails = props => {
     const team = props.navigation.getParam("team", null);
+    const teamMessgaesHandler = () => {
+        props.navigation.navigate("TeamMessages", {team: team});
+    }
     return (
         <View>
             <Text>שם הקבוצה : {team.name}</Text>
@@ -15,6 +18,7 @@ const TeamDetails = props => {
 
             <Button 
                 title="הודעות הקבוצה"
+                onPress={teamMessgaesHandler}
             />
         </View>
     )
