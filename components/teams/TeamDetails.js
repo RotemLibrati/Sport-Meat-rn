@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, Text, View, Button } from 'react-native';
 import uuid from 'react-native-uuid';
 
 
@@ -12,6 +12,10 @@ const TeamDetails = props => {
             <Text>סוג הספורט : {team.sport}</Text>
             <Text>חברי הקבוצה:</Text>
             {team.members.map(mem => (<Text key={uuid.v4()} >{mem.user.username}</Text>))}
+
+            <Button 
+                title="הודעות הקבוצה"
+            />
         </View>
     )
 };

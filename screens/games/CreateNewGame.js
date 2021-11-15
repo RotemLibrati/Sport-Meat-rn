@@ -11,6 +11,7 @@ import Data from '../../data/data';
 
 
 const CreateNewGame = props => {
+    let d = new Date();
     const { token, username } = useContext(SetToken);
     const [teams, setTeams] = useState();
     const [location, setLocation] = useState();
@@ -132,6 +133,7 @@ const CreateNewGame = props => {
                 mode="time"
                 onConfirm={handleConfirmForTime}
                 onCancel={hideTimePicker}
+                minuteInterval={30}
             />
             <Switch
                 value={checked}
