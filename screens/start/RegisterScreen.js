@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, ScrollView, Button } from "react-native";
-import ModalDropdown from "react-native-modal-dropdown";
+import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
+import { AppStyles } from "../../components/styles/AppStyles";
+import Button from "react-native-button";
 import API from "../../ApiService";
 import SelectDropdown from 'react-native-select-dropdown';
+
 
 
 
@@ -36,106 +38,182 @@ const RegisterScreen = props => {
 
 
   return (
-    <ScrollView style={styles.scroll}>
+    <ScrollView>
       <View style={styles.container}>
-        <Text>הרשמה לאפליקציה</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="שם משתמש"
-          onChangeText={setUsername}
-          value={username}
-        />
-        <TextInput
-          secureTextEntry={true}
-          style={styles.input}
-          placeholder="סיסמה"
-          onChangeText={setPassword}
-          value={password}
-        />
-        <TextInput
-          secureTextEntry={true}
-          style={styles.input}
-          placeholder="סיסמה פעם נוספת"
-          onChangeText={setVerifyPassword}
-          value={verifyPassword}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="אימייל"
-          onChangeText={setEmail}
-          value={email}
-          keyboardType="email-address"
-        />
-        <SelectDropdown
-          defaultButtonText="מין"
-          onSelect={(index)=>{
-            setSex(index)
-          }}
-          data={yourSex}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem
-          }}
-          rowTextForSelection={(item, index) => {
-            return item
-          }}
-        />
-        {/* <ModalDropdown
-          style={styles.input}
-          isFullWidth={true}
-          dropdownTextStyle={{ fontSize: 15 }}
-          defaultValue='מין'
-          options={['זכר', 'נקבה']}
-          placeholder="מין"
-          onSelect={sex => sex == 0 ? setSex("זכר") : setSex("נקבה")}
-        /> */}
-        <TextInput
-          style={styles.input}
-          placeholder="גיל"
-          onChangeText={setAge}
-          value={age}
-          keyboardType="numeric"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="עיר מגורים"
-          onChangeText={setCity}
-          value={city}
-        />
+        <Text style={[styles.title, styles.leftTitle]}>יצירת משתמש חדש</Text>
+        <View style={styles.InputContainer}>
+          <TextInput
+            style={styles.body}
+            placeholder="שם משתמש"
+            onChangeText={setUsername}
+            value={username}
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+          /></View>
+        <View style={styles.InputContainer}>
+          <TextInput
+            secureTextEntry={true}
+            style={styles.body}
+            placeholder="סיסמה"
+            onChangeText={setPassword}
+            value={password}
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+          /></View>
+        <View style={styles.InputContainer}>
+          <TextInput
+            secureTextEntry={true}
+            style={styles.body}
+            placeholder="סיסמה פעם נוספת"
+            onChangeText={setVerifyPassword}
+            value={verifyPassword}
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+          /></View>
+        <View style={styles.InputContainer}>
+          <TextInput
+            style={styles.body}
+            placeholder="אימייל"
+            onChangeText={setEmail}
+            value={email}
+            keyboardType="email-address"
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+          /></View>
+        <View style={styles.InputContainer}>
+          <TextInput
+            style={styles.body}
+            placeholder="גיל"
+            onChangeText={setAge}
+            value={age}
+            keyboardType="numeric"
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+          /></View>
+        <View style={styles.InputContainer}>
+          <TextInput
+            style={styles.body}
+            placeholder="עיר מגורים"
+            onChangeText={setCity}
+            value={city}
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+          /></View>
+        <View style={styles.InputContainer}>
+          <SelectDropdown
+            style={styles.body}
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+            defaultButtonText="מין"
+            onSelect={(index) => {
+              setSex(index)
+            }}
+            data={yourSex}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem
+            }}
+            rowTextForSelection={(item, index) => {
+              return item
+            }}
+          /></View>
+        <Button
+          title="סיום"
+          onPress={finishRegistration}
+          containerStyle={[styles.facebookContainer, { marginTop: 50 }]}
+          style={styles.facebookText}>
+          סיום
+        </Button>
       </View>
-      <Button
-        title="סיום"
-        onPress={finishRegistration}
-      />
     </ScrollView>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
   },
-  input: {
-    height: 40,
-    width: '50%',
-    margin: 12,
-    borderWidth: 1,
+  title: {
+    fontSize: AppStyles.fontSize.title,
+    fontWeight: 'bold',
+    color: AppStyles.color.tint,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  leftTitle: {
+    alignSelf: 'stretch',
+    textAlign: 'center',
+    marginLeft: 20,
+  },
+  content: {
+    paddingLeft: 50,
+    paddingRight: 50,
+    textAlign: 'center',
+    fontSize: AppStyles.fontSize.content,
+    color: AppStyles.color.text,
+  },
+  loginContainer: {
+    width: AppStyles.buttonWidth.main,
+    backgroundColor: AppStyles.color.tint,
+    borderRadius: AppStyles.borderRadius.main,
     padding: 10,
+    marginTop: 30,
   },
-  scroll: {
-    flex: 1,
-    backgroundColor: '#fff',
+  loginText: {
+    color: AppStyles.color.white,
   },
-  dropdown: {
-    position: 'absolute',
-    height: (33 + StyleSheet.hairlineWidth) * 5,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'lightgray',
-    borderRadius: 2,
-    backgroundColor: 'white',
-    justifyContent: 'center'
+  placeholder: {
+    color: 'red',
   },
+  InputContainer: {
+    width: AppStyles.textInputWidth.main,
+    marginTop: 30,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: AppStyles.color.grey,
+    borderRadius: AppStyles.borderRadius.main,
+  },
+  body: {
+    height: 42,
+    paddingLeft: 20,
+    paddingRight: 20,
+    color: AppStyles.color.text,
+  },
+  facebookContainer: {
+    width: AppStyles.buttonWidth.main,
+    backgroundColor: AppStyles.color.tint,
+    borderRadius: AppStyles.borderRadius.main,
+    padding: 10,
+    marginTop: 30,
+  },
+  facebookText: {
+    color: AppStyles.color.white,
+  },
+  // container: {
+  //   flex: 1,
+  //   backgroundColor: '#fff',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+  // input: {
+  //   height: 40,
+  //   width: '50%',
+  //   margin: 12,
+  //   borderWidth: 1,
+  //   padding: 10,
+  // },
+  // scroll: {
+  //   flex: 1,
+  //   backgroundColor: '#fff',
+  // },
+  // dropdown: {
+  //   position: 'absolute',
+  //   height: (33 + StyleSheet.hairlineWidth) * 5,
+  //   borderWidth: StyleSheet.hairlineWidth,
+  //   borderColor: 'lightgray',
+  //   borderRadius: 2,
+  //   backgroundColor: 'white',
+  //   justifyContent: 'center'
+  // },
 });
 
 RegisterScreen.navigationOptions = () => {
