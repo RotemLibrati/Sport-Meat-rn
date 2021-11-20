@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import MyProfile from '../../components/profile/MyProfile';
 import axios from 'axios';
@@ -10,12 +10,11 @@ import EditProfile from '../../components/profile/EditProfile';
 import { SetToken } from '../../context/SetToken';
 
 const MyProfileScreen = props => {
-    const { token, username } = useContext(SetToken);
+    const { token, username, editProfile, edit } = useContext(SetToken);
     const [myProfile, setMyProfile] = useState();
     const [isLoading, setIsLoading] = useState(true);
-    //const [edit, setEdit] = useState(false);
-    
-    
+    const [render, setRender] = useState(false);
+
     useEffect(() => {
         const fetchProfile = async () => {
             let config = {
@@ -29,13 +28,21 @@ const MyProfileScreen = props => {
                 .then(function (response) {
                     setMyProfile(response.data);
                     setIsLoading(false);
+                    //editProfile(edit);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }
         fetchProfile();
-    }, [username]);
+    }, [render]);
+    
+
+    useEffect(() => {
+        setTimeout(() => {
+            setRender(!render);
+        }, 10000);
+    }, [render]);
     useEffect(() => {
         if (myProfile) { //check that myProfile is not empty to send to EditProfile component 
             props.navigation.setParams({ profile: myProfile });
