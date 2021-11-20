@@ -8,6 +8,9 @@ const TeamDetails = props => {
     const teamMessgaesHandler = () => {
         props.navigation.navigate("TeamMessages", {team: team});
     }
+    const teamFriendsHandler = () => {
+        props.navigation.navigate("TeamFriends", {team: team});
+    }
     return (
         <View>
             <Text>שם הקבוצה : {team.name}</Text>
@@ -19,6 +22,10 @@ const TeamDetails = props => {
             <Button 
                 title="הודעות הקבוצה"
                 onPress={teamMessgaesHandler}
+            />
+            <Button 
+                title="חברי הקבוצה"
+                onPress={teamFriendsHandler}
             />
         </View>
     )
