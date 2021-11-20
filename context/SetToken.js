@@ -15,7 +15,7 @@ const SetTokenProvider = (props) => {
         setUsername(username);
     };
     const editProfile = (edit) => {
-        setEdit(edit);
+        setEdit(!edit);
     };
     const loginHandler = (login) => {
         setLogin(login);
