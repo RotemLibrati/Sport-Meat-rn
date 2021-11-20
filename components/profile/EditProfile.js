@@ -7,15 +7,14 @@ import CustomHeaderButton from '../../components/HeaderButton';
 import { SetToken } from '../../context/SetToken';
 
 const EditProfile = props => {
-    const { token, username} = useContext(SetToken);
+    const { token, username, editProfile, edit } = useContext(SetToken);
     const profile = props.navigation.getParam('profile');
-    const [edit, setEdit] = useState(false);
     const [age, setAge] = useState('' + profile.age);
     const [email, setEmail] = useState(profile.email);
     const [sex, setSex] = useState(profile.sex);
     const [city, setCity] = useState(profile.city);
 
-    
+
     const saveProfileHandler = async () => {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${token}`);
@@ -25,7 +24,7 @@ const EditProfile = props => {
         formdata.append("city", city);
         formdata.append("email", email);
         formdata.append("sex", sex);
-        
+
 
         var requestOptions = {
             method: 'PUT',
@@ -35,19 +34,20 @@ const EditProfile = props => {
         };
 
         await fetch(`${ApiService.ipAddress}/profiles/${username}/`, requestOptions)
-            .then(response => response.json())
-            .then(result => console.log(result))
+            .then(function (response) {
+                response.json();
+                editProfile(edit);
+            })
             //.then(await editProfile(!edit))
-            .then(console.log("after " + edit))
             .then(() => {
                 props.navigation.goBack();
             })
             .catch(error => console.log('error', error));
-        
+
     };
     useEffect(() => {
-        props.navigation.setParams({save: saveProfileHandler});
-    },[city, sex, email, age]);
+        props.navigation.setParams({ save: saveProfileHandler });
+    }, [city, sex, email, age]);
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -116,7 +116,7 @@ EditProfile.navigationOptions = (navData) => {
         },
         headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item title="Save" iconName="save"
-            onPress={navData.navigation.getParam('save')}
+                onPress={navData.navigation.getParam('save')}
 
             />
         </HeaderButtons>,
