@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Text, View, TouchableHighlight, FlatList } from 'react-native';
+import { Text, View, TouchableHighlight, FlatList, StyleSheet, KeyboardAvoidingView, TextInput, Button, ScrollView, Platform } from 'react-native';
 import { SetToken } from '../../context/SetToken';
 import Loading from '../Loading';
 import API from '../../ApiService';
@@ -10,6 +10,9 @@ const TeamMessages = props => {
     const { username, token } = useContext(SetToken);
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [render, setRender] = useState(false);
+    const [subjectMessage, setSubjectMessage] = useState("");
+    const [contextMessage, setContextMessage] = useState("");
     useEffect(() => {
         const fetchTeamMessages = async () => {
             let config = {
@@ -21,8 +24,8 @@ const TeamMessages = props => {
             };
             await axios(config)
                 .then(function (response) {
-                    console.log(response.data);
                     setMessages(response.data);
+                    console.log(response.data);
                     setIsLoading(false);
                 })
                 .catch(function (error) {
@@ -30,24 +33,124 @@ const TeamMessages = props => {
                 });
         };
         fetchTeamMessages();
-    }, []);
+    }, [render]);
+    const onPressMessage = (item) => {
+        props.navigation.navigate("DetailsMessage", { message: item });
+    }
     const renderMessages = ({ item }) => (
-        <TouchableHighlight underlayColor="rgba(73,182,77,0.9)">
+        <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressMessage(item)}>
             <View>
-                <Text>{item.subject}</Text>
-                <Text>{item.body}</Text>
+                <View style={{ borderWidth: 1 }}>
+                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'flex-start' }}>
+                        <Text style={styles.item}>{item.subject}</Text>
+                        {item.seen ? <Text></Text> :
+                            <Text style={styles.notseen}>לא נקרא</Text>}
+                    </View>
+                    <Text>מאת: {item.sender.user.username}</Text>
+                    
+                    <Text style={styles.date}>{item.timestamp}</Text>
+                </View>
+
             </View>
         </TouchableHighlight>
     );
+    useEffect(() => {
+        setTimeout(() => {
+            setRender(!render);
+        }, 2000);
+    }, [render]);
+    const sendMessageHandler = () => {
+        let myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+        let formdata = new FormData();
+        formdata.append("subject", subjectMessage);
+        formdata.append("body", contextMessage);
+
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        fetch(`${API.ipAddress}/new-message/${team.id}/`,
+            requestOptions)
+            .then(res => res.text())
+            .catch(error => console.log(error))
+        setContextMessage("");
+        setSubjectMessage("");
+    };
     return (
-        isLoading ? (<Loading/>) : (
-        <View>
-            <FlatList vertical showsVerticalScrollIndicator={false} numColumns={1} data={messages.messages} renderItem={renderMessages}
+        isLoading ? (<Loading />) : (
+            <View style={styles.container}>
+                <FlatList vertical showsVerticalScrollIndicator={false} numColumns={1} data={messages.messages} renderItem={renderMessages}
                     keyExtractor={(item) => item.id}
                 />
-        </View>
+                <KeyboardAvoidingView
+                    {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
+                    style={styles.container}>
+                    <ScrollView style={styles.scrollView}
+                        keyboardDismissMode={"interactive"}
+                    >
+                        <TextInput
+                            style={styles.input} placeholder="נושא ההודעה"
+                            value={subjectMessage}
+                            onChangeText={(text) => setSubjectMessage(text)}
+                        />
+                        <TextInput style={styles.input} placeholder="כתוב הודעה"
+                            value={contextMessage}
+                            onChangeText={(text) => setContextMessage(text)}
+                        />
+                    </ScrollView>
+                    <Button title="שלח הודעה"
+                        onPress={sendMessageHandler}
+                    />
+                </KeyboardAvoidingView>
+            </View>
         )
     );
 };
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingTop: 22,
+        textAlign: 'right',
+    },
+    item: {
+        padding: 10,
+        fontSize: 18,
+        textAlign: 'right',
+        height: 30
+        //fontWeight: 'bold',
+
+    },
+    seen: {
+        padding: 10,
+        fontSize: 14,
+        height: 44,
+        textAlign: 'right',
+        //fontWeight: 'bold',
+    },
+    notseen: {
+        padding: 15,
+        fontSize: 14,
+        height: 0.2,
+        textAlign: 'right',
+        fontWeight: 'bold',
+    },
+    date: {
+        fontSize: 14,
+
+    },
+    scrollView: {
+        paddingHorizontal: 20,
+    },
+    input: {
+        marginBottom: 20,
+        borderBottomWidth: 2,
+        borderColor: '#dbdbdb',
+        padding: 10,
+    },
+});
 
 export default TeamMessages;
