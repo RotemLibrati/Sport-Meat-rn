@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, ScrollView } from 'react-native';
 import ModalDropdown from "react-native-modal-dropdown";
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import ApiService from '../../ApiService';
+import API from '../../ApiService';
 import CustomHeaderButton from '../../components/HeaderButton';
 import { SetToken } from '../../context/SetToken';
 
@@ -33,7 +33,7 @@ const EditProfile = props => {
             redirect: 'follow'
         };
 
-        await fetch(`${ApiService.ipAddress}/profiles/${username}/`, requestOptions)
+        await fetch(`${API.ipAddress}/profiles/${username}/`, requestOptions)
             .then(function (response) {
                 response.json();
                 editProfile(edit);

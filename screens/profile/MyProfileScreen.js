@@ -16,6 +16,10 @@ const MyProfileScreen = props => {
     const [render, setRender] = useState(false);
 
     useEffect(() => {
+        props.navigation.addListener('didFocus',
+        payload => {
+          fetchProfile();
+        });
         const fetchProfile = async () => {
             let config = {
                 method: 'get',
@@ -35,14 +39,14 @@ const MyProfileScreen = props => {
                 });
         }
         fetchProfile();
-    }, [render]);
+    }, []);
     
 
-    useEffect(() => {
-        setTimeout(() => {
-            setRender(!render);
-        }, 10000);
-    }, [render]);
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setRender(!render);
+    //     }, 10000);
+    // }, [render]);
     useEffect(() => {
         if (myProfile) { //check that myProfile is not empty to send to EditProfile component 
             props.navigation.setParams({ profile: myProfile });

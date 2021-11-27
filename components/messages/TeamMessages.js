@@ -33,7 +33,7 @@ const TeamMessages = props => {
                 });
         };
         fetchTeamMessages();
-    }, [render]);
+    }, []);
     const onPressMessage = (item) => {
         props.navigation.navigate("DetailsMessage", { message: item });
     }
@@ -47,18 +47,13 @@ const TeamMessages = props => {
                             <Text style={styles.notseen}>לא נקרא</Text>}
                     </View>
                     <Text>מאת: {item.sender.user.username}</Text>
-                    
+
                     <Text style={styles.date}>{item.timestamp}</Text>
                 </View>
 
             </View>
         </TouchableHighlight>
     );
-    useEffect(() => {
-        setTimeout(() => {
-            setRender(!render);
-        }, 2000);
-    }, [render]);
     const sendMessageHandler = () => {
         let myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${token}`);
