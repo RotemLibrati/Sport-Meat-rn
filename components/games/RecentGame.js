@@ -11,7 +11,10 @@ const RecentGame = (props) => {
     const [games, setGames] = useState([]);
 
     useEffect(() => {
-
+        props.navigation.addListener('didFocus',
+        payload => {
+          fetchGames();
+        });
         const fetchGames = async () => {
             const auth = `Bearer ${token}`
             let config = {
@@ -31,7 +34,7 @@ const RecentGame = (props) => {
                 });
         };
         fetchGames();
-    }, [username])
+    }, [])
     const clickAllGames = () => {
         props.navigation.navigate("GamesScreen", { navigation: props });
     };

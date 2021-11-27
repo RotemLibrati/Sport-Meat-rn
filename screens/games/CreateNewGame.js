@@ -175,7 +175,7 @@ const CreateNewGame = props => {
             {isLoadingLoc ? <Loading /> :
                 <SelectDropdown
                     defaultButtonText="מיקום"
-                    data={location.locations.map(loc => loc.city)}
+                    data={location.locations.map(loc => loc.name)}
                     onSelect={(selectedItem, index) => {
                         setSelectedLocation(location.locations[index].id);
                     }}

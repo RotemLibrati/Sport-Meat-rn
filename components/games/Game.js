@@ -10,8 +10,10 @@ const Game = (props) => {
             <View>
                 <TouchableOpacity onPress={() => gameClicked(props.game)}>
                     <Text>תאריך: {props.game.event_time}</Text>
-                    <Text>מיקום: {props.game.location}</Text>
-                    <Text>קבוצה: {props.game.team}</Text>
+                    <Text>שם המגרש: {props.game.location.name}</Text>
+                    <Text>מיקום: {props.game.location.region}</Text>
+                    {props.game.team.anonymous ? (<Text></Text>) :
+                    ( <Text>קבוצה: {props.game.team.name}</Text> ) }
                 </TouchableOpacity>
             </View>
         </View>
