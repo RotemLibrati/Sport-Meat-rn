@@ -4,6 +4,7 @@ import { ButtonGroup } from 'react-native-elements/dist/buttons/ButtonGroup';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../HeaderButton';
 import { SetToken } from '../../context/SetToken';
+import axios from 'axios';
 import API from '../../ApiService';
 
 const GameDetails = (props) => {
@@ -15,6 +16,33 @@ const GameDetails = (props) => {
     const game = props.navigation.getParam("game", null);
     const buttons = [{ element: component1 }, { element: component2 }, { element: component3 }]
     console.log(selectedIndex);
+    useEffect(() => {
+        props.navigation.addListener('didFocus',
+            payload => {
+                fetchAttendance();
+            });
+        const fetchAttendance = async () => {
+            const auth = `Bearer ${token}`;
+            let data = new FormData();
+
+            var config = {
+                method: 'get',
+                url: `${API.ipAddress}/get-attendance/${username}/${game.id}/`,
+            };
+            await axios(config)
+                .then(function (response) {
+                    console.log(response.data);
+                    response.data.attendance.status == 'מגיע' ? setSelectedIndex(0) :
+                    response.data.attendance.status == 'לא מגיע' ? setSelectedIndex(1) :
+                    response.data.attendance.status == 'אולי מגיע' ? setSelectedIndex(2) :
+                    setSelectedIndex(null);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        };
+        fetchAttendance();
+    }, [username, game.id])
     const saveGameDeatilsHandler = async () => {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${token}`);
@@ -98,7 +126,7 @@ GameDetails.navigationOptions = (navData) => {
                     onPress={navData.navigation.getParam('save')}
                 />
             </HeaderButtons>,
-            
+
         }
     } else {
         return {
