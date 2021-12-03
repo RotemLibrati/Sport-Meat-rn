@@ -37,7 +37,7 @@ const Teams = props => {
     }
     return (
         isLoading ? (<Loading />) : (
-            <View style={styles.box}>
+            <View style={styles.boxes}>
                 <View style={styles.title}><Text style={styles.title} >הקבוצות שלי</Text></View>
                 <View style={styles.teams}>
                     {teams.teams.map(team => (
@@ -65,9 +65,16 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     teams: {
-        marginTop: 50,
+        marginTop: 15,
         alignItems: 'center'
     },
+    boxes: {
+        backgroundColor: '#e4e6eb',
+        height: 250,
+        margin: 16,
+        borderRadius: 16,
+        width: '80%'
+    }
 })
 
 export default Teams;

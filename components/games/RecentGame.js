@@ -12,9 +12,9 @@ const RecentGame = (props) => {
 
     useEffect(() => {
         props.navigation.addListener('didFocus',
-        payload => {
-          fetchGames();
-        });
+            payload => {
+                fetchGames();
+            });
         const fetchGames = async () => {
             const auth = `Bearer ${token}`
             let config = {
@@ -40,26 +40,26 @@ const RecentGame = (props) => {
     };
     return (
         isLoading ? (<Loading />) : (
-            <View style={styles.box}>
+            <View style={styles.boxes}>
                 <View style={styles.title}><Text style={styles.title} >משחקים קרובים</Text></View>
                 <View style={styles.games}>
                     {games.games.map(game => (
                         <Game key={game.id} game={game} navigation={props.navigation} />
                     ))}
                 </View>
-                <View style={styles.button}>
-                    <Button
-                        title="לכל המשחקים"
-                        onPress={clickAllGames}
-                    />
-                </View>
+                {/* <View style={styles.button}> */}
+                <Button
+                    title="לכל המשחקים"
+                    onPress={clickAllGames}
+                />
+                {/* </View> */}
             </View>
         )
     )
 };
 const styles = StyleSheet.create({
     games: {
-        marginTop: 50,
+        marginTop: 15,
         alignItems: 'center'
     },
     box: {
@@ -74,6 +74,13 @@ const styles = StyleSheet.create({
     },
     button: {
         margin: 50
+    },
+    boxes: {
+        backgroundColor: '#e4e6eb',
+        height: 250,
+        margin: 16,
+        borderRadius: 16,
+        width: '80%'
     }
 })
 

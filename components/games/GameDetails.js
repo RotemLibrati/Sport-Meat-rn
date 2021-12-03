@@ -16,6 +16,9 @@ const GameDetails = (props) => {
     const game = props.navigation.getParam("game", null);
     const buttons = [{ element: component1 }, { element: component2 }, { element: component3 }]
     console.log(selectedIndex);
+
+    // CREATE USEEFFECT AT TIME PLAYER GET IN TO THIS PAGE SEND POST REQUEST FOR CREATE NEW ATTENDANCE WITH NULL ATTENDANCE
+    // CHECK THIS WITH ROTEM USER
     useEffect(() => {
         props.navigation.addListener('didFocus',
             payload => {
@@ -133,10 +136,7 @@ GameDetails.navigationOptions = (navData) => {
             headerTitle: "פרטי משחק",
             headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item title="Save" iconName="save"
-                    onPress={() => navData.navigation.navigate("EditProfile", {
-                        profile: navData.navigation.getParam('profile'),
-
-                    })}
+                    onPress={navData.navigation.getParam('save')}
                 />
             </HeaderButtons>,
         }
