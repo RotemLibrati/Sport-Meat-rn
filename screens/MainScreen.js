@@ -4,6 +4,7 @@ import RecentGame from "../components/games/RecentGame";
 import RecentTeams from "../components/teams/RecentTeams";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../components/HeaderButton";
+import PublicGamesScreen from "./games/PublicGamesScreen";
 import { SetToken } from "../context/SetToken";
 
 
@@ -18,6 +19,7 @@ const MainScreen = props => {
       <RecentGame navigation={props.navigation} />
       <Button title="פתח משחק" onPress={() => props.navigation.navigate("CreateNewGame")}/>
       <RecentTeams navigation={props.navigation} />
+      <Button title="רוצה לשחק היום" onPress={() => props.navigation.navigate("PublicGamesScreen")}/>
     </View>
   );
 };
