@@ -5,7 +5,7 @@ import API from '../../ApiService';
 import { SetToken } from '../../context/SetToken';
 import Data from '../../data/data'
 import SelectDropdown from 'react-native-select-dropdown';
-import { AppStyles, pageStyle, InputStyle, DropdownStyle } from '../styles/AppStyles';
+import { AppStyles, PageStyle, InputStyle, DropdownStyle } from '../styles/AppStyles';
 
 
 
@@ -40,8 +40,8 @@ const CreateNewTeam = props => {
     }
     return (
         <ScrollView>
-            <View style={pageStyle.container}>
-                <Text style={pageStyle.title}>פתיחת קבוצה חדשה</Text>
+            <View style={PageStyle.container}>
+                <Text style={PageStyle.title}>פתיחת קבוצה חדשה</Text>
                 <View style={InputStyle.inputContainerView}>
                     <TextInput
                         style={InputStyle.bodyInput}
@@ -104,24 +104,6 @@ CreateNewTeam.navigationOptions = {
     headerTitle: 'יצירת קבוצה'
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    input: {
-        height: 40,
-        width: '50%',
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-    },
-    scroll: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
-});
+
 
 export default CreateNewTeam;
