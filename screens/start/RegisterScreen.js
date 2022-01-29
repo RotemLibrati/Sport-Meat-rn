@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
-import { AppStyles } from "../../components/styles/AppStyles";
+import { AppStyles, InputStyle, DropdownStyle, PageStyle } from "../../components/styles/AppStyles";
 import Button from "react-native-button";
 import API from "../../ApiService";
 import SelectDropdown from 'react-native-select-dropdown';
@@ -39,40 +39,40 @@ const RegisterScreen = props => {
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <Text style={[styles.title, styles.leftTitle]}>יצירת משתמש חדש</Text>
-        <View style={styles.InputContainer}>
+      <View style={PageStyle.container}>
+        <Text style={PageStyle.title}>יצירת משתמש חדש</Text>
+        <View style={InputStyle.inputContainerView}>
           <TextInput
-            style={styles.body}
+            style={InputStyle.bodyInput}
             placeholder="שם משתמש"
             onChangeText={setUsername}
             value={username}
             placeholderTextColor={AppStyles.color.grey}
             underlineColorAndroid="transparent"
           /></View>
-        <View style={styles.InputContainer}>
+        <View style={InputStyle.inputContainerView}>
           <TextInput
             secureTextEntry={true}
-            style={styles.body}
+            style={InputStyle.bodyInput}
             placeholder="סיסמה"
             onChangeText={setPassword}
             value={password}
             placeholderTextColor={AppStyles.color.grey}
             underlineColorAndroid="transparent"
           /></View>
-        <View style={styles.InputContainer}>
+        <View style={InputStyle.inputContainerView}>
           <TextInput
             secureTextEntry={true}
-            style={styles.body}
+            style={InputStyle.bodyInput}
             placeholder="סיסמה פעם נוספת"
             onChangeText={setVerifyPassword}
             value={verifyPassword}
             placeholderTextColor={AppStyles.color.grey}
             underlineColorAndroid="transparent"
           /></View>
-        <View style={styles.InputContainer}>
+        <View style={InputStyle.inputContainerView}>
           <TextInput
-            style={styles.body}
+            style={InputStyle.bodyInput}
             placeholder="אימייל"
             onChangeText={setEmail}
             value={email}
@@ -80,9 +80,9 @@ const RegisterScreen = props => {
             placeholderTextColor={AppStyles.color.grey}
             underlineColorAndroid="transparent"
           /></View>
-        <View style={styles.InputContainer}>
+        <View style={InputStyle.inputContainerView}>
           <TextInput
-            style={styles.body}
+            style={InputStyle.bodyInput}
             placeholder="גיל"
             onChangeText={setAge}
             value={age}
@@ -90,19 +90,19 @@ const RegisterScreen = props => {
             placeholderTextColor={AppStyles.color.grey}
             underlineColorAndroid="transparent"
           /></View>
-        <View style={styles.InputContainer}>
+        <View style={InputStyle.inputContainerView}>
           <TextInput
-            style={styles.body}
+            style={InputStyle.bodyInput}
             placeholder="עיר מגורים"
             onChangeText={setCity}
             value={city}
             placeholderTextColor={AppStyles.color.grey}
             underlineColorAndroid="transparent"
           /></View>
-        <View style={styles.InputContainer}>
+        <View style={InputStyle.inputContainerView}>
           <SelectDropdown
-            buttonStyle={styles.body, styles.dropdownButton}
-            buttonTextStyle={styles.dropdownTextButton}
+            buttonStyle={DropdownStyle.dropdownButton}
+            buttonTextStyle={DropdownStyle.dropdownTextButton}
             placeholderTextColor={AppStyles.color.grey}
             underlineColorAndroid="transparent"
             defaultButtonText="מין"
@@ -120,87 +120,14 @@ const RegisterScreen = props => {
         <Button
           title="סיום"
           onPress={finishRegistration}
-          containerStyle={[styles.facebookContainer, { marginTop: 50 }]}
-          style={styles.facebookText}>
+          containerStyle={[PageStyle.buttonStyle, { marginTop: 50 }]}
+          style={PageStyle.buttonTextStyle}>
           סיום
         </Button>
       </View>
     </ScrollView>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: AppStyles.fontSize.title,
-    fontWeight: 'bold',
-    color: AppStyles.color.tint,
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  leftTitle: {
-    alignSelf: 'stretch',
-    textAlign: 'center',
-    marginLeft: 20,
-  },
-  content: {
-    paddingLeft: 50,
-    paddingRight: 50,
-    textAlign: 'center',
-    fontSize: AppStyles.fontSize.content,
-    color: AppStyles.color.text,
-  },
-  loginContainer: {
-    width: AppStyles.buttonWidth.main,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
-    padding: 10,
-    marginTop: 30,
-  },
-  loginText: {
-    color: AppStyles.color.white,
-  },
-  placeholder: {
-    color: 'red',
-  },
-  InputContainer: {
-    width: AppStyles.textInputWidth.main,
-    marginTop: 30,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: AppStyles.color.grey,
-    borderRadius: AppStyles.borderRadius.main,
-  },
-  body: {
-    height: 42,
-    paddingLeft: 20,
-    paddingRight: 20,
-    color: AppStyles.color.text,
-  },
-  facebookContainer: {
-    width: AppStyles.buttonWidth.main,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
-    padding: 10,
-    marginTop: 30,
-  },
-  facebookText: {
-    color: AppStyles.color.white,
-  },
-  dropdownButton: {
-    backgroundColor: 'transparent',
-    height: 42
-  },
-  dropdownTextButton: {
-    fontSize: 15,
-    color: AppStyles.color.grey,
-    textAlign: 'left'
-  }
-
-});
-
 RegisterScreen.navigationOptions = () => {
   return {
     headerTitle: "הרשמה"
