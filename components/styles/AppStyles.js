@@ -76,7 +76,7 @@ export const HeaderButtonStyle = StyleSheet.create({
     fontWeight: "normal",
   }
 });
-export const pageStyle = StyleSheet.create({
+export const PageStyle = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -93,6 +93,16 @@ export const pageStyle = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
   },
+  buttonStyle : {
+    width: AppStyles.buttonWidth.main,
+    backgroundColor: AppStyles.color.tint,
+    borderRadius: AppStyles.borderRadius.main,
+    padding: 10,
+    marginTop: 30,
+  },
+  buttonTextStyle: {
+    color: AppStyles.color.white,
+  }
 });
 export const InputStyle = StyleSheet.create({
   inputContainerView: {
