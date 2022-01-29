@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
 import API from "../../ApiService";
 import { SetToken } from "../../context/SetToken";
 import Button from "react-native-button";
-import { AppStyles } from "../../components/styles/AppStyles";
+import { AppStyles, PageStyle, InputStyle } from "../../components/styles/AppStyles";
 
 const LoginScreen = props => {
     const { addToken, addUsername, loginHandler } = useContext(SetToken);
@@ -14,6 +14,7 @@ const LoginScreen = props => {
         addToken(token)
         addUsername(username);
         loginHandler(true);
+        setTryLoggedin(false);
     };
     const notLogin = () => {
         loginHandler(false);
@@ -38,14 +39,15 @@ const LoginScreen = props => {
 
     return (
         // <ScrollView keyboardShouldPersistTaps='always'>
-        <View style={styles.container}>
-            <Text style={[styles.title, styles.leftTitle]}>התחברות</Text>
-            <View style={styles.InputContainer}>
-                {/* {tryLoggedin ? <Text>שם המשתמש או הסיסמה אינם נכונים</Text> :
-                (<Text>אנא הכנס שם משתמש וסיסמה</Text>)} */}
+        <View style={PageStyle.container}>
+            <Text style={PageStyle.title}>התחברות</Text>
+            {tryLoggedin ? <Text>שם המשתמש או הסיסמה אינם נכונים</Text> :
+                (<Text></Text>)}
+            <View style={InputStyle.inputContainerView}>
+                
 
                 <TextInput
-                    style={styles.body}
+                    style={InputStyle.bodyInput}
                     placeholderTextColor={AppStyles.color.grey}
                     placeholder="שם משתמש"
                     onChangeText={setUsername}
@@ -53,10 +55,10 @@ const LoginScreen = props => {
                     underlineColorAndroid="transparent"
                 />
             </View>
-            <View style={styles.InputContainer}>
+            <View style={InputStyle.inputContainerView}>
                 <TextInput
                     secureTextEntry={true}
-                    style={styles.body}
+                    style={InputStyle.bodyInput}
                     placeholder="סיסמה"
                     onChangeText={setPassword}
                     value={password}
@@ -65,8 +67,8 @@ const LoginScreen = props => {
                 />
             </View>
             <Button
-                containerStyle={styles.loginContainer}
-                style={styles.loginText}
+                containerStyle={PageStyle.buttonStyle}
+                style={PageStyle.buttonTextStyle}
                 onPress={loginUser} >
                 התחבר
             </Button>
@@ -88,60 +90,10 @@ LoginScreen.navigationOptions = () => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-    },
     or: {
         color: 'black',
         marginTop: 40,
         marginBottom: 10,
-    },
-    title: {
-        fontSize: AppStyles.fontSize.title,
-        fontWeight: 'bold',
-        color: AppStyles.color.tint,
-        marginTop: 20,
-        marginBottom: 20,
-    },
-    leftTitle: {
-        alignSelf: 'stretch',
-        textAlign: 'center',
-        marginLeft: 20,
-    },
-    content: {
-        paddingLeft: 50,
-        paddingRight: 50,
-        textAlign: 'center',
-        fontSize: AppStyles.fontSize.content,
-        color: AppStyles.color.text,
-    },
-    loginContainer: {
-        width: AppStyles.buttonWidth.main,
-        backgroundColor: AppStyles.color.tint,
-        borderRadius: AppStyles.borderRadius.main,
-        padding: 10,
-        marginTop: 30,
-    },
-    loginText: {
-        color: AppStyles.color.white,
-    },
-    placeholder: {
-        color: 'red',
-    },
-    InputContainer: {
-        width: AppStyles.textInputWidth.main,
-        marginTop: 30,
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderColor: AppStyles.color.grey,
-        borderRadius: AppStyles.borderRadius.main,
-    },
-    body: {
-        height: 42,
-        paddingLeft: 20,
-        paddingRight: 20,
-        color: AppStyles.color.text,
     },
     facebookContainer: {
         width: 192,
@@ -151,14 +103,6 @@ const styles = StyleSheet.create({
         marginTop: 30,
     },
     facebookText: {
-        color: AppStyles.color.white,
-    },
-    googleContainer: {
-        width: 192,
-        height: 48,
-        marginTop: 30,
-    },
-    googleText: {
         color: AppStyles.color.white,
     },
 });
