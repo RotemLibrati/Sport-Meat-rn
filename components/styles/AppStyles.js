@@ -76,7 +76,51 @@ export const HeaderButtonStyle = StyleSheet.create({
     fontWeight: "normal",
   }
 });
-
+export const pageStyle = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 150,
+  },
+  title: {
+    fontSize: AppStyles.fontSize.title,
+    fontWeight: 'bold',
+    color: AppStyles.color.tint,
+    marginTop: 20,
+    textAlign: 'center',
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
+  },
+});
+export const InputStyle = StyleSheet.create({
+  inputContainerView: {
+    width: AppStyles.textInputWidth.main,
+    marginTop: 30,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: AppStyles.color.grey,
+    borderRadius: AppStyles.borderRadius.main,
+  },
+  bodyInput: {
+    height: 42,
+    paddingLeft: 20,
+    paddingRight: 20,
+    color: AppStyles.color.text,
+  },
+});
+export const DropdownStyle = StyleSheet.create({
+  dropdownButton: {
+    backgroundColor: 'transparent',
+    height: 42
+  },
+  dropdownTextButton: {
+    fontSize: 15,
+    color: AppStyles.color.grey,
+    textAlign: 'left'
+  }
+})
 export const ListStyle = StyleSheet.create({
   title: {
     fontSize: 16,
