@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, StyleSheet, FlatList, Image, TouchableHighlight, Dimensions, Button } from 'react-native';
+import { Text, View, StyleSheet, FlatList, Image, TouchableHighlight, Dimensions, ScrollView } from 'react-native';
 import axios from 'axios';
 import API from '../../ApiService';
 import Loading from '../Loading';
 import { SetToken } from '../../context/SetToken';
+import { AppStyles, InputStyle, DropdownStyle, PageStyle } from "../../components/styles/AppStyles";
+import Button from "react-native-button";
+
 const TEAM_ITEM_HEIGHT = 150;
 const TEAM_ITEM_MARGIN = 20;
 const teamNumColums = 2;
@@ -71,9 +74,17 @@ const AllTeams = props => {
                 <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={teams.teams} renderItem={renderTeams}
                     keyExtractor={(item) => item.id}
                 />
-                <Button title="צור קבוצה חדשה"
+                {/* <Button title="צור קבוצה חדשה"
                     onPress={clickCreateTeam}
-                />
+                /> */}
+                {/* TODO: Need to fix the place of button */}
+                    <Button
+                        onPress={clickCreateTeam}
+                        containerStyle={[PageStyle.buttonStyle, { marginTop: 50, alignItems: 'center',justifyContent: 'center', }]}
+                        style={PageStyle.buttonTextStyle}>
+                        צור קבוצה חדשה
+                    </Button>
+
             </View>
         )
     );
