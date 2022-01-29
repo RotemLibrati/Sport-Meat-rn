@@ -5,6 +5,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import API from '../../ApiService';
 import CustomHeaderButton from '../../components/HeaderButton';
 import { SetToken } from '../../context/SetToken';
+import { AppStyles } from '../styles/AppStyles';
 
 const EditProfile = props => {
     const { token, username, editProfile, edit } = useContext(SetToken);
@@ -109,7 +110,7 @@ EditProfile.navigationOptions = (navData) => {
     return {
         headerTitle: 'עריכת פרופיל',
         headerStyle: {
-            backgroundColor: "#00CED1"
+            backgroundColor: AppStyles.color.tint
         },
         tabBarOptions: {
             activeTintColor: 'white'
@@ -124,7 +125,7 @@ EditProfile.navigationOptions = (navData) => {
 }
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: "#00CED1",
+        backgroundColor: AppStyles.color.tint,
     },
     headerContent: {
         padding: 30,
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        color: "#00CED1"
+        color: AppStyles.color.tint
     },
     count: {
         fontSize: 18,
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         width: 250,
         borderRadius: 30,
-        backgroundColor: "#00CED1",
+        backgroundColor: AppStyles.color.tint,
         height: 40,
 
         // margin: 12,

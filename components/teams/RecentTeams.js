@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import Loading from '../Loading';
 import Team from './Team';
 import { SetToken } from '../../context/SetToken';
+import { ListStyle } from '../styles/AppStyles';
 
 const Teams = props => {
     const { token, username } = useContext(SetToken);

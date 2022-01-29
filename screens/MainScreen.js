@@ -19,7 +19,7 @@ const MainScreen = props => {
       <RecentGame navigation={props.navigation} />
       <Button title="פתח משחק" onPress={() => props.navigation.navigate("CreateNewGame")}/>
       <RecentTeams navigation={props.navigation} />
-      <Button title="רוצה לשחק היום" onPress={() => props.navigation.navigate("PublicGamesScreen")}/>
+      <Button title="רוצה לשחק היום!" onPress={() => props.navigation.navigate("PublicGamesScreen")}/>
     </View>
   );
 };

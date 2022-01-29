@@ -65,7 +65,7 @@ MyProfileScreen.navigationOptions = (navData) => {
     return {
         headerTitle: "הפרופיל שלי",
         headerStyle: {
-            backgroundColor: "#00CED1"
+            backgroundColor: "#ff5a66"
         },
         tabBarOptions: {
             activeTintColor: 'white'

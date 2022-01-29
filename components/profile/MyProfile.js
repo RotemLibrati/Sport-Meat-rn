@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Button, TextInput } from 'react-native';
-
+import { AppStyles } from '../styles/AppStyles';
 const MyProfile = props => {
     const profile = props.profile;
     return (
@@ -50,7 +50,7 @@ const MyProfile = props => {
 };
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: "#00CED1",
+        backgroundColor: AppStyles.color.tint,
     },
     headerContent: {
         padding: 30,
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        color: "#00CED1"
+        color: AppStyles.color.tint
     },
     count: {
         fontSize: 18,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         width: 250,
         borderRadius: 30,
-        backgroundColor: "#00CED1",
+        backgroundColor: AppStyles.color.tint,
     },
 });
 export default MyProfile;

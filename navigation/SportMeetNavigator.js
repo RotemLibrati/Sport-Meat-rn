@@ -41,7 +41,7 @@ const TeamScreen = createStackNavigator({
   TeamFriends: TeamFriends,
   DetailsMessage: DetailsMessage,
   FriendsProfileScreen: FriendsProfileScreen
-  
+
 });
 
 const MainScreenNavigator = createStackNavigator({
@@ -52,7 +52,7 @@ const MainScreenNavigator = createStackNavigator({
   TeamDetails: TeamDetails,
   TeamMessages: TeamMessages,
   TeamFriends: TeamFriends,
-  FriendsProfileScreen:FriendsProfileScreen,
+  FriendsProfileScreen: FriendsProfileScreen,
   DetailsMessage: DetailsMessage,
   CreateNewTeam: CreateNewTeam,
   CreateNewGame: CreateNewGame,
@@ -70,12 +70,14 @@ const ProfileScreenNavigator = createStackNavigator({
 
 const SportMeetTabNavigator = createBottomTabNavigator({
   Main: {
-    screen: MainScreenNavigator
+    screen: MainScreenNavigator, navigationOptions: {
+      tabBarLabel: <Text>ראשי</Text>
+    },
   },
   Profile: {
     screen: ProfileScreenNavigator, navigationOptions: {
       tabBarIcon: (tabInfo) => {
-        return (<AntDesign name="profile" size={24} color='blue' />);
+        return (<AntDesign name="profile" size={24} />);
       },
 
       tabBarLabel: <Text>פרופיל</Text>
@@ -109,13 +111,13 @@ const MainNavigation = createDrawerNavigator({
       drawerIcon: <AntDesign name="profile" size={24} color="black" />
     }
   },
-  
+
   TeamScreen: {
     screen: TeamScreen, navigationOptions: {
       drawerLabel: 'הקבוצות שלי',
       drawerIcon: <FontAwesome name="group" size={24} color="black" />,
     }
-    
+
   }
 },
   {

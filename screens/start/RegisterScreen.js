@@ -101,7 +101,8 @@ const RegisterScreen = props => {
           /></View>
         <View style={styles.InputContainer}>
           <SelectDropdown
-            style={styles.body}
+            buttonStyle={styles.body, styles.dropdownButton}
+            buttonTextStyle={styles.dropdownTextButton}
             placeholderTextColor={AppStyles.color.grey}
             underlineColorAndroid="transparent"
             defaultButtonText="מין"
@@ -188,32 +189,16 @@ const styles = StyleSheet.create({
   facebookText: {
     color: AppStyles.color.white,
   },
-  // container: {
-  //   flex: 1,
-  //   backgroundColor: '#fff',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
-  // input: {
-  //   height: 40,
-  //   width: '50%',
-  //   margin: 12,
-  //   borderWidth: 1,
-  //   padding: 10,
-  // },
-  // scroll: {
-  //   flex: 1,
-  //   backgroundColor: '#fff',
-  // },
-  // dropdown: {
-  //   position: 'absolute',
-  //   height: (33 + StyleSheet.hairlineWidth) * 5,
-  //   borderWidth: StyleSheet.hairlineWidth,
-  //   borderColor: 'lightgray',
-  //   borderRadius: 2,
-  //   backgroundColor: 'white',
-  //   justifyContent: 'center'
-  // },
+  dropdownButton: {
+    backgroundColor: 'transparent',
+    height: 42
+  },
+  dropdownTextButton: {
+    fontSize: 15,
+    color: AppStyles.color.grey,
+    textAlign: 'left'
+  }
+
 });
 
 RegisterScreen.navigationOptions = () => {
