@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, Button } from 'react-native';
-import ModalDropdown from "react-native-modal-dropdown";
+import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
+import Button from "react-native-button";
 import API from '../../ApiService';
 import { SetToken } from '../../context/SetToken';
 import Data from '../../data/data'
@@ -15,7 +15,7 @@ const CreateNewTeam = props => {
     const [sport, setSport] = useState('');
     const [typeTeam, setTypeTeam] = useState('');
     let data = Data.typeSport;
-    let type = ['קבוצה פרטית','קבוצה פומבית'];
+    let type = ['קבוצה פרטית', 'קבוצה פומבית'];
     const createTeamHandler = () => {
         let myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${token}`);
@@ -93,9 +93,17 @@ const CreateNewTeam = props => {
                     />
                 </View>
             </View>
-            <Button title="צור קבוצה"
+            {/* <Button title="צור קבוצה"
                 onPress={createTeamHandler}
-            />
+            /> */}
+            <View style={PageStyle.buttonStyleView} >
+                <Button
+                    onPress={createTeamHandler}
+                    containerStyle={PageStyle.buttonStyle}
+                    style={PageStyle.buttonTextStyle}>
+                    צור קבוצה
+                </Button>
+            </View>
         </ScrollView>
     )
 };
@@ -103,7 +111,14 @@ const CreateNewTeam = props => {
 CreateNewTeam.navigationOptions = {
     headerTitle: 'יצירת קבוצה'
 }
-
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 150,
+      },
+})
 
 
 export default CreateNewTeam;
