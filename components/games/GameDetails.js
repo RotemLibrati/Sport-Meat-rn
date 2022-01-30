@@ -1,11 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { ButtonGroup } from 'react-native-elements/dist/buttons/ButtonGroup';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../HeaderButton';
 import { SetToken } from '../../context/SetToken';
 import axios from 'axios';
 import API from '../../ApiService';
+import { AppStyles, PageStyle, InputStyle, DropdownStyle } from '../../components/styles/AppStyles';
 
 const GameDetails = (props) => {
     const { username, token } = useContext(SetToken);
@@ -36,9 +37,9 @@ const GameDetails = (props) => {
                 .then(function (response) {
                     console.log(response.data);
                     response.data.attendance.status == 'מגיע' ? setSelectedIndex(0) :
-                    response.data.attendance.status == 'לא מגיע' ? setSelectedIndex(1) :
-                    response.data.attendance.status == 'אולי מגיע' ? setSelectedIndex(2) :
-                    setSelectedIndex(null);
+                        response.data.attendance.status == 'לא מגיע' ? setSelectedIndex(1) :
+                            response.data.attendance.status == 'אולי מגיע' ? setSelectedIndex(2) :
+                                setSelectedIndex(null);
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -81,19 +82,25 @@ const GameDetails = (props) => {
         props.navigation.setParams({ save: saveGameDeatilsHandler });
     }, [selectedIndex]);
     return (
-        <View>
-            <ButtonGroup
-                onPress={(index) => setSelectedIndex(index)}
-                selectedIndex={selectedIndex}
-                buttons={buttons}
-                containerStyle={{ height: 50 }}
-                selectedButtonStyle={selectedIndex == 0 ? styles.arraiving : selectedIndex == 1 ? styles.notArriving :
-                    selectedIndex == 2 ? styles.maybeArraiving : styles.notChoose} />
-            <Text>זמן המשחק: {game.event_time}</Text>
-            <Text>שם המגרש: {game.location.name}</Text>
-            <Text>מיקום המשחק: {game.location.region}</Text>
-            <Text>קבוצה: {game.team.name}</Text>
-        </View>
+        <ScrollView>
+            <View style={PageStyle.container} >
+
+                <ButtonGroup
+                    onPress={(index) => setSelectedIndex(index)}
+                    selectedIndex={selectedIndex}
+                    buttons={buttons}
+                    containerStyle={{ height: 50 }}
+                    selectedButtonStyle={selectedIndex == 0 ? styles.arraiving : selectedIndex == 1 ? styles.notArriving :
+                        selectedIndex == 2 ? styles.maybeArraiving : styles.notChoose} />
+                <Text style={PageStyle.title}>פרטי משחק</Text>
+                <View style={styles.boxes}>
+                    <Text style={[PageStyle.TextStyle, { marginTop: '15%'}]}>זמן המשחק: {game.event_time}</Text>
+                    <Text style={PageStyle.TextStyle}>שם המגרש: {game.location.name}</Text>
+                    <Text style={PageStyle.TextStyle}>מיקום המשחק: {game.location.region}</Text>
+                    <Text style={PageStyle.TextStyle}>קבוצה: {game.team.name}</Text>
+                </View>
+            </View>
+        </ScrollView>
     )
 };
 
@@ -109,7 +116,15 @@ const styles = StyleSheet.create({
     },
     notChoose: {
         backgroundColor: 'white'
-    }
+    },
+    boxes: {
+        alignItems: 'center',
+        backgroundColor: '#e4e6eb',
+        height: 200,
+        margin: 16,
+        borderRadius: 16,
+        width: '80%'
+    },
 })
 
 GameDetails.navigationOptions = (navData) => {

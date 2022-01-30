@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Text, View, TextInput, Button } from 'react-native';
+import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import { SetToken } from '../../context/SetToken';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import SelectDropdown from 'react-native-select-dropdown';
@@ -8,6 +8,8 @@ import axios from 'axios';
 import Loading from '../../components/Loading';
 import { Switch } from 'react-native-elements';
 import Data from '../../data/data';
+import { PageStyle, AppStyles, InputStyle, DropdownStyle } from '../../components/styles/AppStyles';
+import Button from "react-native-button";
 
 
 const CreateNewGame = props => {
@@ -112,91 +114,158 @@ const CreateNewGame = props => {
         props.navigation.goBack()
     }
     return (
-        <View>
-
-            <Text style={{ alignContent: 'center' }}>בחר תאריך</Text>
-            <Button title={date}
-                onPress={showDatePicker}
-            />
-            <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-                minimumDate={new Date()}
-            />
-            <Button title={time}
-                onPress={showTimePicker}
-            />
-            <DateTimePickerModal
-                isVisible={isTimePickerVisible}
-                mode="time"
-                onConfirm={handleConfirmForTime}
-                onCancel={hideTimePicker}
-                minuteInterval={30}
-            />
-            <Switch
-                value={checked}
-                onValueChange={(value) => setChecked(value)}
-            />
-            {!checked ?
-                <View>
-                    <Text>ללא קבוצה</Text>
-                    <SelectDropdown
-                        defaultButtonText="בחר סוג ספורט"
-                        onSelect={(index) => {
-                            setTypeSport(index);
-                            
-                        }}
-                        data={type}
-                        buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem
-                        }}
-                        rowTextForSelection={(item, index) => {
-                            return item
-                        }}
+        <ScrollView>
+            <View style={PageStyle.container}>
+                <Text style={PageStyle.title}>פתיחת משחק חדש</Text>
+                <Text style={PageStyle.TextStyle}>בחר תאריך</Text>
+                <View style={styles.buttonStyleView}>
+                    <Button
+                        onPress={showDatePicker}
+                        containerStyle={styles.buttonStyle}
+                        style={PageStyle.buttonTextStyle}>
+                        {date}
+                    </Button>
+                </View>
+                {/* <Button title={date}
+                    onPress={showDatePicker}
+                /> */}
+                <DateTimePickerModal
+                    isVisible={isDatePickerVisible}
+                    mode="date"
+                    onConfirm={handleConfirm}
+                    onCancel={hideDatePicker}
+                    minimumDate={new Date()}
+                />
+                <Text style={PageStyle.TextStyle}>בחר שעה</Text>
+                <View style={styles.buttonStyleView}>
+                    <Button
+                        onPress={showTimePicker}
+                        containerStyle={styles.buttonStyle}
+                        style={PageStyle.buttonTextStyle}>
+                        {time}
+                    </Button>
+                </View>
+                {/* <Button title={time}
+                    onPress={showTimePicker}
+                /> */}
+                <DateTimePickerModal
+                    isVisible={isTimePickerVisible}
+                    mode="time"
+                    onConfirm={handleConfirmForTime}
+                    onCancel={hideTimePicker}
+                    minuteInterval={30}
+                />
+                <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between' }}>
+                    <Text style={PageStyle.TextStyle}>האם לשייך לקבוצה ?</Text>
+                    <Text>  </Text>
+                    <Switch
+                        value={checked}
+                        onValueChange={(value) => setChecked(value)}
                     />
                 </View>
-                :
-                (isLoading ? <Loading /> :
-                    <SelectDropdown
-                        defaultButtonText="בחר קבוצה"
-                        data={teams.teams.map(team => team.name)}
-                        onSelect={(selectedItem, index) => {
-                            setSelectedTeam(teams.teams[index].id);
-                        }}
-                        buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem
-                        }}
-                        rowTextForSelection={(item, index) => {
-                            return item
-                        }}
-                    />)}
-            {isLoadingLoc ? <Loading /> :
-                <SelectDropdown
-                    defaultButtonText="מיקום"
-                    data={location.locations.map(loc => loc.name)}
-                    onSelect={(selectedItem, index) => {
-                        setSelectedLocation(location.locations[index].id);
-                    }}
-                    buttonTextAfterSelection={(selectedItem, index) => {
-                        return selectedItem
-                    }}
-                    rowTextForSelection={(item, index) => {
-                        return item
-                    }}
-                />}
-            <Button title="סיום"
-                onPress={createGameHandler} />
+                {!checked ?
 
-        </View>
+                    <View style={InputStyle.inputContainerView}>
+                        <SelectDropdown
+                            buttonStyle={DropdownStyle.dropdownButton}
+                            buttonTextStyle={styles.dropdownTextButton}
+                            defaultButtonText="בחר סוג ספורט"
+                            onSelect={(index) => {
+                                setTypeSport(index);
+
+                            }}
+                            data={type}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                return selectedItem
+                            }}
+                            rowTextForSelection={(item, index) => {
+                                return item
+                            }}
+                        />
+                    </View>
+
+                    :
+                    (isLoading ? <Loading /> :
+                        <View style={InputStyle.inputContainerView}>
+                            <SelectDropdown
+                                defaultButtonText="בחר קבוצה"
+                                buttonStyle={DropdownStyle.dropdownButton}
+                                buttonTextStyle={styles.dropdownTextButton}
+                                data={teams.teams.map(team => team.name)}
+                                onSelect={(selectedItem, index) => {
+                                    setSelectedTeam(teams.teams[index].id);
+                                }}
+                                buttonTextAfterSelection={(selectedItem, index) => {
+                                    return selectedItem
+                                }}
+                                rowTextForSelection={(item, index) => {
+                                    return item
+                                }}
+                            />
+                        </View>
+                    )}
+                {isLoadingLoc ? <Loading /> :
+                    <View style={InputStyle.inputContainerView}>
+                        <SelectDropdown
+                            buttonStyle={DropdownStyle.dropdownButton}
+                            buttonTextStyle={styles.dropdownTextButton}
+                            defaultButtonText="מיקום"
+                            data={location.locations.map(loc => loc.name)}
+                            onSelect={(selectedItem, index) => {
+                                setSelectedLocation(location.locations[index].id);
+                            }}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                return selectedItem
+                            }}
+                            rowTextForSelection={(item, index) => {
+                                return item
+                            }}
+                        />
+                    </View>}
+
+                {/* <Button title="סיום"
+                    onPress={createGameHandler} /> */}
+
+            </View>
+            <View style={styles.buttonStyleView}>
+                <Button
+                    onPress={createGameHandler}
+                    containerStyle={styles.buttonStyle}
+                    style={PageStyle.buttonTextStyle}>
+                    סיום
+                </Button>
+            </View>
+        </ScrollView>
     );
 
 };
+const styles = StyleSheet.create({
+    buttonStyleView: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 15,
+    },
+    buttonStyle: {
+        width: AppStyles.buttonWidth.main,
+        backgroundColor: AppStyles.color.tint,
+        borderRadius: AppStyles.borderRadius.main,
+        padding: 10,
+        marginTop: 10,
+    },
+    dropdownTextButton: {
+        fontSize: 15,
+        color: AppStyles.color.grey,
+        textAlign: 'right'
+    },
+});
+
 CreateNewGame.navigationOptions = (navData) => {
     return {
         headerTitle: "פתיחת משחק חדש"
     }
-}
+};
+
+
 
 export default CreateNewGame;

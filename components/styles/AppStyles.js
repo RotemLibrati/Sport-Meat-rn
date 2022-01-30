@@ -134,7 +134,7 @@ export const InputStyle = StyleSheet.create({
 export const DropdownStyle = StyleSheet.create({
   dropdownButton: {
     backgroundColor: 'transparent',
-    height: 42
+    height: 42,
   },
   dropdownTextButton: {
     fontSize: 15,
