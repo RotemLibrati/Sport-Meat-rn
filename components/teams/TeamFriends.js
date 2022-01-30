@@ -38,5 +38,10 @@ const styles = StyleSheet.create({
         height: 44,
     },
 });
+TeamFriends.navigationOptions = (navData) => {
+    return {
+        headerTitle: 'חברי הקבוצה',
+    }
+};
 
 export default TeamFriends;

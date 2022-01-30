@@ -147,5 +147,10 @@ const styles = StyleSheet.create({
         padding: 10,
     },
 });
+TeamMessages.navigationOptions = (navData) => {
+    return {
+        headerTitle: 'הודעות הקבוצה',
+    }
+}
 
 export default TeamMessages;

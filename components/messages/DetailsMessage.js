@@ -52,6 +52,11 @@ const styles = StyleSheet.create({
         alignContent: 'center'
     }
 });
+DetailsMessage.navigationOptions = (navData) => {
+    return {
+        headerTitle: 'פרטי הודעה',
+    }
+}
 
 export default DetailsMessage;
 ;

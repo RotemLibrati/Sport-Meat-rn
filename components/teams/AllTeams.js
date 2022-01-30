@@ -4,9 +4,9 @@ import axios from 'axios';
 import API from '../../ApiService';
 import Loading from '../Loading';
 import { SetToken } from '../../context/SetToken';
-import { AppStyles, InputStyle, DropdownStyle, PageStyle } from "../../components/styles/AppStyles";
+import { PageStyle } from "../../components/styles/AppStyles";
 import Button from "react-native-button";
-import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 const TEAM_ITEM_HEIGHT = 150;
 const TEAM_ITEM_MARGIN = 20;
@@ -66,6 +66,7 @@ const AllTeams = props => {
         isLoading ? (<Loading />) : (
             <ScrollView>
                 <View>
+                    <Text style={PageStyle.title}>הקבוצות שלי</Text>
                     <FlatList
                         vertical showsVerticalScrollIndicator={false}
                         numColumns={2}

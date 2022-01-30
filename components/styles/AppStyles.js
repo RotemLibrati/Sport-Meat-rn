@@ -93,6 +93,12 @@ export const PageStyle = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
   },
+  buttonStyleView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 150,
+  },
   buttonStyle : {
     width: AppStyles.buttonWidth.main,
     backgroundColor: AppStyles.color.tint,
@@ -102,6 +108,11 @@ export const PageStyle = StyleSheet.create({
   },
   buttonTextStyle: {
     color: AppStyles.color.white,
+  },
+  TextStyle: {
+    fontSize: 20,
+    fontFamily: "Cochin",
+    fontWeight: "bold"
   }
 });
 export const InputStyle = StyleSheet.create({

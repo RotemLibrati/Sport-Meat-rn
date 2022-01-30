@@ -77,10 +77,11 @@ const styles = StyleSheet.create({
     },
     boxes: {
         backgroundColor: '#e4e6eb',
-        height: 250,
+        height: 220,
         margin: 16,
         borderRadius: 16,
-        width: '80%'
+        width: '80%',
+        marginTop: 0
     }
 })
 

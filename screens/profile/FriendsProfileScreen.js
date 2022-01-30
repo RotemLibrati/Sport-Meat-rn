@@ -56,7 +56,7 @@ FriendsProfileScreen.navigationOptions = (navData) => {
     return {
         headerTitle: `הפרופיל של ${name} `,
         headerStyle: {
-            backgroundColor: "#00CED1"
+            backgroundColor: "#ff5a66"
         },
         tabBarOptions: {
             activeTintColor: 'white'

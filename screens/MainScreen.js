@@ -1,11 +1,13 @@
 import React, { useState, useContext } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import RecentGame from "../components/games/RecentGame";
 import RecentTeams from "../components/teams/RecentTeams";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../components/HeaderButton";
 import PublicGamesScreen from "./games/PublicGamesScreen";
 import { SetToken } from "../context/SetToken";
+import { PageStyle, AppStyles } from "../components/styles/AppStyles";
+import Button from "react-native-button";
 
 
 
@@ -14,13 +16,27 @@ import { SetToken } from "../context/SetToken";
 const MainScreen = props => {
   const { token, username } = useContext(SetToken);
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>שלום {username}</Text>
-      <RecentGame navigation={props.navigation} />
-      <Button title="פתח משחק" onPress={() => props.navigation.navigate("CreateNewGame")}/>
-      <RecentTeams navigation={props.navigation} />
-      <Button title="רוצה לשחק היום!" onPress={() => props.navigation.navigate("PublicGamesScreen")}/>
-    </View>
+    <ScrollView>
+      <View style={PageStyle.container}>
+        <Text style={styles.title}>שלום {username}</Text>
+        <RecentGame navigation={props.navigation} />
+          <Button
+            onPress={() => props.navigation.navigate("CreateNewGame")}
+            containerStyle={PageStyle.buttonStyle}
+            style={PageStyle.buttonTextStyle}>
+            פתח משחק
+          </Button>
+        {/* <Button title="פתח משחק" onPress={() => props.navigation.navigate("CreateNewGame")} /> */}
+        <RecentTeams navigation={props.navigation} />
+        {/* <Button title="רוצה לשחק היום!" onPress={() => props.navigation.navigate("PublicGamesScreen")} /> */}
+          <Button
+            onPress={() => props.navigation.navigate("PublicGamesScreen")}
+            containerStyle={PageStyle.buttonStyle}
+            style={PageStyle.buttonTextStyle}>
+            רוצה לשחק היום !
+          </Button>
+      </View>
+    </ScrollView>
   );
 };
 MainScreen.navigationOptions = (navData) => {
@@ -42,8 +58,15 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
   },
   title: {
-    fontSize: 24
-  }
+    fontSize: AppStyles.fontSize.title,
+    fontWeight: 'bold',
+    color: AppStyles.color.tint,
+    marginTop: 20,
+    textAlign: 'center',
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
+  },
 });
 
 export default MainScreen;
