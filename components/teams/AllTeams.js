@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, StyleSheet, FlatList, Image, TouchableHighlight, Dimensions, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, FlatList, Image, TouchableHighlight, Dimensions, ScrollView, LogBox } from 'react-native';
 import axios from 'axios';
 import API from '../../ApiService';
 import Loading from '../Loading';
 import { SetToken } from '../../context/SetToken';
 import { AppStyles, InputStyle, DropdownStyle, PageStyle } from "../../components/styles/AppStyles";
 import Button from "react-native-button";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TEAM_ITEM_HEIGHT = 150;
 const TEAM_ITEM_MARGIN = 20;
@@ -18,6 +19,10 @@ const AllTeams = props => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        props.navigation.addListener('didFocus',
+        payload => {
+            fetchTeams();
+        });
         const fetchTeams = async () => {
             let config = {
                 method: 'get',
@@ -43,6 +48,9 @@ const AllTeams = props => {
     const onPressTeam = (item) => {
         props.navigation.navigate("TeamDetails", { team: item });
     };
+    useEffect(() => {
+        LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    }, [])
     const renderTeams = ({ item }) => (
         <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressTeam(item)}>
             <View style={styles.container}>
@@ -54,38 +62,29 @@ const AllTeams = props => {
             </View>
         </TouchableHighlight>
     );
-    // return (
-    //     isLoading ? (<Loading />) : (
-    //         <View style={styles.container}>
-    //             <View>
-    //                 {teams.teams.map(team => (
-    //                     <Team key={team.id} team={team} navigation={props.navigation} />
-    //                 ))}
-    //             </View>
-    //             <Button title="צור קבוצה חדשה"
-    //                 onPress={clickCreateTeam}
-    //             />
-    //         </View>
-    //     )
-    // )
     return (
         isLoading ? (<Loading />) : (
-            <View>
-                <FlatList vertical showsVerticalScrollIndicator={false} numColumns={2} data={teams.teams} renderItem={renderTeams}
-                    keyExtractor={(item) => item.id}
-                />
-                {/* <Button title="צור קבוצה חדשה"
-                    onPress={clickCreateTeam}
-                /> */}
-                {/* TODO: Need to fix the place of button */}
+            <ScrollView>
+                <View>
+                    <FlatList
+                        vertical showsVerticalScrollIndicator={false}
+                        numColumns={2}
+                        data={teams.teams}
+                        renderItem={renderTeams}
+                        keyExtractor={(item) => item.id}
+                    />
+                </View>
+                <View style={PageStyle.buttonStyleView}>
                     <Button
                         onPress={clickCreateTeam}
-                        containerStyle={[PageStyle.buttonStyle, { marginTop: 50, alignItems: 'center',justifyContent: 'center', }]}
+                        containerStyle={[PageStyle.buttonStyle, { marginTop: 50 }]}
                         style={PageStyle.buttonTextStyle}>
                         צור קבוצה חדשה
                     </Button>
+                </View>
+            </ScrollView>
 
-            </View>
+
         )
     );
 };
