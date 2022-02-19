@@ -4,6 +4,8 @@ import { SetToken } from '../../context/SetToken';
 import Loading from '../Loading';
 import API from '../../ApiService';
 import axios from 'axios';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import CustomHeaderButton from '../../components/HeaderButton';
 
 const TeamMessages = props => {
     const team = props.navigation.getParam("team", null);
@@ -14,6 +16,10 @@ const TeamMessages = props => {
     const [subjectMessage, setSubjectMessage] = useState("");
     const [contextMessage, setContextMessage] = useState("");
     useEffect(() => {
+        props.navigation.addListener('didFocus',
+            payload => {
+                fetchTeamMessages();
+            });
         const fetchTeamMessages = async () => {
             let config = {
                 method: 'get',
@@ -36,7 +42,13 @@ const TeamMessages = props => {
     }, []);
     const onPressMessage = (item) => {
         props.navigation.navigate("DetailsMessage", { message: item });
+    };
+    const newMessageClicked = () => {
+        props.navigation.navigate("CreateMessage", { teamId: team.id });
     }
+    useEffect(() => {
+        props.navigation.setParams({ createMessage: newMessageClicked });
+    }, []);
     const renderMessages = ({ item }) => (
         <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressMessage(item)}>
             <View>
@@ -54,27 +66,7 @@ const TeamMessages = props => {
             </View>
         </TouchableHighlight>
     );
-    const sendMessageHandler = () => {
-        let myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${token}`);
-        let formdata = new FormData();
-        formdata.append("subject", subjectMessage);
-        formdata.append("body", contextMessage);
 
-        let requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: formdata,
-            redirect: 'follow'
-        };
-
-        fetch(`${API.ipAddress}/new-message/${team.id}/`,
-            requestOptions)
-            .then(res => res.text())
-            .catch(error => console.log(error))
-        setContextMessage("");
-        setSubjectMessage("");
-    };
     return (
         isLoading ? (<Loading />) : (
             <View style={styles.container}>
@@ -87,19 +79,7 @@ const TeamMessages = props => {
                     <ScrollView style={styles.scrollView}
                         keyboardDismissMode={"interactive"}
                     >
-                        <TextInput
-                            style={styles.input} placeholder="נושא ההודעה"
-                            value={subjectMessage}
-                            onChangeText={(text) => setSubjectMessage(text)}
-                        />
-                        <TextInput style={styles.input} placeholder="כתוב הודעה"
-                            value={contextMessage}
-                            onChangeText={(text) => setContextMessage(text)}
-                        />
                     </ScrollView>
-                    <Button title="שלח הודעה"
-                        onPress={sendMessageHandler}
-                    />
                 </KeyboardAvoidingView>
             </View>
         )
@@ -150,6 +130,11 @@ const styles = StyleSheet.create({
 TeamMessages.navigationOptions = (navData) => {
     return {
         headerTitle: 'הודעות הקבוצה',
+        headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+            <Item title="New-Message" iconName="new-message"
+                onPress={navData.navigation.getParam('createMessage')}
+            />
+        </HeaderButtons>
     }
 }
 
