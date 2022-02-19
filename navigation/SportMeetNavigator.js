@@ -14,6 +14,7 @@ import TeamFriends from '../components/teams/TeamFriends';
 import DetailsMessage from '../components/messages/DetailsMessage';
 import FriendsProfileScreen from '../screens/profile/FriendsProfileScreen';
 import PublicGamesScreen from '../screens/games/PublicGamesScreen';
+import CreateMessage from '../components/messages/CreateMessage';
 import { AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -38,6 +39,7 @@ const TeamScreen = createStackNavigator({
   TeamDetails: TeamDetails,
   CreateNewTeam: CreateNewTeam,
   TeamMessages: TeamMessages,
+  CreateMessage: CreateMessage,
   TeamFriends: TeamFriends,
   DetailsMessage: DetailsMessage,
   FriendsProfileScreen: FriendsProfileScreen
@@ -51,6 +53,7 @@ const MainScreenNavigator = createStackNavigator({
   TeamsScreen: TeamsScreen,
   TeamDetails: TeamDetails,
   TeamMessages: TeamMessages,
+  CreateMessage: CreateMessage,
   TeamFriends: TeamFriends,
   FriendsProfileScreen: FriendsProfileScreen,
   DetailsMessage: DetailsMessage,
