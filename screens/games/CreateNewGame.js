@@ -82,12 +82,14 @@ const CreateNewGame = props => {
                 .then(function (response) {
                     setLocation(response.data);
                     setIsLoadingLoc(false);
+                    
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         };
         fetchTeams();
+        console.log(location);
     }, []);
     const createGameHandler = () => {
         let myHeaders = new Headers();
@@ -126,9 +128,6 @@ const CreateNewGame = props => {
                         {date}
                     </Button>
                 </View>
-                {/* <Button title={date}
-                    onPress={showDatePicker}
-                /> */}
                 <DateTimePickerModal
                     isVisible={isDatePickerVisible}
                     mode="date"
@@ -145,9 +144,6 @@ const CreateNewGame = props => {
                         {time}
                     </Button>
                 </View>
-                {/* <Button title={time}
-                    onPress={showTimePicker}
-                /> */}
                 <DateTimePickerModal
                     isVisible={isTimePickerVisible}
                     mode="time"
@@ -201,6 +197,7 @@ const CreateNewGame = props => {
                                 rowTextForSelection={(item, index) => {
                                     return item
                                 }}
+                                disableAutoScroll={true}
                             />
                         </View>
                     )}
@@ -220,12 +217,9 @@ const CreateNewGame = props => {
                             rowTextForSelection={(item, index) => {
                                 return item
                             }}
+                            disableAutoScroll={true}
                         />
                     </View>}
-
-                {/* <Button title="סיום"
-                    onPress={createGameHandler} /> */}
-
             </View>
             <View style={styles.buttonStyleView}>
                 <Button
