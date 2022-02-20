@@ -26,5 +26,10 @@ const AttendancesPlayers = props => {
         />
     )
 };
+AttendancesPlayers.navigationOptions = () => {
+    return {
+        headerTitle: 'מגיעים לשחק',
+    }
+}
 
 export default AttendancesPlayers;
