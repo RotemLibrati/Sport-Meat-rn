@@ -75,7 +75,8 @@ MyProfileScreen.navigationOptions = (navData) => {
                 onPress={() => navData.navigation.navigate("EditProfile", {
                     profile: navData.navigation.getParam('profile'),
 
-                })}
+                })} 
+                color="black"
 
             />
         </HeaderButtons>,
@@ -83,7 +84,9 @@ MyProfileScreen.navigationOptions = (navData) => {
             <Item
                 title="Menu"
                 iconName="menu"
-                onPress={() => { navData.navigation.toggleDrawer() }} />
+                onPress={() => { navData.navigation.toggleDrawer() }} 
+                color="black"
+                />
         </HeaderButtons>
 
     }

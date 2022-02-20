@@ -118,9 +118,10 @@ EditProfile.navigationOptions = (navData) => {
         headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item title="Save" iconName="save"
                 onPress={navData.navigation.getParam('save')}
-
+            color="black"
             />
         </HeaderButtons>,
+        
     }
 }
 const styles = StyleSheet.create({
