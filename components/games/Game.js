@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 const Game = (props) => {
     const gameClicked = (game) => {
@@ -8,7 +8,7 @@ const Game = (props) => {
     return (
         <View>
             <View>
-                <TouchableOpacity onPress={() => gameClicked(props.game)}>
+                <TouchableOpacity onPress={() => gameClicked(props.game)}> 
                     <Text>תאריך: {props.game.event_time}</Text>
                     <Text>שם המגרש: {props.game.location.name}</Text>
                     <Text>מיקום: {props.game.location.region}</Text>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, ScrollView } from 'react-native';
 import API from '../../ApiService';
 import Game from './Game';
 import Loading from '../Loading';
@@ -40,20 +40,18 @@ const RecentGame = (props) => {
     };
     return (
         isLoading ? (<Loading />) : (
-            <View style={styles.boxes}>
+            <ScrollView style={styles.boxes}>
                 <View style={styles.title}><Text style={styles.title} >משחקים קרובים</Text></View>
                 <View style={styles.games}>
                     {games.games.map(game => (
                         <Game key={game.id} game={game} navigation={props.navigation} />
                     ))}
                 </View>
-                {/* <View style={styles.button}> */}
                 <Button
                     title="לכל המשחקים"
                     onPress={clickAllGames}
                 />
-                {/* </View> */}
-            </View>
+            </ScrollView>
         )
     )
 };
@@ -87,23 +85,3 @@ const styles = StyleSheet.create({
 
 
 export default RecentGame;
-
-// useEffect(() => {
-    //     setIsLoading(true);
-    //     fetch(`${API.ipAddress}/recent-games/admin`, {
-    //         method: 'GET'
-    //     })
-    //         .then(res => res.json())
-    //         .then(res => setGames(res))
-    //         .then(setIsLoading(false))
-    //         .catch(error => console.log(error))
-    //         .finally(() => setIsLoading(false))
-    // })
-    // if (isLoading) {
-    //     return (
-    //         <View>
-    //             <Text>Data is Loading..</Text>
-    //         </View>
-    //     )
-    // }
-    // setIsLoading(false)
