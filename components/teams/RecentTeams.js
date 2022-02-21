@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import API from '../../ApiService';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, ScrollView } from 'react-native';
 import Loading from '../Loading';
 import Team from './Team';
 import { SetToken } from '../../context/SetToken';
@@ -12,7 +12,10 @@ const Teams = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [teams, setTeams] = useState([]);
     useEffect(() => {
-        
+        props.navigation.addListener('didFocus',
+            payload => {
+                fetchTeams();
+            });
         const fetchTeams = async () => {
             let config = {
                 method: 'get',
@@ -29,7 +32,7 @@ const Teams = props => {
                 .catch(function (error) {
                     console.log(error);
                 });
-            
+
         };
         fetchTeams();
     }, [username])
@@ -38,7 +41,7 @@ const Teams = props => {
     }
     return (
         isLoading ? (<Loading />) : (
-            <View style={styles.boxes}>
+            <ScrollView style={styles.boxes}>
                 <View style={styles.title}><Text style={styles.title} >הקבוצות שלי</Text></View>
                 <View style={styles.teams}>
                     {teams.teams.map(team => (
@@ -49,7 +52,7 @@ const Teams = props => {
                     title="לכל הקבוצות"
                     onPress={clickedAllTeams}
                 />
-            </View>
+            </ScrollView>
         )
     )
 };
