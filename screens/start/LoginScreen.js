@@ -38,7 +38,7 @@ const LoginScreen = props => {
     }
 
     return (
-        // <ScrollView keyboardShouldPersistTaps='always'>
+        <ScrollView>
         <View style={PageStyle.container}>
             <Text style={PageStyle.title}>התחברות</Text>
             {tryLoggedin ? <Text>שם המשתמש או הסיסמה אינם נכונים</Text> :
@@ -80,7 +80,7 @@ const LoginScreen = props => {
                 התחבר עם פייסבוק
             </Button>
         </View>
-        // </ScrollView>
+        </ScrollView>
     );
 };
 LoginScreen.navigationOptions = () => {
