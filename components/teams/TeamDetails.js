@@ -1,12 +1,16 @@
 import React, { useEffect, useContext } from 'react';
 import { FlatList, Text, View, StyleSheet, Platform, ScrollView, Alert } from 'react-native';
 import uuid from 'react-native-uuid';
-import { PageStyle, AppStylses, } from '../styles/AppStyles';
+import { PageStyle, AppStyles, } from '../styles/AppStyles';
 import Button from "react-native-button";
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../../components/HeaderButton';
 import { SetToken } from '../../context/SetToken';
 import API from '../../ApiService';
+// import * as Linking from 'expo-linking';
+import * as Linking from 'expo-linking';
+
+
 
 
 
@@ -46,36 +50,33 @@ const TeamDetails = props => {
     };
     useEffect(() => {
         props.navigation.setParams({ remove: removeTeam });
+        //Linking.openURL(`whatsapp://send?text=${Linking.getInitialURL()}&phone=+972525507563`);
+
+
     }, []);
     return (
         <ScrollView>
-            <View>
+            <View style={PageStyle.container}>
                 <Text style={PageStyle.title}>קבוצת {team.name}</Text>
-                <View style={{ alignItems: 'center' }}>
-                    <View style={styles.boxes}>
-                        <Text style={[PageStyle.TextStyle, styles.text]}>שם הקבוצה : {team.name}</Text>
-                        <Text style={PageStyle.TextStyle}>מנהל הקבוצה : {team.admin.user.username}</Text>
-                        <Text style={PageStyle.TextStyle}>סוג הספורט : {team.sport}</Text>
-                        <Text style={PageStyle.TextStyle}>סוג הקבוצה : {team.type}</Text>
-
-                    </View>
+                <View style={styles.boxes}>
+                    <Text style={[PageStyle.TextStyle, styles.text]}>שם הקבוצה : {team.name}</Text>
+                    <Text style={PageStyle.TextStyle}>מנהל הקבוצה : {team.admin.user.username}</Text>
+                    <Text style={PageStyle.TextStyle}>סוג הספורט : {team.sport}</Text>
+                    <Text style={PageStyle.TextStyle}>סוג הקבוצה : {team.type}</Text>
                 </View>
-                {/* <Text>חברי הקבוצה:</Text>
-            {team.members.map(mem => (<Text key={uuid.v4()} >{mem.user.username}</Text>))} */}
-                <View style={PageStyle.buttonStyleView}>
+                <View style={styles.buttonsContainer}>
                     <Button
-                        onPress={teamMessgaesHandler}
-                        containerStyle={PageStyle.buttonStyle}
-                        style={PageStyle.buttonTextStyle}>
+                        containerStyle={styles.navigationContainer}
+                        style={styles.navigationText}
+                        onPress={teamMessgaesHandler}>
                         הודעות הקבוצה
                     </Button>
                     <Button
-                        onPress={teamFriendsHandler}
-                        containerStyle={PageStyle.buttonStyle}
-                        style={PageStyle.buttonTextStyle}>
+                        containerStyle={styles.attendanceContainer}
+                        style={styles.attendanceText}
+                        onPress={teamFriendsHandler}>
                         חברי הקבוצה
                     </Button>
-
                 </View>
             </View>
         </ScrollView>
@@ -85,14 +86,44 @@ const styles = StyleSheet.create({
     boxes: {
         alignItems: 'center',
         backgroundColor: '#e4e6eb',
-        height: "55%",
+        height: 200,
         margin: 16,
         borderRadius: 16,
         width: '80%'
     },
     text: {
         marginTop: "15%"
-    }
+    },
+    buttonsContainer: {
+        // display: 'flex',
+        width: '50%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginRight: '20%'
+
+    },
+    navigationContainer: {
+        width: AppStyles.buttonWidth.main,
+        backgroundColor: AppStyles.color.tint,
+        borderRadius: AppStyles.borderRadius.main,
+        padding: 10,
+        marginTop: 30,
+    },
+    navigationText: {
+        color: AppStyles.color.white,
+    },
+    attendanceContainer: {
+        width: AppStyles.buttonWidth.main,
+        backgroundColor: AppStyles.color.white,
+        borderRadius: AppStyles.borderRadius.main,
+        padding: 10,
+        borderWidth: 1,
+        borderColor: AppStyles.color.tint,
+        marginTop: 30,
+    },
+    attendanceText: {
+        color: AppStyles.color.tint,
+    },
 });
 
 TeamDetails.navigationOptions = (navData) => {
