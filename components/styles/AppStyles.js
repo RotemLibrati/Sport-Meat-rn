@@ -126,8 +126,9 @@ export const InputStyle = StyleSheet.create({
   },
   bodyInput: {
     height: 42,
-    paddingLeft: 20,
-    paddingRight: 20,
+    textAlign: 'center', 
+    // paddingLeft: 20,
+    // paddingRight: 20,
     color: AppStyles.color.text,
   },
 });
@@ -139,7 +140,7 @@ export const DropdownStyle = StyleSheet.create({
   dropdownTextButton: {
     fontSize: 15,
     color: AppStyles.color.grey,
-    textAlign: 'left'
+    textAlign: 'right',
   }
 })
 export const ListStyle = StyleSheet.create({

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Text, View, ScrollView, StyleSheet } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, TextInput } from 'react-native';
 import { SetToken } from '../../context/SetToken';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import SelectDropdown from 'react-native-select-dropdown';
@@ -27,6 +27,7 @@ const CreateNewGame = props => {
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
     const [checked, setChecked] = useState(false);
     const [typeSport, setTypeSport] = useState('');
+    const [limitParticipants, setLimitParticipants] = useState(15);
     const type = Data.typeSport;
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -82,7 +83,7 @@ const CreateNewGame = props => {
                 .then(function (response) {
                     setLocation(response.data);
                     setIsLoadingLoc(false);
-                    
+
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -101,6 +102,7 @@ const CreateNewGame = props => {
         formdata.append("date", date);
         formdata.append("time", time);
         formdata.append("type", typeSport);
+        formdata.append("limitParticipants", limitParticipants);
 
         let requestOptions = {
             method: 'POST',
@@ -117,7 +119,7 @@ const CreateNewGame = props => {
     }
     return (
         <ScrollView>
-            <View style={PageStyle.container}>
+            <View style={[PageStyle.container, { marginBottom: 80}]}>
                 <Text style={PageStyle.title}>פתיחת משחק חדש</Text>
                 <Text style={PageStyle.TextStyle}>בחר תאריך</Text>
                 <View style={styles.buttonStyleView}>
@@ -178,9 +180,7 @@ const CreateNewGame = props => {
                                 return item
                             }}
                         />
-                    </View>
-
-                    :
+                    </View> :
                     (isLoading ? <Loading /> :
                         <View style={InputStyle.inputContainerView}>
                             <SelectDropdown
@@ -201,6 +201,16 @@ const CreateNewGame = props => {
                             />
                         </View>
                     )}
+                <View style={InputStyle.inputContainerView}>
+                    <TextInput
+                        style={styles.bodyInputButton}
+                        placeholder="הגבלת משתתפים"
+                        onChangeText={setLimitParticipants}
+                        value={limitParticipants}
+                        keyboardType="numeric"
+                        placeholderTextColor={AppStyles.color.grey}
+                        underlineColorAndroid="transparent"
+                    /></View>
                 {isLoadingLoc ? <Loading /> :
                     <View style={InputStyle.inputContainerView}>
                         <SelectDropdown
@@ -231,7 +241,6 @@ const CreateNewGame = props => {
             </View>
         </ScrollView>
     );
-
 };
 const styles = StyleSheet.create({
     buttonStyleView: {
@@ -250,8 +259,14 @@ const styles = StyleSheet.create({
     dropdownTextButton: {
         fontSize: 15,
         color: AppStyles.color.grey,
+        // marginLeft: 130,
         textAlign: 'right'
     },
+    bodyInputButton: {
+        height: 42,
+        textAlign: 'center',
+        color: AppStyles.color.text,
+      },
 });
 
 CreateNewGame.navigationOptions = (navData) => {
