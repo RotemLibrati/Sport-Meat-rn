@@ -21,7 +21,7 @@ const MyProfile = props => {
                 </View>
                 <View style={styles.detailContent}>
                     <Text style={styles.title}>Teams</Text>
-                    <Text style={styles.count}>200</Text>
+                    <Text style={styles.count}>{props.countTeams}</Text>
                 </View>
                 <View style={styles.detailContent}>
                     <Text style={styles.title}>Following</Text>

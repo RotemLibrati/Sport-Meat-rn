@@ -13,7 +13,7 @@ const MyProfileScreen = props => {
     const { token, username, editProfile, edit } = useContext(SetToken);
     const [myProfile, setMyProfile] = useState();
     const [isLoading, setIsLoading] = useState(true);
-    const [render, setRender] = useState(false);
+    const [countTeams, setCountTeams] = useState(0);
 
     useEffect(() => {
         props.navigation.addListener('didFocus',
@@ -32,30 +32,39 @@ const MyProfileScreen = props => {
                 .then(function (response) {
                     setMyProfile(response.data);
                     setIsLoading(false);
-                    //editProfile(edit);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+        const fetchCountTeams = async () => {
+            let config = {
+                method: 'get',
+                url: `${API.ipAddress}/count-teams/${username}/`,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            await axios(config)
+                .then(function (response) {
+                    setCountTeams(response.data.teams);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }
         fetchProfile();
+        fetchCountTeams();
     }, []);
-    
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setRender(!render);
-    //     }, 10000);
-    // }, [render]);
     useEffect(() => {
-        if (myProfile) { //check that myProfile is not empty to send to EditProfile component 
+        if (myProfile) { 
             props.navigation.setParams({ profile: myProfile });
         }
     }, [myProfile]);
     return (
         isLoading ? (<Loading />) : (
             <View>
-                <MyProfile profile={myProfile} />
+                <MyProfile profile={myProfile} countTeams={countTeams} />
             </View>
         )
     )
