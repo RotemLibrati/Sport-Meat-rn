@@ -71,6 +71,11 @@ const styles = StyleSheet.create({
         color: AppStyles.color.text,
         textAlign: 'right'
     }
-})
+});
+CreateMessage.navigationOptions = () => {
+    return {
+        headerTitle: 'כתוב הודעה חדשה',
+    }
+}
 
 export default CreateMessage;
