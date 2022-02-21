@@ -221,10 +221,10 @@ const CreateNewGame = props => {
                         />
                     </View>}
             </View>
-            <View style={styles.buttonStyleView}>
+            <View style={PageStyle.buttonStyleView}>
                 <Button
                     onPress={createGameHandler}
-                    containerStyle={styles.buttonStyle}
+                    containerStyle={PageStyle.buttonStyle}
                     style={PageStyle.buttonTextStyle}>
                     סיום
                 </Button>
