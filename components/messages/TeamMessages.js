@@ -1,20 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Text, View, TouchableHighlight, FlatList, StyleSheet, KeyboardAvoidingView, TextInput, Button, ScrollView, Platform } from 'react-native';
+import { Text, View, FlatList, StyleSheet, KeyboardAvoidingView, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { SetToken } from '../../context/SetToken';
 import Loading from '../Loading';
 import API from '../../ApiService';
 import axios from 'axios';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../../components/HeaderButton';
+import { PageStyle } from '../styles/AppStyles';
+import { Button } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
 
 const TeamMessages = props => {
     const team = props.navigation.getParam("team", null);
     const { username, token } = useContext(SetToken);
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [render, setRender] = useState(false);
-    const [subjectMessage, setSubjectMessage] = useState("");
-    const [contextMessage, setContextMessage] = useState("");
+    const [deleteMessage, setDeleteMessage] = useState(true);
+    
     useEffect(() => {
         props.navigation.addListener('didFocus',
             payload => {
@@ -31,7 +33,6 @@ const TeamMessages = props => {
             await axios(config)
                 .then(function (response) {
                     setMessages(response.data);
-                    console.log(response.data);
                     setIsLoading(false);
                 })
                 .catch(function (error) {
@@ -39,7 +40,7 @@ const TeamMessages = props => {
                 });
         };
         fetchTeamMessages();
-    }, []);
+    }, [deleteMessage]);
     const onPressMessage = (item) => {
         props.navigation.navigate("DetailsMessage", { message: item });
     };
@@ -49,38 +50,52 @@ const TeamMessages = props => {
     useEffect(() => {
         props.navigation.setParams({ createMessage: newMessageClicked });
     }, []);
+    const deleteMessageHandler = (messageId) => {
+        var requestOptions = {
+            method: 'DELETE',
+            redirect: 'follow'
+        };
+        fetch(`${API.ipAddress}/delete-message/${messageId}/`, requestOptions)
+            .then( function (response) {
+                response.text();
+                setDeleteMessage(!deleteMessage);
+            }) 
+            .catch(error => console.log('error', error));
+    }
     const renderMessages = ({ item }) => (
-        <TouchableHighlight underlayColor="rgba(73,182,77,0.9)" onPress={() => onPressMessage(item)}>
-            <View>
-                <View style={{ borderWidth: 1 }}>
-                    <View style={{ flexDirection: 'row-reverse', justifyContent: 'flex-start' }}>
-                        <Text style={styles.item}>{item.subject}</Text>
+        <TouchableOpacity
+            onPress={() => onPressMessage(item)}>
+            <View style={styles.messageContainer}>
+                <Text style={styles.subject}>{item.subject}</Text>
+                <View style={styles.contentStyle}>
+                    <View>
                         {item.seen ? <Text></Text> :
-                            <Text style={styles.notseen}>לא נקרא</Text>}
+                            <Text style={styles.unseen}>לא נקרא</Text>}
+                        <Text>מאת: {item.sender.user.username}</Text>
+                        <Text>{item.timestamp}</Text>
                     </View>
-                    <Text>מאת: {item.sender.user.username}</Text>
-
-                    <Text style={styles.date}>{item.timestamp}</Text>
+                    {((team.admin.user.username === username) || (username === item.sender.user.username)) &&
+                        <View>
+                            <Button
+                                onPress={() => deleteMessageHandler(item.id)}
+                                buttonStyle={styles.buttonStyle}
+                                icon={
+                                    <Ionicons
+                                        name="trash-outline"
+                                        size={17}
+                                        color="black" />}
+                            />
+                        </View>}
                 </View>
-
             </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
     );
-
     return (
         isLoading ? (<Loading />) : (
             <View style={styles.container}>
-                <FlatList vertical showsVerticalScrollIndicator={false} numColumns={1} data={messages.messages} renderItem={renderMessages}
-                    keyExtractor={(item) => item.id}
-                />
-                <KeyboardAvoidingView
-                    {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}
-                    style={styles.container}>
-                    <ScrollView style={styles.scrollView}
-                        keyboardDismissMode={"interactive"}
-                    >
-                    </ScrollView>
-                </KeyboardAvoidingView>
+                <Text style={PageStyle.title}>הודעות הקבוצה</Text>
+                <FlatList showsVerticalScrollIndicator={false} numColumns={1} data={messages.messages} renderItem={renderMessages}
+                    keyExtractor={(item) => item.id} />
             </View>
         )
     );
@@ -88,44 +103,30 @@ const TeamMessages = props => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 22,
-        textAlign: 'right',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    item: {
-        padding: 10,
-        fontSize: 18,
-        textAlign: 'right',
-        height: 30
-        //fontWeight: 'bold',
-
+    messageContainer: {
+        borderWidth: 1,
+        width: 410,
+        marginTop: 1
     },
-    seen: {
-        padding: 10,
-        fontSize: 14,
-        height: 44,
-        textAlign: 'right',
-        //fontWeight: 'bold',
+    subject: {
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold'
     },
-    notseen: {
-        padding: 15,
-        fontSize: 14,
-        height: 0.2,
-        textAlign: 'right',
-        fontWeight: 'bold',
+    unseen: {
+        fontWeight: 'bold'
     },
-    date: {
-        fontSize: 14,
-
+    contentStyle: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
-    scrollView: {
-        paddingHorizontal: 20,
-    },
-    input: {
-        marginBottom: 20,
-        borderBottomWidth: 2,
-        borderColor: '#dbdbdb',
-        padding: 10,
-    },
+    buttonStyle: {
+        backgroundColor: 'red',
+        marginRight: 7
+    }
 });
 TeamMessages.navigationOptions = (navData) => {
     return {
@@ -136,6 +137,5 @@ TeamMessages.navigationOptions = (navData) => {
             />
         </HeaderButtons>
     }
-}
-
+};
 export default TeamMessages;
