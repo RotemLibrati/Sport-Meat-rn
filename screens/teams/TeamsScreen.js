@@ -15,7 +15,7 @@ const TeamsScreen = props => {
 TeamsScreen.navigationOptions = (navData) => {
     return {
         headerTitle: "הקבוצות שלי",
-        headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        headerLeft: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
       <Item
         title="Menu"
         iconName="menu"
