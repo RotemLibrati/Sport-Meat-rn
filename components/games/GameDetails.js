@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Linking } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Linking, Alert } from 'react-native';
 import { ButtonGroup } from 'react-native-elements/dist/buttons/ButtonGroup';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../HeaderButton';
@@ -33,6 +33,9 @@ const GameDetails = (props) => {
             var config = {
                 method: 'get',
                 url: `${API.ipAddress}/get-attendance/${username}/${game.id}/`,
+                headers: {
+                    'Authorization': `${auth}`
+                }
             };
             await axios(config)
                 .then(function (response) {
@@ -48,30 +51,35 @@ const GameDetails = (props) => {
         fetchAttendance();
     }, [username, game.id])
     const saveGameDeatilsHandler = async () => {
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${token}`);
+        if (attendances.length < game.limit_participants || selectedIndex != 0) {
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", `Bearer ${token}`);
 
-        var formdata = new FormData();
-        formdata.append("index", selectedIndex);
-        formdata.append("game", game.id);
+            var formdata = new FormData();
+            formdata.append("index", selectedIndex);
+            formdata.append("game", game.id);
 
-        var requestOptions = {
-            method: 'PUT',
-            headers: myHeaders,
-            body: formdata,
-            redirect: 'follow'
-        };
+            var requestOptions = {
+                method: 'PUT',
+                headers: myHeaders,
+                body: formdata,
+                redirect: 'follow'
+            };
 
-        await fetch(`${API.ipAddress}/attendance/${username}/`, requestOptions)
-            .then(function (response) {
-                response.json();
-            })
-            .then(() => {
-                props.navigation.goBack();
-            })
-            .catch(error => console.log('error', error));
+            await fetch(`${API.ipAddress}/attendance/${username}/`, requestOptions)
+                .then(function (response) {
+                    response.json();
+                })
+                .then(() => {
+                    props.navigation.goBack();
+                })
+                .catch(error => console.log('error', error));
+        } else {
+            Alert.alert("משחק זה הגיע לכמות משתתפים מקסימלית")
+        }
 
     };
+    // console.log(attendances);
     useEffect(() => {
         // props.navigation.addListener('didFocus',
         //     payload => {
@@ -96,9 +104,9 @@ const GameDetails = (props) => {
                 });
         };
         fetchAttendancesPlayers();
-    },[])
+    }, [])
     const AttendancesPlayerHandler = () => {
-        props.navigation.navigate("AttendancesPlayers", {'attendance': attendances});
+        props.navigation.navigate("AttendancesPlayers", { 'attendance': attendances });
     }
     useEffect(() => {
         if (username) {
@@ -124,7 +132,8 @@ const GameDetails = (props) => {
                     <Text style={[PageStyle.TextStyle, { marginTop: '15%' }]}>זמן המשחק: {game.event_time}</Text>
                     <Text style={PageStyle.TextStyle}>שם המגרש: {game.location.name}</Text>
                     <Text style={PageStyle.TextStyle}>מיקום המשחק: {game.location.region}</Text>
-                    <Text style={PageStyle.TextStyle}>קבוצה: {game.team.name}</Text>
+                    {!game.team.anonymous && <Text style={PageStyle.TextStyle}>קבוצה: {game.team.name}</Text>}
+                    <Text style={PageStyle.TextStyle}>כמות משתתפים: {game.limit_participants}</Text>
                 </View>
                 <View style={styles.buttonsContainer}>
                     <Button
