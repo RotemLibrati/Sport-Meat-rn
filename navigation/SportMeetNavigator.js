@@ -16,7 +16,9 @@ import FriendsProfileScreen from '../screens/profile/FriendsProfileScreen';
 import PublicGamesScreen from '../screens/games/PublicGamesScreen';
 import CreateMessage from '../components/messages/CreateMessage';
 import AttendancesPlayers from '../screens/games/AttendancesPlayers';
-import { AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
+import NotificationScreen from '../screens/notifications/NotificationScreen';
+import { FontAwesome5, MaterialCommunityIcons, AntDesign, Ionicons, FontAwesome  } from '@expo/vector-icons'; 
+import { AppStyles } from '../components/styles/AppStyles';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -65,6 +67,10 @@ const MainScreenNavigator = createStackNavigator({
 
 });
 
+const NotificationNavigator = createStackNavigator({
+  NotificationScreen: NotificationScreen,
+});
+
 
 
 const ProfileScreenNavigator = createStackNavigator({
@@ -76,19 +82,43 @@ const ProfileScreenNavigator = createStackNavigator({
 const SportMeetTabNavigator = createBottomTabNavigator({
   Main: {
     screen: MainScreenNavigator, navigationOptions: {
-      tabBarLabel: <Text>ראשי</Text>
+      tabBarIcon: ({ focused }) => {
+        return (<MaterialCommunityIcons name="home-outline" size={30}  color={focused ? AppStyles.color.tint : 'black'} />);
+      },
+      tabBarLabel: <Text>ראשי</Text>,
+    },
+  },
+  Notification: {
+    screen: NotificationNavigator, navigationOptions: {
+      tabBarIcon: ({ focused }) => {
+        return (<Ionicons name="notifications-circle-outline" size={30} color={focused ? AppStyles.color.tint : 'black'} />);
+      },
+      tabBarLabel: <Text>התראות</Text>
     },
   },
   Profile: {
     screen: ProfileScreenNavigator, navigationOptions: {
-      tabBarIcon: (tabInfo) => {
-        return (<AntDesign name="profile" size={24} />);
+      tabBarIcon: ({ focused }) => {
+        return (<FontAwesome5 name="user-circle" size={24}  color={focused ? AppStyles.color.tint : 'black'} />);
       },
+      tabBarLabel: <Text>פרופיל</Text>,
 
-      tabBarLabel: <Text>פרופיל</Text>
     },
 
+
+
   },
+  // tabBarOptions: {
+  //   labelPosition: 'below-icon',
+  //   activeTintColor: '#E8AA65',
+  //   inactiveTintColor: '#58585A',
+  //   fontSize: 50,
+  //   style: {
+  //     height: 50,
+  //     backgroundColor: '#3B3B3B',
+  //   }
+  // },
+
 
 });
 
@@ -107,7 +137,7 @@ const MainNavigation = createDrawerNavigator({
   Main: {
     screen: MainScreenNavigator, navigationOptions: {
       drawerLabel: 'ראשי',
-      drawerIcon: <Ionicons name="ios-home-outline" size={24} color="black" />
+      drawerIcon: <MaterialCommunityIcons name="home-outline" size={30} />
     }
   },
   Profile: {
@@ -127,7 +157,7 @@ const MainNavigation = createDrawerNavigator({
 },
   {
     contentOptions: {
-      activeTintColor: 'orange',
+      activeTintColor: AppStyles.color.tint,
     }
   }
 
