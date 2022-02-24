@@ -33,4 +33,10 @@ const styles = StyleSheet.create({
     //     backgroundColor: 'black '
     // }
 });
+
+Notification.navigationOptions = (navData) => {
+    return {
+        headerTitle: 'התראות',
+    }
+};
 export default Notification;

@@ -52,7 +52,7 @@ const NotificationScreen = (props) => {
     }, []);
     return (
         isLoading ? (<Loading />) : (
-            <ScrollView>
+            <ScrollView> 
                 <View style={PageStyle.container}>
                     {notification.notification.map(noti => (
                         <Notification key={noti.id} notification={noti} />

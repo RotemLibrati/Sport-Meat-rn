@@ -1,18 +1,17 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Text, View, StyleSheet, FlatList, TextInput } from 'react-native';
+import { View, StyleSheet, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import API from '../../ApiService';
 import { SetToken } from '../../context/SetToken';
 import Loading from '../Loading';
 import { ListItem } from 'react-native-elements';
+import { AppStyles } from '../styles/AppStyles';
 
-const PublicGames = () => {
-    const { token, username } = useContext(SetToken);
+const PublicGames = (props) => {
+    const { token } = useContext(SetToken);
     const [filterData, setFilterData] = useState([]);
     const [masterData, setMasterData] = useState([]);
     const [search, setSearch] = useState('');
-
-    const [games, setGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         var config = {
@@ -38,10 +37,10 @@ const PublicGames = () => {
     const searchFilter = (text) => {
         if (text) {
             const newData = masterData.filter((item) => {
-                const itemData = item.location.region ? item.location.region.toUpperCase() 
-                : ''.toUpperCase();
-                const itemData2 = item.team.name ? item.team.name.toUpperCase() 
-                : ''.toUpperCase();
+                const itemData = item.location.region ? item.location.region.toUpperCase()
+                    : ''.toUpperCase();
+                const itemData2 = item.team.name ? item.team.name.toUpperCase()
+                    : ''.toUpperCase();
                 const textData = text.toUpperCase();
                 const textData2 = text.toUpperCase();
                 return itemData.indexOf(textData) > -1 || itemData2.indexOf(textData2) > -1;
@@ -53,27 +52,32 @@ const PublicGames = () => {
             setFilterData(masterData);
             setSearch(text);
         }
+    };
+    const pressGameHandler = (game) => {
+        props.navigation.navigate("GameDetails", {'game': game});
     }
 
     const ItemView = ({ item }) => {
-        console.log({ item });
         return (
-            <ListItem bottomDivider>
-                <ListItem.Content>
-                    <ListItem.Title
-                    >{item.team.name}</ListItem.Title>
-                    <ListItem.Subtitle
-                    >{item.location.region}</ListItem.Subtitle>
-                    <ListItem.Subtitle
-                    >{item.event_time}</ListItem.Subtitle>
-                </ListItem.Content>
-            </ListItem>
+            <TouchableOpacity onPress={() => pressGameHandler(item)}>
+                <ListItem bottomDivider>
+                    <ListItem.Content>
+                        <ListItem.Title
+                        >{item.team.name}</ListItem.Title>
+                        <ListItem.Subtitle
+                        >{item.location.region}</ListItem.Subtitle>
+                        <ListItem.Subtitle
+                        >{item.event_time}</ListItem.Subtitle>
+                    </ListItem.Content>
+                </ListItem>
+            </TouchableOpacity>
+
         )
     };
     const ItemSeparatorView = () => {
         return (
             <View
-                style={{ height: 0.5, width: '100%', backgroundColor: '#c8c8c8' }}
+                style={{ height: 0.5, width: '100%', backgroundColor: AppStyles.color.tint }}
             />
 
         )
@@ -81,13 +85,13 @@ const PublicGames = () => {
     return (
         isLoading ? (<Loading />) : (
             <View>
-                <TextInput 
+                <TextInput
                     style={styles.textInputStyle}
                     value={search}
                     placeholder="חיפוש משחק"
                     underlineColorAndroid="transparent"
                     onChangeText={(text) => searchFilter(text)}
-                    
+
                 />
                 <FlatList
                     data={filterData}
@@ -108,8 +112,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingLeft: 20,
         margin: 5,
-        borderColor: '#009688',
-        backgroundColor: 'white'
+        borderColor: AppStyles.color.tint,
+        backgroundColor: 'white',
+        textAlign: 'right',
     }
 });
 
