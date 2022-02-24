@@ -80,7 +80,7 @@ export const PageStyle = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     marginBottom: 150,
   },
   title: {
