@@ -112,7 +112,8 @@ export const PageStyle = StyleSheet.create({
   TextStyle: {
     fontSize: 20,
     fontFamily: "Cochin",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    color: AppStyles.color.grey,
   }
 });
 export const InputStyle = StyleSheet.create({
