@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text } from 'react-native';
+import { Badge } from 'react-native-elements';
 import CreateNewGame from '../screens/games/CreateNewGame';
 import MainScreen from '../screens/MainScreen';
 import GamesScreen from '../screens/games/GamesScreen';
@@ -17,26 +18,41 @@ import PublicGamesScreen from '../screens/games/PublicGamesScreen';
 import CreateMessage from '../components/messages/CreateMessage';
 import AttendancesPlayers from '../screens/games/AttendancesPlayers';
 import NotificationScreen from '../screens/notifications/NotificationScreen';
-import { FontAwesome5, MaterialCommunityIcons, AntDesign, Ionicons, FontAwesome  } from '@expo/vector-icons'; 
+import { FontAwesome5, MaterialCommunityIcons, AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { AppStyles } from '../components/styles/AppStyles';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator } from 'react-navigation-drawer';
-import { SetToken } from '../context/SetToken';
+
+
 
 // const SportMeetNavigator = () => {
-//   const { token } = useContext(SetToken);
-//   console.log("Token");
-//   return;
-// };
+//   const [notification, setNotification] = useState(0);
+//   useEffect(() => {
+//     const fetchNotifiactions = async () => {
+//       var config = {
+//         method: 'get',
+//         url: `${API.ipAddress}/amount-notification/${username}/`,
+//         headers: {
+//           'Authorization': `Bearer ${token}`
+//         }
+//       };
+  
+//       await axios(config)
+//         .then(function (response) {
+//           setNotification(response.data);
+//           console.log(notification)
+//           // setIsLoading(false);
+//         })
+//         .catch(function (error) {
+//           console.log(error);
+//         });
+//     };
+//     fetchNotifiactions();
+//   });
+// }
 
-
-// const EnterNavigator = createStackNavigator({
-//   StartScreen: StartScreen,
-//   RegisterScreen: RegisterScreen,
-//   LoginScreen: LoginScreen,
-// });
 const TeamScreen = createStackNavigator({
   TeamScreen: TeamsScreen,
   TeamDetails: TeamDetails,
@@ -83,7 +99,7 @@ const SportMeetTabNavigator = createBottomTabNavigator({
   Main: {
     screen: MainScreenNavigator, navigationOptions: {
       tabBarIcon: ({ focused }) => {
-        return (<MaterialCommunityIcons name="home-outline" size={30}  color={focused ? AppStyles.color.tint : 'black'} />);
+        return (<MaterialCommunityIcons name="home-outline" size={30} color={focused ? AppStyles.color.tint : 'black'} />);
       },
       tabBarLabel: <Text>ראשי</Text>,
     },
@@ -91,7 +107,12 @@ const SportMeetTabNavigator = createBottomTabNavigator({
   Notification: {
     screen: NotificationNavigator, navigationOptions: {
       tabBarIcon: ({ focused }) => {
-        return (<Ionicons name="notifications-circle-outline" size={30} color={focused ? AppStyles.color.tint : 'black'} />);
+        return (
+          <React.Fragment>
+            <Ionicons name="notifications-circle-outline" size={30} color={focused ? AppStyles.color.tint : 'black'} />
+            {/* {<Badge value={SportMeetNavigator.notification} status="error" containerStyle={{ position: 'absolute', left: 75, top: -1 }} />} */}
+          </React.Fragment>
+        );
       },
       tabBarLabel: <Text>התראות</Text>
     },
@@ -99,7 +120,7 @@ const SportMeetTabNavigator = createBottomTabNavigator({
   Profile: {
     screen: ProfileScreenNavigator, navigationOptions: {
       tabBarIcon: ({ focused }) => {
-        return (<FontAwesome5 name="user-circle" size={24}  color={focused ? AppStyles.color.tint : 'black'} />);
+        return (<FontAwesome5 name="user-circle" size={24} color={focused ? AppStyles.color.tint : 'black'} />);
       },
       tabBarLabel: <Text>פרופיל</Text>,
 
@@ -108,29 +129,9 @@ const SportMeetTabNavigator = createBottomTabNavigator({
 
 
   },
-  // tabBarOptions: {
-  //   labelPosition: 'below-icon',
-  //   activeTintColor: '#E8AA65',
-  //   inactiveTintColor: '#58585A',
-  //   fontSize: 50,
-  //   style: {
-  //     height: 50,
-  //     backgroundColor: '#3B3B3B',
-  //   }
-  // },
-
-
 });
 
 const MainNavigation = createDrawerNavigator({
-  // ...(token = useContext(SetToken)),
-  // Enter: {
-  //   screen: EnterNavigator, navigationOptions: {
-  //     // drawerLabel: token ? 'התנתקות' : 'כניסה',
-  //     // drawerLabel: 'כניסה',
-  //     // drawerIcon: <Ionicons name="enter-outline" size={24} color="black" />
-  //   }
-  // },
   SportMeet: {
     screen: SportMeetTabNavigator
   },

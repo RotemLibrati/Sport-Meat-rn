@@ -42,7 +42,7 @@ const MainScreen = props => {
 MainScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "ראשי",
-    headerLeft: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+    headerLeft: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
       <Item
         title="Menu"
         iconName="menu"

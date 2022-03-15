@@ -115,7 +115,7 @@ EditProfile.navigationOptions = (navData) => {
         tabBarOptions: {
             activeTintColor: 'white'
         },
-        headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        headerRight: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item title="Save" iconName="save"
                 onPress={navData.navigation.getParam('save')}
             color="black"

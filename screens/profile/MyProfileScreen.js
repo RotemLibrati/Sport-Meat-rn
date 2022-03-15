@@ -79,7 +79,7 @@ MyProfileScreen.navigationOptions = (navData) => {
         tabBarOptions: {
             activeTintColor: 'white'
         },
-        headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        headerRight: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item title="Edit" iconName="edit"
                 onPress={() => navData.navigation.navigate("EditProfile", {
                     profile: navData.navigation.getParam('profile'),
@@ -89,7 +89,7 @@ MyProfileScreen.navigationOptions = (navData) => {
 
             />
         </HeaderButtons>,
-        headerLeft: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        headerLeft: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item
                 title="Menu"
                 iconName="menu"

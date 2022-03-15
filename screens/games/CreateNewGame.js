@@ -26,7 +26,7 @@ const CreateNewGame = props => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
     const [checked, setChecked] = useState(false);
-    const [typeSport, setTypeSport] = useState('');
+    const [typeSport, setTypeSport] = useState();
     const [limitParticipants, setLimitParticipants] = useState(15);
     const type = Data.typeSport;
     const showDatePicker = () => {

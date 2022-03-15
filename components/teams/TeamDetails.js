@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
 TeamDetails.navigationOptions = (navData) => {
     return {
         headerTitle: 'פרטי הקבוצה',
-        headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        headerRight: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item title="Delete" iconName="trash"
                 onPress={navData.navigation.getParam('remove')}
             />

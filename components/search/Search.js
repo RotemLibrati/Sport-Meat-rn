@@ -25,19 +25,11 @@ const Search = (props) => {
     }
     return (
         <View>
-            {/* <TextInput
-                style={styles.textInput}
-                placeholder="Search"
-                placeholderTextColor='white'
-                onChangeText={onSearch}
-
-            /> */}
             <SearchBar round
                 searchIcon={{ size: 24 }}
                 placeholder="חיפוש"
                 style={styles.textInput}
             />
-
         </View>
     );
 }
