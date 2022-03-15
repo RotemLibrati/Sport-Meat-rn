@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { FlatList, Text, View, StyleSheet, Platform, ScrollView, Alert } from 'react-native';
-import uuid from 'react-native-uuid';
+import { Text, View, StyleSheet, ScrollView, Alert } from 'react-native';
 import { PageStyle, AppStyles, } from '../styles/AppStyles';
 import Button from "react-native-button";
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -9,9 +8,6 @@ import { SetToken } from '../../context/SetToken';
 import API from '../../ApiService';
 // import * as Linking from 'expo-linking';
 import * as Linking from 'expo-linking';
-
-
-
 
 
 const TeamDetails = props => {
@@ -45,14 +41,15 @@ const TeamDetails = props => {
             })
             .catch(error => console.log('error', error));
 
-
+            
 
     };
+    const editTeam = () => {
+        props.navigation.navigate("EditTeam", { team: team });
+    }
     useEffect(() => {
-        props.navigation.setParams({ remove: removeTeam });
+        props.navigation.setParams({ remove: removeTeam, edit: editTeam });
         //Linking.openURL(`whatsapp://send?text=${Linking.getInitialURL()}&phone=+972525507563`);
-
-
     }, []);
     return (
         <ScrollView>
@@ -132,6 +129,9 @@ TeamDetails.navigationOptions = (navData) => {
         headerRight: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item title="Delete" iconName="trash"
                 onPress={navData.navigation.getParam('remove')}
+            />
+            <Item title="Edit" iconName="edit"
+                onPress={navData.navigation.getParam('edit')}
             />
         </HeaderButtons>
 

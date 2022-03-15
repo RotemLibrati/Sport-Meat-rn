@@ -18,12 +18,14 @@ import PublicGamesScreen from '../screens/games/PublicGamesScreen';
 import CreateMessage from '../components/messages/CreateMessage';
 import AttendancesPlayers from '../screens/games/AttendancesPlayers';
 import NotificationScreen from '../screens/notifications/NotificationScreen';
+import EditTeam from '../screens/teams/EditTeam';
 import { FontAwesome5, MaterialCommunityIcons, AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { AppStyles } from '../components/styles/AppStyles';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator } from 'react-navigation-drawer';
+
 
 
 
@@ -61,7 +63,8 @@ const TeamScreen = createStackNavigator({
   CreateMessage: CreateMessage,
   TeamFriends: TeamFriends,
   DetailsMessage: DetailsMessage,
-  FriendsProfileScreen: FriendsProfileScreen
+  FriendsProfileScreen: FriendsProfileScreen,
+  EditTeam: EditTeam
 
 });
 
@@ -79,7 +82,8 @@ const MainScreenNavigator = createStackNavigator({
   DetailsMessage: DetailsMessage,
   CreateNewTeam: CreateNewTeam,
   CreateNewGame: CreateNewGame,
-  PublicGamesScreen: PublicGamesScreen
+  PublicGamesScreen: PublicGamesScreen,
+  EditTeam: EditTeam
 
 });
 
