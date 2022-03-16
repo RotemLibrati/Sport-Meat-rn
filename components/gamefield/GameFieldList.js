@@ -51,11 +51,13 @@ const GameFieldList = props => {
 
         fetch(`${API.ipAddress}/create-game`,
             requestOptions)
-            .then(function() {
-                Alert.alert("יצרת משחק חדש");
-            })
-            .then(() => {
-                props.navigation.popToTop();
+            .then(function () {
+                if (item.availability.includes("תשלום")) {
+                    props.navigation.navigate("PaymentScreen", {date: props.date, time: props.time, location: item.name});
+                } else {
+                    Alert.alert("יצרת משחק חדש");
+                    props.navigation.popToTop();
+                }
             })
             .catch(error => console.log(error));
     }
@@ -66,7 +68,7 @@ const GameFieldList = props => {
                     <ListItem.Content>
                         <ListItem.Title
                         >{item.name}</ListItem.Title>
-                        <ListItem.Subtitle 
+                        <ListItem.Subtitle
                         >{item.street}</ListItem.Subtitle>
                         <ListItem.Subtitle
                         >{item.region}</ListItem.Subtitle>

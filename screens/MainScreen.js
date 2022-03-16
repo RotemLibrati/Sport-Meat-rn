@@ -4,7 +4,6 @@ import RecentGame from "../components/games/RecentGame";
 import RecentTeams from "../components/teams/RecentTeams";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../components/HeaderButton";
-import PublicGamesScreen from "./games/PublicGamesScreen";
 import { SetToken } from "../context/SetToken";
 import { PageStyle, AppStyles } from "../components/styles/AppStyles";
 import Button from "react-native-button";
