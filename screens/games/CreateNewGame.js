@@ -21,10 +21,14 @@ const CreateNewGame = props => {
     const [selectedLocation, setSelectedLocation] = useState();
     const [isLoadingLoc, setIsLoadingLoc] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
+    const [city, setCity] = useState('');
+    const [importCity, setImportCity] = useState();
+    const [isImport, setIsImport] = useState(false);
     const [date, setDate] = useState(new Date().toLocaleString('he-IL', { dateStyle: "short" }));
     const [time, setTime] = useState(new Date().toLocaleString('he-IL', { timeStyle: "short" }));
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+    const [cityDoesntExist, setCityDoesntExist] = useState(false);
     const [checked, setChecked] = useState(false);
     const [typeSport, setTypeSport] = useState();
     const [limitParticipants, setLimitParticipants] = useState(15);
@@ -90,36 +94,59 @@ const CreateNewGame = props => {
                 });
         };
         fetchTeams();
-        console.log(location);
     }, []);
-    const createGameHandler = () => {
-        let myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${token}`);
-        //myHeaders.append("Content-Type", "application/json");
-        let formdata = new FormData();
-        formdata.append("team", selectedTeam);
-        formdata.append("location", selectedLocation);
-        formdata.append("date", date);
-        formdata.append("time", time);
-        formdata.append("type", typeSport);
-        formdata.append("limitParticipants", limitParticipants);
-
-        let requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: formdata,
-            redirect: 'follow'
+    const setCityHandler = () => {
+        const fetchCity = async () => {
+            let config = {
+                method: 'get',
+                url: `${API.ipAddress}/city/${city}`,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            await axios(config)
+                .then(function (response) {
+                    response.data.length > 0 ? createGameHandler() : setCityDoesntExist(true)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         };
+        fetchCity();
+    }
+    const createGameHandler = () => {
+        props.navigation.navigate("CreateNewGamePage2", {
+            date: date, team: selectedTeam, time: time, type: typeSport,
+            limitParticipants: limitParticipants, city: city
+        });
+        //כל ההערות בפונקציה זו להעביר לדף הבא, ולהעביר נתונים לבצע בקשת פוסט כדי לפתוח משחק חדש בדף הבא
+        // let myHeaders = new Headers();
+        // myHeaders.append("Authorization", `Bearer ${token}`);
+        // //myHeaders.append("Content-Type", "application/json");
+        // let formdata = new FormData();
+        // formdata.append("team", selectedTeam);
+        // // formdata.append("location", selectedLocation);
+        // formdata.append("date", date);
+        // formdata.append("time", time);
+        // formdata.append("type", typeSport);
+        // formdata.append("limitParticipants", limitParticipants);
 
-        fetch(`${API.ipAddress}/create-game`,
-            requestOptions)
-            .then(res => res.text())
-            .catch(error => console.log(error))
-        props.navigation.goBack()
+        // let requestOptions = {
+        //     method: 'POST',
+        //     headers: myHeaders,
+        //     body: formdata,
+        //     redirect: 'follow'
+        // };
+
+        // fetch(`${API.ipAddress}/create-game`,
+        //     requestOptions)
+        //     .then(res => console.log(res.text()))
+        //     .catch(error => console.log(error))
+        // props.navigation.goBack()
     }
     return (
         <ScrollView>
-            <View style={[PageStyle.container, { marginBottom: 80}]}>
+            <View style={[PageStyle.container, { marginBottom: 80 }]}>
                 <Text style={PageStyle.title}>פתיחת משחק חדש</Text>
                 <Text style={PageStyle.TextStyle}>בחר תאריך</Text>
                 <View style={styles.buttonStyleView}>
@@ -211,7 +238,17 @@ const CreateNewGame = props => {
                         placeholderTextColor={AppStyles.color.grey}
                         underlineColorAndroid="transparent"
                     /></View>
-                {isLoadingLoc ? <Loading /> :
+                <View style={InputStyle.inputContainerView}>
+                    <TextInput
+                        style={styles.bodyInputButton}
+                        placeholder="בחר עיר"
+                        onChangeText={setCity}
+                        value={city}
+                        placeholderTextColor={AppStyles.color.grey}
+                        underlineColorAndroid="transparent"
+                    /></View>
+
+                {/* {isLoadingLoc ? <Loading /> :
                     <View style={InputStyle.inputContainerView}>
                         <SelectDropdown
                             buttonStyle={DropdownStyle.dropdownButton}
@@ -229,16 +266,27 @@ const CreateNewGame = props => {
                             }}
                             disableAutoScroll={true}
                         />
-                    </View>}
+                    </View>} */}
             </View>
+
             <View style={PageStyle.buttonStyleView}>
+                {cityDoesntExist && <Text>עיר לא קיימת</Text>}
+                <Button
+                    disabled={city ? false : true}
+                    onPress={setCityHandler}
+                    containerStyle={PageStyle.buttonStyle}
+                    style={PageStyle.buttonTextStyle}>
+                    לחץ לבחירת מגרש
+                </Button>
+            </View>
+            {/* <View style={[PageStyle.buttonStyleView, {marginTop: -120}]}>
                 <Button
                     onPress={createGameHandler}
                     containerStyle={PageStyle.buttonStyle}
                     style={PageStyle.buttonTextStyle}>
                     סיום
                 </Button>
-            </View>
+            </View> */}
         </ScrollView>
     );
 };
@@ -266,7 +314,7 @@ const styles = StyleSheet.create({
         height: 42,
         textAlign: 'center',
         color: AppStyles.color.text,
-      },
+    },
 });
 
 CreateNewGame.navigationOptions = (navData) => {
