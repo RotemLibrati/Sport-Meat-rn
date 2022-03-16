@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Text } from 'react-native';
-import { Badge } from 'react-native-elements';
 import CreateNewGame from '../screens/games/CreateNewGame';
 import MainScreen from '../screens/MainScreen';
 import GamesScreen from '../screens/games/GamesScreen';
@@ -22,7 +21,8 @@ import EditTeam from '../screens/teams/EditTeam';
 import GameFieldList from '../components/gamefield/GameFieldList';
 import CreateNewGamePage2 from '../screens/games/CreateNewGamePage2';
 import PaymentScreen from '../screens/payment/PaymentScreen';
-import { FontAwesome5, MaterialCommunityIcons, AntDesign, Ionicons, FontAwesome } from '@expo/vector-icons';
+import TermsScreen from '../screens/terms/TermsScreen';
+import { FontAwesome5, MaterialCommunityIcons, AntDesign, Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { AppStyles } from '../components/styles/AppStyles';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -100,6 +100,9 @@ const MainScreenNavigator = createStackNavigator({
 const NotificationNavigator = createStackNavigator({
   NotificationScreen: NotificationScreen,
 });
+const TermsNavigator = createStackNavigator({
+  TermsScreen: TermsScreen,
+});
 
 
 
@@ -124,7 +127,6 @@ const SportMeetTabNavigator = createBottomTabNavigator({
         return (
           <React.Fragment>
             <Ionicons name="notifications-circle-outline" size={30} color={focused ? AppStyles.color.tint : 'black'} />
-            {/* {<Badge value={SportMeetNavigator.notification} status="error" containerStyle={{ position: 'absolute', left: 75, top: -1 }} />} */}
           </React.Fragment>
         );
       },
@@ -167,7 +169,12 @@ const MainNavigation = createDrawerNavigator({
       drawerLabel: 'הקבוצות שלי',
       drawerIcon: <FontAwesome name="group" size={24} color="black" />,
     }
-
+  },
+  TermsScreen: {
+    screen: TermsScreen, navigationOptions: {
+      drawerLabel: 'תקנון',
+      drawerIcon: <MaterialIcons name="rule" size={24} color="black" />
+    }
   }
 },
   {
