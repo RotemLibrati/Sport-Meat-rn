@@ -215,7 +215,7 @@ GameDetails.navigationOptions = (navData) => {
     if (username == admin) {
         return {
             headerTitle: "פרטי משחק",
-            headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+            headerRight: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item title="Edit" iconName="edit"
                     onPress={() => navData.navigation.navigate("EditProfile", {
                         profile: navData.navigation.getParam('profile'),
@@ -231,7 +231,7 @@ GameDetails.navigationOptions = (navData) => {
     } else {
         return {
             headerTitle: "פרטי משחק",
-            headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+            headerRight: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item title="Save" iconName="save"
                     onPress={navData.navigation.getParam('save')}
                 />
