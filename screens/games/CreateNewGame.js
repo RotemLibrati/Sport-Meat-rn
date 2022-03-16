@@ -18,12 +18,9 @@ const CreateNewGame = props => {
     const [teams, setTeams] = useState();
     const [location, setLocation] = useState();
     const [selectedTeam, setSelectedTeam] = useState();
-    const [selectedLocation, setSelectedLocation] = useState();
     const [isLoadingLoc, setIsLoadingLoc] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     const [city, setCity] = useState('');
-    const [importCity, setImportCity] = useState();
-    const [isImport, setIsImport] = useState(false);
     const [date, setDate] = useState(new Date().toLocaleString('he-IL', { dateStyle: "short" }));
     const [time, setTime] = useState(new Date().toLocaleString('he-IL', { timeStyle: "short" }));
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -119,30 +116,6 @@ const CreateNewGame = props => {
             date: date, team: selectedTeam, time: time, type: typeSport,
             limitParticipants: limitParticipants, city: city
         });
-        //כל ההערות בפונקציה זו להעביר לדף הבא, ולהעביר נתונים לבצע בקשת פוסט כדי לפתוח משחק חדש בדף הבא
-        // let myHeaders = new Headers();
-        // myHeaders.append("Authorization", `Bearer ${token}`);
-        // //myHeaders.append("Content-Type", "application/json");
-        // let formdata = new FormData();
-        // formdata.append("team", selectedTeam);
-        // // formdata.append("location", selectedLocation);
-        // formdata.append("date", date);
-        // formdata.append("time", time);
-        // formdata.append("type", typeSport);
-        // formdata.append("limitParticipants", limitParticipants);
-
-        // let requestOptions = {
-        //     method: 'POST',
-        //     headers: myHeaders,
-        //     body: formdata,
-        //     redirect: 'follow'
-        // };
-
-        // fetch(`${API.ipAddress}/create-game`,
-        //     requestOptions)
-        //     .then(res => console.log(res.text()))
-        //     .catch(error => console.log(error))
-        // props.navigation.goBack()
     }
     return (
         <ScrollView>
@@ -247,26 +220,6 @@ const CreateNewGame = props => {
                         placeholderTextColor={AppStyles.color.grey}
                         underlineColorAndroid="transparent"
                     /></View>
-
-                {/* {isLoadingLoc ? <Loading /> :
-                    <View style={InputStyle.inputContainerView}>
-                        <SelectDropdown
-                            buttonStyle={DropdownStyle.dropdownButton}
-                            buttonTextStyle={styles.dropdownTextButton}
-                            defaultButtonText="מיקום"
-                            data={location.locations.map(loc => loc.name)}
-                            onSelect={(selectedItem, index) => {
-                                setSelectedLocation(location.locations[index].id);
-                            }}
-                            buttonTextAfterSelection={(selectedItem, index) => {
-                                return selectedItem
-                            }}
-                            rowTextForSelection={(item, index) => {
-                                return item
-                            }}
-                            disableAutoScroll={true}
-                        />
-                    </View>} */}
             </View>
 
             <View style={PageStyle.buttonStyleView}>
@@ -279,14 +232,6 @@ const CreateNewGame = props => {
                     לחץ לבחירת מגרש
                 </Button>
             </View>
-            {/* <View style={[PageStyle.buttonStyleView, {marginTop: -120}]}>
-                <Button
-                    onPress={createGameHandler}
-                    containerStyle={PageStyle.buttonStyle}
-                    style={PageStyle.buttonTextStyle}>
-                    סיום
-                </Button>
-            </View> */}
         </ScrollView>
     );
 };
