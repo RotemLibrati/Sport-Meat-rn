@@ -22,6 +22,7 @@ import GameFieldList from '../components/gamefield/GameFieldList';
 import CreateNewGamePage2 from '../screens/games/CreateNewGamePage2';
 import PaymentScreen from '../screens/payment/PaymentScreen';
 import TermsScreen from '../screens/terms/TermsScreen';
+import LogoutScreen from '../screens/logout/LogoutScreen';
 import { FontAwesome5, MaterialCommunityIcons, AntDesign, Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { AppStyles } from '../components/styles/AppStyles';
 import { createAppContainer } from 'react-navigation';
@@ -30,33 +31,6 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 
 
-
-
-// const SportMeetNavigator = () => {
-//   const [notification, setNotification] = useState(0);
-//   useEffect(() => {
-//     const fetchNotifiactions = async () => {
-//       var config = {
-//         method: 'get',
-//         url: `${API.ipAddress}/amount-notification/${username}/`,
-//         headers: {
-//           'Authorization': `Bearer ${token}`
-//         }
-//       };
-  
-//       await axios(config)
-//         .then(function (response) {
-//           setNotification(response.data);
-//           console.log(notification)
-//           // setIsLoading(false);
-//         })
-//         .catch(function (error) {
-//           console.log(error);
-//         });
-//     };
-//     fetchNotifiactions();
-//   });
-// }
 
 const TeamScreen = createStackNavigator({
   TeamScreen: TeamsScreen,
@@ -71,6 +45,9 @@ const TeamScreen = createStackNavigator({
   CreateNewGamePage2: CreateNewGamePage2,
   GameFieldList: GameFieldList,
   PaymentScreen: PaymentScreen,
+  TermsScreen: TermsScreen,
+  LogoutScreen: LogoutScreen,
+  
 
 });
 
@@ -92,7 +69,9 @@ const MainScreenNavigator = createStackNavigator({
   EditTeam: EditTeam,
   CreateNewGamePage2: CreateNewGamePage2,
   GameFieldList: GameFieldList,
-  PaymentScreen: PaymentScreen
+  PaymentScreen: PaymentScreen,
+  TermsScreen: TermsScreen,
+  LogoutScreen: LogoutScreen,
   
 
 });
@@ -102,6 +81,9 @@ const NotificationNavigator = createStackNavigator({
 });
 const TermsNavigator = createStackNavigator({
   TermsScreen: TermsScreen,
+});
+const LogoutNavigator = createStackNavigator({
+  LogoutScreen: LogoutScreen,
 });
 
 
@@ -171,11 +153,17 @@ const MainNavigation = createDrawerNavigator({
     }
   },
   TermsScreen: {
-    screen: TermsScreen, navigationOptions: {
+    screen: TermsNavigator, navigationOptions: {
       drawerLabel: 'תקנון',
       drawerIcon: <MaterialIcons name="rule" size={24} color="black" />
     }
-  }
+  },
+  LogoutScreen: {
+    screen: LogoutNavigator, navigationOptions: {
+      drawerLabel: 'התנתק',
+      drawerIcon: <MaterialCommunityIcons name="logout" size={24} color="black" />
+    }
+  },
 },
   {
     contentOptions: {
