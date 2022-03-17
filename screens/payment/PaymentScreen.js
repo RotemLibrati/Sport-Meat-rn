@@ -86,6 +86,6 @@ export default class PaymentScreen extends Component {
 
 PaymentScreen.navigationOptions = () => {
     return {
-        headerTitle: "הפרופיל שלי"
+        headerTitle: "תשלום משחק"
     }
 }
