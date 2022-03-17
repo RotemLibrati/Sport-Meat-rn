@@ -10,8 +10,6 @@ const GameFieldList = props => {
     const [search, setSearch] = useState('');
     const [filterData, setFilterData] = useState(props.gameField);
     const [masterData, setMasterData] = useState(props.gameField);
-    console.log(filterData);
-    console.log(masterData);
     const searchFilter = (text) => {
         if (text) {
             const newData = masterData.filter((item) => {

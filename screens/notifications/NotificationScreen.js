@@ -26,7 +26,6 @@ const NotificationScreen = (props) => {
             };
             await axios(config)
                 .then(function (response) {
-                    console.log(response.data);
                     setNotification(response.data);
                     setIsLoading(false);
                 })
