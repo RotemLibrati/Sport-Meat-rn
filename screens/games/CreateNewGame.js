@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Text, View, ScrollView, StyleSheet, TextInput } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, TextInput, Platform } from 'react-native';
 import { SetToken } from '../../context/SetToken';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import SelectDropdown from 'react-native-select-dropdown';
@@ -50,7 +50,6 @@ const CreateNewGame = props => {
         setTime(time.toLocaleString("he-IL", { timeStyle: "short" }));
         hideTimePicker();
     };
-    console.log()
     useEffect(() => {
         const fetchTeams = async () => {
             let config = {
@@ -121,38 +120,60 @@ const CreateNewGame = props => {
         <ScrollView>
             <View style={[PageStyle.container, { marginBottom: 80 }]}>
                 <Text style={PageStyle.title}>פתיחת משחק חדש</Text>
-                <Text style={PageStyle.TextStyle}>בחר תאריך</Text>
-                <View style={styles.buttonStyleView}>
-                    <Button
-                        onPress={showDatePicker}
-                        containerStyle={styles.buttonStyle}
-                        style={PageStyle.buttonTextStyle}>
-                        {date}
-                    </Button>
-                </View>
-                <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="date"
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker}
-                    minimumDate={new Date()}
-                />
-                <Text style={PageStyle.TextStyle}>בחר שעה</Text>
-                <View style={styles.buttonStyleView}>
-                    <Button
-                        onPress={showTimePicker}
-                        containerStyle={styles.buttonStyle}
-                        style={PageStyle.buttonTextStyle}>
-                        {time}
-                    </Button>
-                </View>
-                <DateTimePickerModal
-                    isVisible={isTimePickerVisible}
-                    mode="time"
-                    onConfirm={handleConfirmForTime}
-                    onCancel={hideTimePicker}
-                    minuteInterval={30}
-                />
+                {Platform.OS === 'ios' ? <View>
+                    <Text style={PageStyle.TextStyle}>בחר תאריך</Text>
+                    <View style={styles.buttonStyleView}>
+                        <Button
+                            onPress={showDatePicker}
+                            containerStyle={styles.buttonStyle}
+                            style={PageStyle.buttonTextStyle}>
+                            {date}
+                        </Button>
+                    </View>
+                    <DateTimePickerModal
+                        isVisible={isDatePickerVisible}
+                        mode="date"
+                        onConfirm={handleConfirm}
+                        onCancel={hideDatePicker}
+                        minimumDate={new Date()}
+                    />
+                    <Text style={PageStyle.TextStyle}>בחר שעה</Text>
+                    <View style={styles.buttonStyleView}>
+                        <Button
+                            onPress={showTimePicker}
+                            containerStyle={styles.buttonStyle}
+                            style={PageStyle.buttonTextStyle}>
+                            {time}
+                        </Button>
+                    </View>
+                    <DateTimePickerModal
+                        isVisible={isTimePickerVisible}
+                        mode="time"
+                        onConfirm={handleConfirmForTime}
+                        onCancel={hideTimePicker}
+                        minuteInterval={30}
+                    />
+
+                </View> :
+                    <View>
+                        <Text style={styles.TextStyle}>בחר תאריך ושעה</Text>
+                        <View style={styles.buttonStyleViewForAndroid}>
+                            <Button
+                                onPress={showDatePicker}
+                                containerStyle={styles.buttonStyle}
+                                style={styles.buttonTextStyle}>
+                                {date}
+                            </Button>
+                        </View>
+                        <DateTimePickerModal
+                            isVisible={isDatePickerVisible}
+                            mode="datetime"
+                            onConfirm={handleConfirm}
+                            onCancel={hideDatePicker}
+                            minimumDate={new Date()}
+                        />
+                    </View>
+                }
                 <View style={{ flexDirection: 'row-reverse', justifyContent: 'space-between' }}>
                     <Text style={PageStyle.TextStyle}>האם לשייך לקבוצה ?</Text>
                     <Text>  </Text>
@@ -242,6 +263,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 15,
     },
+    buttonStyleViewForAndroid: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 350,
+        marginBottom: 15
+    },
     buttonStyle: {
         width: AppStyles.buttonWidth.main,
         backgroundColor: AppStyles.color.tint,
@@ -259,6 +286,16 @@ const styles = StyleSheet.create({
         height: 42,
         textAlign: 'center',
         color: AppStyles.color.text,
+    },
+    buttonTextStyle: {
+        color: AppStyles.color.white,
+    },
+    TextStyle: {
+        fontSize: 20,
+        marginRight: 80,
+        fontFamily: "Cochin",
+        fontWeight: "bold",
+        color: AppStyles.color.grey,
     },
 });
 
