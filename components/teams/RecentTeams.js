@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import API from '../../ApiService';
-import { View, Text, StyleSheet, Button, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Button, ScrollView, Platform } from 'react-native';
 import Loading from '../Loading';
 import Team from './Team';
 import { SetToken } from '../../context/SetToken';
@@ -47,10 +47,12 @@ const Teams = props => {
                         <Team key={team.id} team={team} navigation={props.navigation} />
                     ))}
                 </View>
-                <Button
-                    title="לכל הקבוצות"
-                    onPress={clickedAllTeams}
-                />
+                <View style={Platform.OS === 'android' && styles.button}>
+                    <Button
+                        title="לכל הקבוצות"
+                        onPress={clickedAllTeams}
+                    />
+                </View>
             </ScrollView>
         )
     )
@@ -77,6 +79,11 @@ const styles = StyleSheet.create({
         margin: 16,
         borderRadius: 16,
         width: '80%'
+    },
+    button: {
+        width: 100,
+        marginLeft: 100,
+        marginTop: 5
     }
 })
 
