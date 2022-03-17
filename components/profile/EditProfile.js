@@ -54,7 +54,9 @@ const EditProfile = props => {
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View style={styles.headerContent}>
-                        <Image style={styles.avatar} source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar2.png' }} />
+                    {profile.sex === 'זכר' ? <Image style={styles.avatar} source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar2.png' }} />
+                    : <Image style={styles.avatar} source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar3.png' }} />
+                }
                         <Text style={styles.name}>
                             {profile.user.username}
                         </Text>
