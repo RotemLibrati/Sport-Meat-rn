@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
-import { Text, View, StyleSheet, Button, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, Button, ScrollView, Platform } from 'react-native';
 import API from '../../ApiService';
 import Game from './Game';
 import Loading from '../Loading';
@@ -47,10 +47,12 @@ const RecentGame = (props) => {
                         <Game key={game.id} game={game} navigation={props.navigation} />
                     ))}
                 </View>
-                <Button
-                    title="לכל המשחקים"
-                    onPress={clickAllGames}
-                />
+                <View style={Platform.OS === 'android' && styles.button}>
+                    <Button
+                        title="לכל המשחקים"
+                        onPress={clickAllGames}
+                    />
+                </View>
             </ScrollView>
         )
     )
@@ -80,6 +82,11 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         width: '80%',
         marginTop: 0
+    },
+    button: {
+        width: 120,
+        marginLeft: 100,
+        marginTop: 5
     }
 })
 
