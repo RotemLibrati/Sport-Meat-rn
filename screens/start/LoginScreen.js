@@ -72,13 +72,13 @@ const LoginScreen = props => {
                 onPress={loginUser} >
                 התחבר
             </Button>
-            <Text style={styles.or}>או</Text>
-            <Button
-                containerStyle={styles.facebookContainer}
-                style={styles.facebookText}>
-                {/* // onPress={() => onPressFacebook()} */}
-                התחבר עם פייסבוק
-            </Button>
+            {/* <Text style={styles.or}>או</Text> */}
+            {/* <Button */}
+                 {/* containerStyle={styles.facebookContainer}
+                 style={styles.facebookText}
+                 onPress={() => onPressFacebook()}>
+                 התחבר עם פייסבוק */}
+           {/* </Button> */}
         </View>
         </ScrollView>
     );

@@ -120,7 +120,7 @@ const CreateNewGame = props => {
         <ScrollView>
             <View style={[PageStyle.container, { marginBottom: 80 }]}>
                 <Text style={PageStyle.title}>פתיחת משחק חדש</Text>
-                {Platform.OS === 'ios' ? <View>
+                {Platform.OS === 'ios' ? <React.Fragment>
                     <Text style={PageStyle.TextStyle}>בחר תאריך</Text>
                     <View style={styles.buttonStyleView}>
                         <Button
@@ -153,8 +153,7 @@ const CreateNewGame = props => {
                         onCancel={hideTimePicker}
                         minuteInterval={30}
                     />
-
-                </View> :
+                </React.Fragment> :
                     <View>
                         <Text style={styles.TextStyle}>בחר תאריך ושעה</Text>
                         <View style={styles.buttonStyleViewForAndroid}>
