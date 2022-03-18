@@ -23,6 +23,7 @@ import CreateNewGamePage2 from '../screens/games/CreateNewGamePage2';
 import PaymentScreen from '../screens/payment/PaymentScreen';
 import TermsScreen from '../screens/terms/TermsScreen';
 import LogoutScreen from '../screens/logout/LogoutScreen';
+import InviteMembers from '../screens/games/InviteMembers';
 import { FontAwesome5, MaterialCommunityIcons, AntDesign, Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { AppStyles } from '../components/styles/AppStyles';
 import { createAppContainer } from 'react-navigation';
@@ -47,6 +48,7 @@ const TeamScreen = createStackNavigator({
   PaymentScreen: PaymentScreen,
   TermsScreen: TermsScreen,
   LogoutScreen: LogoutScreen,
+  InviteMembers: InviteMembers
   
 
 });
@@ -72,6 +74,7 @@ const MainScreenNavigator = createStackNavigator({
   PaymentScreen: PaymentScreen,
   TermsScreen: TermsScreen,
   LogoutScreen: LogoutScreen,
+  InviteMembers: InviteMembers
   
 
 });

@@ -108,6 +108,9 @@ const GameDetails = (props) => {
     const AttendancesPlayerHandler = () => {
         props.navigation.navigate("AttendancesPlayers", { 'attendance': attendances });
     }
+    const InviteFriendsHandler = () => {
+        props.navigation.navigate("InviteMembers", {'game' : game})
+    }
     useEffect(() => {
         if (username) {
             props.navigation.setParams({ username: username });
@@ -149,6 +152,14 @@ const GameDetails = (props) => {
                         מי מגיע ?
                     </Button>
                 </View>
+                {!game.team.anonymous &&
+                    <Button
+                        containerStyle={styles.attendanceContainer}
+                        style={styles.attendanceText}
+                        onPress={InviteFriendsHandler}>
+                        הזמן את חברי הקבוצה
+                    </Button>
+                }
             </View>
 
         </ScrollView>
