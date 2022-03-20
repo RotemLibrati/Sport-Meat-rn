@@ -6,10 +6,10 @@ const Team = props => {
         props.navigation.navigate("TeamDetails", {team: team});
     }
     return (
-        <View>
+        <View style={{borderColor:'lightgrey',borderRadius:40,borderWidth:2,margin:2,width:300,alignItems:'center'}}>
             <TouchableOpacity onPress={() => teamClicked(props.team)}>
-                    <Text style={styles.name}>שם הקבוצה: {props.team.name}</Text>
-                    <Text>ספורט: {props.team.sport}</Text>
+                    <Text style={styles.text}>שם הקבוצה: {props.team.name}</Text>
+                    <Text style={styles.text}>ספורט: {props.team.sport}</Text>
                 </TouchableOpacity>
         </View>
     )
@@ -17,6 +17,10 @@ const Team = props => {
 const styles = StyleSheet.create({
     name: {
         fontSize: 15
+    },
+    text: {
+        textAlign: 'right',
+        fontWeight: 'bold'
     }
 })
 

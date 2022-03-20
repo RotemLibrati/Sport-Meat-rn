@@ -6,22 +6,24 @@ const Game = (props) => {
         props.navigation.navigate("GameDetails", {game: game});
     };
     return (
-        <View>
-            <View>
+            <View style={{borderColor:'lightgrey',borderRadius:40,borderWidth:2,margin:2,width:300,alignItems:'center'}}>
                 <TouchableOpacity onPress={() => gameClicked(props.game)}> 
-                    <Text>תאריך: {props.game.event_time}</Text>
-                    <Text>שם המגרש: {props.game.location.name}</Text>
-                    <Text>מיקום: {props.game.location.region}</Text>
+                    <Text style={styles.text}>תאריך: {props.game.event_time}</Text>
+                    <Text style={styles.text}>שם המגרש: {props.game.location.name}</Text>
+                    <Text style={styles.text}>מיקום: {props.game.location.region}</Text>
                     {props.game.team.anonymous ? (<Text></Text>) :
-                    ( <Text>קבוצה: {props.game.team.name}</Text> ) }
+                    ( <Text style={styles.text}>קבוצה: {props.game.team.name}</Text> ) }
                 </TouchableOpacity>
             </View>
-        </View>
     );
 }
 const styles = StyleSheet.create({
     title: {
-        fontSize: 20
+        fontSize: 20,
+    },
+    text: {
+        textAlign: 'right',
+        fontWeight: 'bold'
     }
 });
 export default Game;
