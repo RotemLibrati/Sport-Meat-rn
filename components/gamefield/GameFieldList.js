@@ -45,7 +45,7 @@ const GameFieldList = props => {
             headers: myHeaders,
             body: formdata,
             redirect: 'follow'
-        };
+        };//
 
         fetch(`${API.ipAddress}/create-game`,
             requestOptions)
