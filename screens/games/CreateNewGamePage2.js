@@ -8,12 +8,14 @@ import GameFieldList from '../../components/gamefield/GameFieldList';
 
 const CreateNewGamePage2 = props => {
     const { token } = useContext(SetToken);
+    const game = props.navigation.getParam("game", null);
     const date = props.navigation.getParam("date", null);
     const time = props.navigation.getParam("time", null);
     const type = props.navigation.getParam("type", null);
     const limitParticipants = props.navigation.getParam("limitParticipants", null);
     const team = props.navigation.getParam("team", null);
     const city = props.navigation.getParam("city", null);
+    const editGame = props.navigation.getParam("editGame", null);
     const [isLoading, setIsLoading] = useState(true);
     const [gameField, setGameField] = useState([]);
     useEffect(() => {
@@ -38,8 +40,10 @@ const CreateNewGamePage2 = props => {
     }, [])
     return (
         isLoading ? (<Loading />) : (
+            game ? (<GameFieldList gameField={gameField} date={date} time={time}
+                type={type} limitParticipants={limitParticipants} team={team} navigation={props.navigation} editGame={editGame} game={game}/>) :(
             <GameFieldList gameField={gameField} date={date} time={time}
-                type={type} limitParticipants={limitParticipants} team={team} navigation={props.navigation} />
+                type={type} limitParticipants={limitParticipants} team={team} navigation={props.navigation} editGame={editGame}/>)
         )
     )
 };

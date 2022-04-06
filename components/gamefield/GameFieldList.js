@@ -58,10 +58,36 @@ const GameFieldList = props => {
                 }
             })
             .catch(error => console.log(error));
-    }
+    };
+    const editGameHandler = (item) => {
+        let myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+        let formdata = new FormData();
+        formdata.append("location", item.id);
+        formdata.append("limitParticipants", props.limitParticipants);
+
+        let requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: formdata,
+            redirect: 'follow'
+        };//
+
+        fetch(`${API.ipAddress}/update-game/${props.game.id}/`,
+            requestOptions)
+            .then(function () {
+                if (item.availability.includes("תשלום")) {
+                    props.navigation.navigate("PaymentScreen", {date: props.date, time: props.time, location: item.name});
+                } else {
+                    Alert.alert("עדכנת את פרטי המשחק");
+                    props.navigation.popToTop();
+                }
+            })
+            .catch(error => console.log(error));
+    };
     const ItemView = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => createGameHandler(item)}>
+            <TouchableOpacity onPress={!props.editGame ?() => createGameHandler(item) : () => editGameHandler(item)}>
                 <ListItem bottomDivider>
                     <ListItem.Content>
                         <ListItem.Title

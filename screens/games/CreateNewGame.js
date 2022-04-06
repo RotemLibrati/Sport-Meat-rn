@@ -113,7 +113,7 @@ const CreateNewGame = props => {
     const createGameHandler = () => {
         props.navigation.navigate("CreateNewGamePage2", {
             date: date, team: selectedTeam, time: time, type: typeSport,
-            limitParticipants: limitParticipants, city: city
+            limitParticipants: limitParticipants, city: city, editGame: false
         });
     }
     return (

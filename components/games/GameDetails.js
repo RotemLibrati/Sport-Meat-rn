@@ -96,7 +96,6 @@ const GameDetails = (props) => {
             };
             await axios(config)
                 .then(function (response) {
-                    console.log(response.data);
                     setAttendances(response.data.attendance);
                 })
                 .catch(function (error) {
@@ -228,8 +227,8 @@ GameDetails.navigationOptions = (navData) => {
             headerTitle: "פרטי משחק",
             headerRight: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item title="Edit" iconName="edit"
-                    onPress={() => navData.navigation.navigate("EditProfile", {
-                        profile: navData.navigation.getParam('profile'),
+                    onPress={() => navData.navigation.navigate("EditGameDetails", {
+                        game: navData.navigation.getParam('game'),
 
                     })}
                 />
