@@ -11,7 +11,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 const RegisterScreen = props => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [verifyPassword, setVerifyPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
   const [sex, setSex] = useState('');
@@ -22,7 +22,7 @@ const RegisterScreen = props => {
     formdata.append("username", username);
     formdata.append("password", password);
     formdata.append("email", email);
-    //formdata.append("verifyPassword", verifyPassword);
+    formdata.append("phone_number", phoneNumber);
     formdata.append("age", age);
     formdata.append("city", city);
     formdata.append("sex", sex);
@@ -62,16 +62,6 @@ const RegisterScreen = props => {
           /></View>
         <View style={InputStyle.inputContainerView}>
           <TextInput
-            secureTextEntry={true}
-            style={InputStyle.bodyInput}
-            placeholder="סיסמה פעם נוספת"
-            onChangeText={setVerifyPassword}
-            value={verifyPassword}
-            placeholderTextColor={AppStyles.color.grey}
-            underlineColorAndroid="transparent"
-          /></View>
-        <View style={InputStyle.inputContainerView}>
-          <TextInput
             style={InputStyle.bodyInput}
             placeholder="אימייל"
             onChangeText={setEmail}
@@ -96,6 +86,15 @@ const RegisterScreen = props => {
             placeholder="עיר מגורים"
             onChangeText={setCity}
             value={city}
+            placeholderTextColor={AppStyles.color.grey}
+            underlineColorAndroid="transparent"
+          /></View>
+          <View style={InputStyle.inputContainerView}>
+          <TextInput
+            style={InputStyle.bodyInput}
+            placeholder="מספר טלפון"
+            onChangeText={setPhoneNumber}
+            value={phoneNumber}
             placeholderTextColor={AppStyles.color.grey}
             underlineColorAndroid="transparent"
           /></View>
