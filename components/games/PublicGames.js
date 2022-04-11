@@ -62,8 +62,10 @@ const PublicGames = (props) => {
             <TouchableOpacity onPress={() => pressGameHandler(item)}>
                 <ListItem bottomDivider>
                     <ListItem.Content>
-                        <ListItem.Title
+                        {item.team.anonymous === true ? <ListItem.Title
+                        >{item.team.sport + " ב" + item.location.name}</ListItem.Title> : <ListItem.Title
                         >{item.team.name}</ListItem.Title>
+                        }
                         <ListItem.Subtitle
                         >{item.location.region}</ListItem.Subtitle>
                         <ListItem.Subtitle
