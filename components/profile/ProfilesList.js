@@ -3,12 +3,7 @@ import { FlatList, Text, View } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 
 const ProfilesList = props => {
-    // const users = props.navigation.getParam("users", null);
     const users = props.members;
-    console.log(users);
-    // const onPressUser = (item) => {
-    //     props.navigation.navigate("FriendsProfileScreen", { profile: item });
-    // }
     const renderUsers = ({ item }) => (
         <ListItem bottomDivider onPress={() => props.onPressMember(item)}>
             {item.sex === 'זכר' ? <Avatar source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar2.png' }} />
