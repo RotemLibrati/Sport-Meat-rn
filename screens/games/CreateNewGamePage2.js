@@ -15,6 +15,7 @@ const CreateNewGamePage2 = props => {
     const limitParticipants = props.navigation.getParam("limitParticipants", null);
     const team = props.navigation.getParam("team", null);
     const city = props.navigation.getParam("city", null);
+    const typeTeam = props.navigation.getParam("typeTeam", null);
     const editGame = props.navigation.getParam("editGame", null);
     const [isLoading, setIsLoading] = useState(true);
     const [gameField, setGameField] = useState([]);
@@ -43,7 +44,7 @@ const CreateNewGamePage2 = props => {
             game ? (<GameFieldList gameField={gameField} date={date} time={time}
                 type={type} limitParticipants={limitParticipants} team={team} navigation={props.navigation} editGame={editGame} game={game}/>) :(
             <GameFieldList gameField={gameField} date={date} time={time}
-                type={type} limitParticipants={limitParticipants} team={team} navigation={props.navigation} editGame={editGame}/>)
+                type={type} limitParticipants={limitParticipants} team={team} navigation={props.navigation} editGame={editGame} typeTeam={typeTeam}/>)
         )
     )
 };

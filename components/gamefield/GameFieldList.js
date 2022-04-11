@@ -39,6 +39,7 @@ const GameFieldList = props => {
         formdata.append("time", props.time);
         formdata.append("type", props.type);
         formdata.append("limitParticipants", props.limitParticipants);
+        formdata.append("typeTeam", props.typeTeam);
 
         let requestOptions = {
             method: 'POST',

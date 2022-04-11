@@ -28,8 +28,10 @@ const CreateNewGame = props => {
     const [cityDoesntExist, setCityDoesntExist] = useState(false);
     const [checked, setChecked] = useState(false);
     const [typeSport, setTypeSport] = useState();
+    const [typeTeam, setTypeTeam] = useState();
     const [limitParticipants, setLimitParticipants] = useState(15);
     const type = Data.typeSport;
+    const importTypeTeam = Data.typeTeam;
     const showDatePicker = () => {
         setDatePickerVisibility(true);
     };
@@ -113,7 +115,7 @@ const CreateNewGame = props => {
     const createGameHandler = () => {
         props.navigation.navigate("CreateNewGamePage2", {
             date: date, team: selectedTeam, time: time, type: typeSport,
-            limitParticipants: limitParticipants, city: city, editGame: false
+            limitParticipants: limitParticipants, city: city, editGame: false, typeTeam: typeTeam
         });
     }
     return (
@@ -182,25 +184,46 @@ const CreateNewGame = props => {
                     />
                 </View>
                 {!checked ?
+                    <React.Fragment>
+                        <View style={InputStyle.inputContainerView}>
+                            <SelectDropdown
+                                buttonStyle={DropdownStyle.dropdownButton}
+                                buttonTextStyle={styles.dropdownTextButton}
+                                defaultButtonText="בחר סוג ספורט"
+                                onSelect={(index) => {
+                                    setTypeSport(index);
 
-                    <View style={InputStyle.inputContainerView}>
-                        <SelectDropdown
-                            buttonStyle={DropdownStyle.dropdownButton}
-                            buttonTextStyle={styles.dropdownTextButton}
-                            defaultButtonText="בחר סוג ספורט"
-                            onSelect={(index) => {
-                                setTypeSport(index);
+                                }}
+                                data={type}
+                                buttonTextAfterSelection={(selectedItem, index) => {
+                                    return selectedItem
+                                }}
+                                rowTextForSelection={(item, index) => {
+                                    return item
+                                }}
+                            />
+                        </View>
+                        <View style={InputStyle.inputContainerView}>
+                            <SelectDropdown
+                                buttonStyle={DropdownStyle.dropdownButton}
+                                buttonTextStyle={styles.dropdownTextButton}
+                                defaultButtonText="בחר סוג קבוצה"
+                                onSelect={(index) => {
+                                    setTypeTeam(index);
 
-                            }}
-                            data={type}
-                            buttonTextAfterSelection={(selectedItem, index) => {
-                                return selectedItem
-                            }}
-                            rowTextForSelection={(item, index) => {
-                                return item
-                            }}
-                        />
-                    </View> :
+                                }}
+                                data={importTypeTeam}
+                                buttonTextAfterSelection={(selectedItem, index) => {
+                                    return selectedItem
+                                }}
+                                rowTextForSelection={(item, index) => {
+                                    return item
+                                }}
+                            />
+                        </View>
+                    </React.Fragment>
+
+                    :
                     (isLoading ? <Loading /> :
                         <View style={InputStyle.inputContainerView}>
                             <SelectDropdown
