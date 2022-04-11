@@ -11,19 +11,38 @@ const CreateNewGamePage2 = props => {
     const game = props.navigation.getParam("game", null);
     const date = props.navigation.getParam("date", null);
     const time = props.navigation.getParam("time", null);
-    const type = props.navigation.getParam("type", null);
     const limitParticipants = props.navigation.getParam("limitParticipants", null);
     const team = props.navigation.getParam("team", null);
+    let typeSport = props.navigation.getParam("type", null);
     const city = props.navigation.getParam("city", null);
     const typeTeam = props.navigation.getParam("typeTeam", null);
     const editGame = props.navigation.getParam("editGame", null);
     const [isLoading, setIsLoading] = useState(true);
     const [gameField, setGameField] = useState([]);
+
     useEffect(() => {
+        const fetchTeam = async () => {
+            let config = {
+                method: 'get',
+                url: `${API.ipAddress}/team/${team}/`,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            await axios(config)
+                .then(function (response) {
+                    console.log(response.data.team.sport);
+                    typeSport = response.data.team.sport;
+                    fetchGameField();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
         const fetchGameField = async () => {
             let config = {
                 method: 'get',
-                url: `${API.ipAddress}/city/${city}`,
+                url: `${API.ipAddress}/type/${city}/${typeSport}/`,
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -31,20 +50,21 @@ const CreateNewGamePage2 = props => {
             await axios(config)
                 .then(function (response) {
                     setGameField(response.data);
+                    console.log(response.data);
                     setIsLoading(false);
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         };
-        fetchGameField();
+        fetchTeam();
     }, [])
     return (
         isLoading ? (<Loading />) : (
             game ? (<GameFieldList gameField={gameField} date={date} time={time}
-                type={type} limitParticipants={limitParticipants} team={team} navigation={props.navigation} editGame={editGame} game={game}/>) :(
+                type={typeSport} limitParticipants={limitParticipants} team={team} navigation={props.navigation} editGame={editGame} game={game}/>) :(
             <GameFieldList gameField={gameField} date={date} time={time}
-                type={type} limitParticipants={limitParticipants} team={team} navigation={props.navigation} editGame={editGame} typeTeam={typeTeam}/>)
+                type={typeSport} limitParticipants={limitParticipants} team={team} navigation={props.navigation} editGame={editGame} typeTeam={typeTeam}/>)
         )
     )
 };
