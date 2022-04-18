@@ -14,6 +14,9 @@ const CreateNewGamePage2 = props => {
     const limitParticipants = props.navigation.getParam("limitParticipants", null);
     const team = props.navigation.getParam("team", null);
     let typeSport = props.navigation.getParam("type", null);
+    if (!typeSport){
+        typeSport="כדורגל";
+    }
     const city = props.navigation.getParam("city", null);
     const typeTeam = props.navigation.getParam("typeTeam", null);
     const editGame = props.navigation.getParam("editGame", null);
@@ -57,7 +60,12 @@ const CreateNewGamePage2 = props => {
                     console.log(error);
                 });
         };
-        fetchTeam();
+        if (team){
+            fetchTeam();
+        } else {
+            fetchGameField();
+        }
+        
     }, [])
     return (
         isLoading ? (<Loading />) : (
