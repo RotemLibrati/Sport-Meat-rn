@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { View, Alert, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Alert, TextInput, FlatList, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { AppStyles } from '../styles/AppStyles';
 import API from '../../ApiService';
 import { SetToken } from '../../context/SetToken';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const GameFieldList = props => {
     const { token } = useContext(SetToken);
@@ -51,8 +52,8 @@ const GameFieldList = props => {
         fetch(`${API.ipAddress}/create-game`,
             requestOptions)
             .then(function () {
-                if (item.availability.includes("תשלום")) {
-                    props.navigation.navigate("PaymentScreen", {date: props.date, time: props.time, location: item.name});
+                if (item.payment) {
+                    props.navigation.navigate("PaymentScreen", { date: props.date, time: props.time, location: item.name });
                 } else {
                     Alert.alert("יצרת משחק חדש");
                     props.navigation.popToTop();
@@ -78,7 +79,7 @@ const GameFieldList = props => {
             requestOptions)
             .then(function () {
                 if (item.availability.includes("תשלום")) {
-                    props.navigation.navigate("PaymentScreen", {date: props.date, time: props.time, location: item.name});
+                    props.navigation.navigate("PaymentScreen", { date: props.date, time: props.time, location: item.name });
                 } else {
                     Alert.alert("עדכנת את פרטי המשחק");
                     props.navigation.popToTop();
@@ -88,17 +89,25 @@ const GameFieldList = props => {
     };
     const ItemView = ({ item }) => {
         return (
-            <TouchableOpacity onPress={!props.editGame ?() => createGameHandler(item) : () => editGameHandler(item)}>
+            <TouchableOpacity onPress={!props.editGame ? () => createGameHandler(item) : () => editGameHandler(item)}>
+
                 <ListItem bottomDivider>
-                    <ListItem.Content>
-                        <ListItem.Title
-                        >{item.name}</ListItem.Title>
-                        <ListItem.Subtitle
-                        >{item.street}</ListItem.Subtitle>
-                        <ListItem.Subtitle
-                        >{item.region}</ListItem.Subtitle>
-                    </ListItem.Content>
+                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                        <ListItem.Content>
+                            <ListItem.Title
+                            >{item.name}</ListItem.Title>
+                            <ListItem.Subtitle
+                            >{item.street}</ListItem.Subtitle>
+                            <ListItem.Subtitle
+                            >{item.region}</ListItem.Subtitle>
+                        </ListItem.Content>
+                        <View style={{ marginTop: 15, marginRight: 15 }}>
+                            <MaterialIcons name="payment" size={24} color="black" />
+                        </View>
+
+                    </View>
                 </ListItem>
+
             </TouchableOpacity>
 
         )
