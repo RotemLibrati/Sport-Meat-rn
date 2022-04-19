@@ -31,6 +31,10 @@ const ProfilesList = props => {
     };
     useEffect(() => {
         if (teamAdmin) {
+            props.navigation.addListener('didFocus',
+                payload => {
+                    fetchTeam();
+                });
             const fetchTeam = async () => {
                 let config = {
                     method: 'get',

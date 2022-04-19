@@ -8,6 +8,8 @@ import axios from 'axios';
 import API from '../../ApiService';
 import { AppStyles, PageStyle, InputStyle, DropdownStyle } from '../../components/styles/AppStyles';
 import Button from "react-native-button";
+import ActionButton from 'react-native-action-button';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 const GameDetails = (props) => {
     const { username, token } = useContext(SetToken);
@@ -103,12 +105,30 @@ const GameDetails = (props) => {
                 });
         };
         fetchAttendancesPlayers();
-    }, [])
+    }, []);
+    const deleteTeamHandler = async () => {
+        const auth = `Bearer ${token}`;
+        var config = {
+            method: 'delete',
+            url: `${API.ipAddress}/update-game/${game.id}/`,
+            headers: {
+                'Authorization': `${auth}`
+            }
+        };
+        await axios(config)
+            .then(function (response) {
+                alert("המשחק נמחק");
+                props.navigation.goBack();
+            })
+            .catch(function (error) {
+                alert(error.message);
+            });
+    }
     const AttendancesPlayerHandler = () => {
         props.navigation.navigate("AttendancesPlayers", { 'attendance': attendances });
     }
     const InviteFriendsHandler = () => {
-        props.navigation.navigate("InviteMembers", {'game' : game})
+        props.navigation.navigate("InviteMembers", { 'game': game })
     }
     useEffect(() => {
         if (username) {
@@ -159,7 +179,21 @@ const GameDetails = (props) => {
                         הזמן את חברי הקבוצה
                     </Button>
                 }
+                {game.team.admin.user.username === username &&
+                    <Button
+                        containerStyle={styles.deleteButtonContainer}
+                        style={styles.deleteButtonText}
+                        onPress={deleteTeamHandler}>
+                        מחק קבוצה זו
+                    </Button>
+                }
             </View>
+            {game.team.admin.user.username === username &&
+                <ActionButton buttonColor={AppStyles.color.tint}>
+                    <ActionButton.Item buttonColor='#9b59b6' title="הזמן חברים" onPress={() => props.navigation.navigate("ProfilesListScreen", { teamId: game.team.id })}>
+                        <FontAwesome5 name="user-friends" size={18} color="black" />
+                    </ActionButton.Item>
+                </ActionButton>}
 
         </ScrollView>
     )
@@ -213,10 +247,21 @@ const styles = StyleSheet.create({
         borderColor: AppStyles.color.tint,
         marginTop: 30,
     },
+    deleteButtonContainer: {
+        width: AppStyles.buttonWidth.main,
+        backgroundColor: AppStyles.color.tint,
+        borderRadius: AppStyles.borderRadius.main,
+        padding: 10,
+        borderWidth: 1,
+        borderColor: AppStyles.color.tint,
+        marginTop: 30,
+    },
     attendanceText: {
         color: AppStyles.color.tint,
     },
-
+    deleteButtonText: {
+        color: AppStyles.color.white,
+    },
 })
 
 GameDetails.navigationOptions = (navData) => {
