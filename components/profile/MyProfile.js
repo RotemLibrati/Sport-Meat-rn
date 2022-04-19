@@ -17,17 +17,17 @@ const MyProfile = props => {
             </View>
 
             <View style={styles.profileDetail}>
-                <View style={styles.detailContent}>
+                {/* <View style={styles.detailContent}>
                     <Text style={styles.title}>Friends</Text>
                     <Text style={styles.count}>200</Text>
-                </View>
+                </View> */}
                 <View style={styles.detailContent}>
                     <Text style={styles.title}>Teams</Text>
                     <Text style={styles.count}>{props.countTeams}</Text>
                 </View>
                 <View style={styles.detailContent}>
-                    <Text style={styles.title}>Following</Text>
-                    <Text style={styles.count}>200</Text>
+                    <Text style={styles.title}>Games</Text>
+                    <Text style={styles.count}>{props.countGames}</Text>
                 </View>
             </View>
 

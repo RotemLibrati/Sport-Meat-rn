@@ -11,6 +11,7 @@ const EditProfile = props => {
     const { token, username, editProfile, edit } = useContext(SetToken);
     const profile = props.navigation.getParam('profile');
     const countTeams = props.navigation.getParam('countTeams');
+    const countGames = props.navigation.getParam('countGames');
     const [age, setAge] = useState('' + profile.age);
     const [email, setEmail] = useState(profile.email);
     const [sex, setSex] = useState(profile.sex);
@@ -66,17 +67,17 @@ const EditProfile = props => {
 
 
                 <View style={styles.profileDetail}>
-                    <View style={styles.detailContent}>
+                    {/* <View style={styles.detailContent}>
                         <Text style={styles.title}>Friends</Text>
                         <Text style={styles.count}>200</Text>
-                    </View>
+                    </View> */}
                     <View style={styles.detailContent}>
                         <Text style={styles.title}>Teams</Text>
                         <Text style={styles.count}>{countTeams}</Text>
                     </View>
                     <View style={styles.detailContent}>
-                        <Text style={styles.title}>Following</Text>
-                        <Text style={styles.count}>200</Text>
+                        <Text style={styles.title}>Games</Text>
+                        <Text style={styles.count}>{countGames}</Text>
                     </View>
                 </View>
 

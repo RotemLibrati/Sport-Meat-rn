@@ -51,15 +51,21 @@ const GameFieldList = props => {
 
         fetch(`${API.ipAddress}/create-game`,
             requestOptions)
-            .then(function () {
+            .then(function (response) {
                 if (item.payment) {
                     props.navigation.navigate("PaymentScreen", { date: props.date, time: props.time, location: item.name });
                 } else {
-                    Alert.alert("יצרת משחק חדש");
+                    if (response.status === 500){
+                        alert("קיים משחק במיקום ובזמן הזה, המשחק לא נוצר");
+                    } else {
+                        alert("יצרת משחק חדש");
+                    }
                     props.navigation.popToTop();
                 }
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error.message);
+            });
     };
     const editGameHandler = (item) => {
         let myHeaders = new Headers();
@@ -102,9 +108,9 @@ const GameFieldList = props => {
                             >{item.region}</ListItem.Subtitle>
                         </ListItem.Content>
                         {item.payment &&
-                        <View style={{ marginTop: 15, marginRight: 15 }}>
-                            <MaterialIcons name="payment" size={24} color="black" />
-                        </View>}
+                            <View style={{ marginTop: 15, marginRight: 15 }}>
+                                <MaterialIcons name="payment" size={24} color="black" />
+                            </View>}
 
                     </View>
                 </ListItem>

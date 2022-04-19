@@ -14,11 +14,13 @@ const MyProfileScreen = props => {
     const [myProfile, setMyProfile] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [countTeams, setCountTeams] = useState(0);
+    const [attendanceGame, setAttendanceGame] = useState(0);
 
     useEffect(() => {
         props.navigation.addListener('didFocus',
         payload => {
           fetchProfile();
+          fetchCountTeams();
         });
         const fetchProfile = async () => {
             let config = {
@@ -48,6 +50,7 @@ const MyProfileScreen = props => {
             await axios(config)
                 .then(function (response) {
                     setCountTeams(response.data.teams);
+                    setAttendanceGame(response.data.games);
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -58,13 +61,13 @@ const MyProfileScreen = props => {
     }, []);
     useEffect(() => {
         if (myProfile) { 
-            props.navigation.setParams({ profile: myProfile, countTeams: countTeams });
+            props.navigation.setParams({ profile: myProfile, countTeams: countTeams, countGames: attendanceGame });
         }
-    }, [myProfile, countTeams]);
+    }, [myProfile, countTeams, attendanceGame]);
     return (
         isLoading ? (<Loading />) : (
             <View>
-                <MyProfile profile={myProfile} countTeams={countTeams} />
+                <MyProfile profile={myProfile} countTeams={countTeams} countGames={attendanceGame} />
             </View>
         )
     )
@@ -84,6 +87,7 @@ MyProfileScreen.navigationOptions = (navData) => {
                 onPress={() => navData.navigation.navigate("EditProfile", {
                     profile: navData.navigation.getParam('profile'),
                     countTeams: navData.navigation.getParam('countTeams'),
+                    countGames: navData.navigation.getParam('countGames'),
 
                 })} 
                 color="black"

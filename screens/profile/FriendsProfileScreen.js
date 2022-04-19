@@ -15,6 +15,7 @@ const FriendsProfileScreen = props => {
     const [myProfile, setMyProfile] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [countTeams, setCountTeams] = useState(0);
+    const [attendanceGame, setAttendanceGame] = useState(0);
 
 
     useEffect(() => {
@@ -46,6 +47,7 @@ const FriendsProfileScreen = props => {
             await axios(config)
                 .then(function (response) {
                     setCountTeams(response.data.teams);
+                    setAttendanceGame(response.data.games);
                 })
                 .catch(function (error) {
                     console.log(error.message);
@@ -62,7 +64,7 @@ const FriendsProfileScreen = props => {
     return (
         isLoading ? (<Loading />) : (
             <View>
-                <MyProfile profile={myProfile} countTeams={countTeams}/>
+                <MyProfile profile={myProfile} countTeams={countTeams} countGames={attendanceGame}/>
             </View>
         )
     )
