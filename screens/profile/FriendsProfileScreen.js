@@ -32,7 +32,7 @@ const FriendsProfileScreen = props => {
                     setIsLoading(false);
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    console.log(error.message);
                 });
         };
         const fetchCountTeams = async () => {
@@ -48,7 +48,7 @@ const FriendsProfileScreen = props => {
                     setCountTeams(response.data.teams);
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    console.log(error.message);
                 });
         };
         fetchProfile();

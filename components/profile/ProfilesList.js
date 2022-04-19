@@ -27,28 +27,30 @@ const ProfilesList = props => {
     try {
         teamAdmin = props.teamAdmin;
     } catch (e) {
-        console.error(e);
+        console.error(e.message);
     };
     useEffect(() => {
-        const fetchTeam = async () => {
-            let config = {
-                method: 'get',
-                url: `${API.ipAddress}/team/${props.teamAdmin}/`,
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            };
-            axios(config)
-                .then(function (response) {
-                    setTeam(response.data.team);
-                    setIsLoading(false);
-                })
-                .catch(function (error) {
-                    alert(error.message);
-                });
+        if (teamAdmin) {
+            const fetchTeam = async () => {
+                let config = {
+                    method: 'get',
+                    url: `${API.ipAddress}/team/${props.teamAdmin}/`,
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                };
+                axios(config)
+                    .then(function (response) {
+                        setTeam(response.data.team);
+                        setIsLoading(false);
+                    })
+                    .catch(function (error) {
+                        alert(error.message);
+                    });
+            }
+            fetchTeam();
+            setClicked(false);
         }
-        fetchTeam();
-        setClicked(false);
     }, [clicked]);
     const searchFilter = (text) => {
         if (text) {
