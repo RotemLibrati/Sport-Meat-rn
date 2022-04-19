@@ -135,7 +135,7 @@ const TeamDetails = props => {
         props.navigation.navigate("EditTeam", { team: team });
     }
     useEffect(() => {
-        props.navigation.setParams({ remove: removeTeam, edit: editTeam });
+        props.navigation.setParams({ remove: removeTeam, edit: editTeam, username: username, team: team });
         //Linking.openURL(`whatsapp://send?text=${Linking.getInitialURL()}&phone=+972525507563`);
     }, []);
     return (
@@ -222,14 +222,18 @@ const styles = StyleSheet.create({
 TeamDetails.navigationOptions = (navData) => {
     return {
         headerTitle: 'פרטי הקבוצה',
-        headerRight: () => <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-            <Item title="Delete" iconName="trash"
-                onPress={navData.navigation.getParam('remove')}
-            />
-            <Item title="Edit" iconName="edit"
-                onPress={navData.navigation.getParam('edit')}
-            />
-        </HeaderButtons>
+        headerRight: () =>
+        
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                {navData.navigation.getParam('username') === navData.navigation.getParam("team").admin.user.username &&
+                    <Item title="Delete" iconName="trash"
+                        onPress={navData.navigation.getParam('remove')}
+                    />
+                }
+                <Item title="Edit" iconName="edit"
+                    onPress={navData.navigation.getParam('edit')}
+                />
+            </HeaderButtons>
 
 
     }
