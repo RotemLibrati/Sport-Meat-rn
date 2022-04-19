@@ -101,9 +101,10 @@ const GameFieldList = props => {
                             <ListItem.Subtitle
                             >{item.region}</ListItem.Subtitle>
                         </ListItem.Content>
+                        {item.payment &&
                         <View style={{ marginTop: 15, marginRight: 15 }}>
                             <MaterialIcons name="payment" size={24} color="black" />
-                        </View>
+                        </View>}
 
                     </View>
                 </ListItem>
