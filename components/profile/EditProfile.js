@@ -10,6 +10,7 @@ import { AppStyles } from '../styles/AppStyles';
 const EditProfile = props => {
     const { token, username, editProfile, edit } = useContext(SetToken);
     const profile = props.navigation.getParam('profile');
+    const countTeams = props.navigation.getParam('countTeams');
     const [age, setAge] = useState('' + profile.age);
     const [email, setEmail] = useState(profile.email);
     const [sex, setSex] = useState(profile.sex);
@@ -71,7 +72,7 @@ const EditProfile = props => {
                     </View>
                     <View style={styles.detailContent}>
                         <Text style={styles.title}>Teams</Text>
-                        <Text style={styles.count}>200</Text>
+                        <Text style={styles.count}>{countTeams}</Text>
                     </View>
                     <View style={styles.detailContent}>
                         <Text style={styles.title}>Following</Text>
