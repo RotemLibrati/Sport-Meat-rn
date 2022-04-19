@@ -223,16 +223,18 @@ TeamDetails.navigationOptions = (navData) => {
     return {
         headerTitle: 'פרטי הקבוצה',
         headerRight: () =>
-        
+
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 {navData.navigation.getParam('username') === navData.navigation.getParam("team").admin.user.username &&
-                    <Item title="Delete" iconName="trash"
-                        onPress={navData.navigation.getParam('remove')}
-                    />
+                    <React.Fragment>
+                        <Item title="Delete" iconName="trash"
+                            onPress={navData.navigation.getParam('remove')}
+                        />
+                        <Item title="Edit" iconName="edit"
+                            onPress={navData.navigation.getParam('edit')}
+                        />
+                    </React.Fragment>
                 }
-                <Item title="Edit" iconName="edit"
-                    onPress={navData.navigation.getParam('edit')}
-                />
             </HeaderButtons>
 
 
