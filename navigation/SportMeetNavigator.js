@@ -25,6 +25,7 @@ import TermsScreen from '../screens/terms/TermsScreen';
 import LogoutScreen from '../screens/logout/LogoutScreen';
 import InviteMembers from '../screens/games/InviteMembers';
 import EditGameDetails from '../screens/games/EditGameDetails';
+import ProfilesListScreen from '../screens/profile/ProfilesListScreen';
 import { FontAwesome5, MaterialCommunityIcons, AntDesign, Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { AppStyles } from '../components/styles/AppStyles';
 import { createAppContainer } from 'react-navigation';
@@ -50,7 +51,8 @@ const TeamScreen = createStackNavigator({
   TermsScreen: TermsScreen,
   LogoutScreen: LogoutScreen,
   InviteMembers: InviteMembers,
-  EditGameDetails: EditGameDetails
+  EditGameDetails: EditGameDetails,
+  ProfilesListScreen: ProfilesListScreen
   
 
 });
@@ -77,7 +79,8 @@ const MainScreenNavigator = createStackNavigator({
   TermsScreen: TermsScreen,
   LogoutScreen: LogoutScreen,
   InviteMembers: InviteMembers,
-  EditGameDetails: EditGameDetails
+  EditGameDetails: EditGameDetails,
+  ProfilesListScreen: ProfilesListScreen
 
 });
 
