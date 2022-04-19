@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, ScrollView, Alert } from 'react-native';
 import { PageStyle, AppStyles, } from '../styles/AppStyles';
 import Button from "react-native-button";
@@ -6,19 +6,106 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../../components/HeaderButton';
 import { SetToken } from '../../context/SetToken';
 import API from '../../ApiService';
+import axios from 'axios';
 // import * as Linking from 'expo-linking';
 import * as Linking from 'expo-linking';
-
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 const TeamDetails = props => {
-    const { token } = useContext(SetToken);
-    const team = props.navigation.getParam("team", null);
+    const { token, username } = useContext(SetToken);
+    let team = props.navigation.getParam("team", null);
+    const [teamUpdate, setTeamUpdate] = useState(team);
+    const [isLoading, setIsLoading] = useState(true);
+    const [clickFriends, setClickFriends] = useState(false);
+    // useEffect(() => {
+    //     props.navigation.addListener('didFocus',
+    //         payload => {
+    //             fetchTeam();
+    //         });
+    //     const fetchTeam = async () => {
+    //         var config = {
+    //             method: 'get',
+    //             url: `${API.ipAddress}/team/${team.id}`,
+    //             headers: {
+    //                 'Authorization': `Bearer ${token}`
+    //             }
+    //         };
+    //         axios(config)
+    //             .then(function (response) {
+    //                 setTeamUpdate(response.data);
+    //                 team = response.data;
+    //                 setIsLoading(false);
+    //             })
+    //             .catch(function (error) {
+    //                 console.log(error);
+    //             });
+    //     }
+    //     fetchTeam();
+    // }, []);
     const teamMessgaesHandler = () => {
         props.navigation.navigate("TeamMessages", { team: team });
     }
     const teamFriendsHandler = () => {
-        props.navigation.navigate("TeamFriends", { team: team });
+        const fetchTeam = async () => {
+            var config = {
+                method: 'get',
+                url: `${API.ipAddress}/team/${team.id}/`,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            await axios(config)
+                .then(function (response) {
+                    setTeamUpdate(response.data.team);
+                    team = response.data.team;
+                })
+                .then(() => {
+                    setIsLoading(false);
+                })
+                .catch(function (error) {
+                    alert(error);
+                });
+        }
+        fetchTeam();
+        setClickFriends(true);
+        // props.navigation.navigate("TeamFriends", { team: team });
     };
+    useEffect(() => {
+        if (!isLoading && clickFriends) {
+
+            props.navigation.navigate("TeamFriends", { team: teamUpdate });
+            setClickFriends(false);
+        }
+    }, [isLoading, clickFriends]);
+    useEffect(() => {
+        props.navigation.addListener('didFocus',
+            payload => {
+                fetchTeam();
+            });
+        const fetchTeam = async () => {
+            var config = {
+                method: 'get',
+                url: `${API.ipAddress}/team/${team.id}/`,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            await axios(config)
+                .then(function (response) {
+                    setTeamUpdate(response.data.team);
+                    team = response.data.team;
+                })
+                .then(() => {
+                    setIsLoading(false);
+                })
+                .catch(function (error) {
+                    alert(error);
+                });
+        }
+        fetchTeam();
+    }, [])
     const removeTeam = async () => {
         Alert.alert('מחקת את הקבוצה !');
 
@@ -41,7 +128,7 @@ const TeamDetails = props => {
             })
             .catch(error => console.log('error', error));
 
-            
+
 
     };
     const editTeam = () => {
@@ -75,7 +162,16 @@ const TeamDetails = props => {
                         חברי הקבוצה
                     </Button>
                 </View>
+
             </View>
+            {team.admin.user.username === username &&
+                <ActionButton buttonColor={AppStyles.color.tint}>
+                    <ActionButton.Item buttonColor='#9b59b6' title="הוסף חברים" onPress={() => props.navigation.navigate("ProfilesListScreen", { teamId: team.id })}>
+                        <FontAwesome5 name="user-friends" size={18} color="black" />
+                    </ActionButton.Item>
+                </ActionButton>
+            }
+
         </ScrollView>
     )
 };

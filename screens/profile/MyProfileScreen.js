@@ -58,9 +58,9 @@ const MyProfileScreen = props => {
     }, []);
     useEffect(() => {
         if (myProfile) { 
-            props.navigation.setParams({ profile: myProfile });
+            props.navigation.setParams({ profile: myProfile, countTeams: countTeams });
         }
-    }, [myProfile]);
+    }, [myProfile, countTeams]);
     return (
         isLoading ? (<Loading />) : (
             <View>
@@ -83,6 +83,7 @@ MyProfileScreen.navigationOptions = (navData) => {
             <Item title="Edit" iconName="edit"
                 onPress={() => navData.navigation.navigate("EditProfile", {
                     profile: navData.navigation.getParam('profile'),
+                    countTeams: navData.navigation.getParam('countTeams'),
 
                 })} 
                 color="black"

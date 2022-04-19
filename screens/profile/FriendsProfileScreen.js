@@ -14,6 +14,7 @@ const FriendsProfileScreen = props => {
     const username = user.user.username;
     const [myProfile, setMyProfile] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [countTeams, setCountTeams] = useState(0);
 
 
     useEffect(() => {
@@ -33,8 +34,25 @@ const FriendsProfileScreen = props => {
                 .catch(function (error) {
                     console.log(error);
                 });
-        }
+        };
+        const fetchCountTeams = async () => {
+            let config = {
+                method: 'get',
+                url: `${API.ipAddress}/count-teams/${username}/`,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            await axios(config)
+                .then(function (response) {
+                    setCountTeams(response.data.teams);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        };
         fetchProfile();
+        fetchCountTeams();
     }, [username]);
     useEffect(() => {
         if (myProfile) { //check that myProfile is not empty to send to EditProfile component 
@@ -44,7 +62,7 @@ const FriendsProfileScreen = props => {
     return (
         isLoading ? (<Loading />) : (
             <View>
-                <MyProfile profile={myProfile} />
+                <MyProfile profile={myProfile} countTeams={countTeams}/>
             </View>
         )
     )
