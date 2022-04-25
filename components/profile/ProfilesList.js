@@ -27,14 +27,14 @@ const ProfilesList = props => {
     try {
         teamAdmin = props.teamAdmin;
     } catch (e) {
-        console.error(e.message);
+        alert(e.message);
     };
     useEffect(() => {
         if (teamAdmin) {
-            props.navigation.addListener('didFocus',
-                payload => {
-                    fetchTeam();
-                });
+            // props.navigation.addListener('didFocus',
+            //     payload => {
+            //         fetchTeam();
+            //     });
             const fetchTeam = async () => {
                 let config = {
                     method: 'get',
