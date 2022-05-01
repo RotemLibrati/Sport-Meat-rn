@@ -157,4 +157,11 @@ const styles = StyleSheet.create({
         textAlign: 'right',
     }
 });
+
+GameFieldList.navigationOptions = (navData) => {
+    return {
+        headerTitle: "רשימת מגרשים"
+    }
+};
+
 export default GameFieldList;

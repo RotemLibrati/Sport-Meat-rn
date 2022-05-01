@@ -134,5 +134,10 @@ const styles = StyleSheet.create({
     },
 })
 
+EditGameDetails.navigationOptions = (navData) => {
+    return {
+        headerTitle: "עריכת פרטי משחק"
+    }
+};
 
 export default EditGameDetails;
