@@ -9,20 +9,24 @@ import API from '../../ApiService';
 import { AppStyles, PageStyle, InputStyle, DropdownStyle } from '../../components/styles/AppStyles';
 import Button from "react-native-button";
 import ActionButton from 'react-native-action-button';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+import MessageDialog from '../../components/message-dialog/MessageDialog';
 
 const GameDetails = (props) => {
     const { username, token } = useContext(SetToken);
     const [selectedIndex, setSelectedIndex] = useState();
     const [attendances, setAttendances] = useState([]);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [convertCity, setConvertCity] = useState();
+    const [weather, setWeather] = useState();
+
     const component1 = () => { return (<Text>מגיע</Text>) }
     const component2 = () => { return (<Text >לא מגיע</Text>) }
     const component3 = () => { return (<Text>אולי מגיע</Text>) }
     const game = props.navigation.getParam("game", null);
     const buttons = [{ element: component1 }, { element: component2 }, { element: component3 }]
 
-    // CREATE USEEFFECT AT TIME PLAYER GET IN TO THIS PAGE SEND POST REQUEST FOR CREATE NEW ATTENDANCE WITH NULL ATTENDANCE
-    // CHECK THIS WITH ROTEM USER
+
     useEffect(() => {
         props.navigation.addListener('didFocus',
             payload => {
@@ -51,7 +55,27 @@ const GameDetails = (props) => {
                 });
         };
         fetchAttendance();
-    }, [username, game.id])
+    }, [username, game.id]);
+    useEffect(() => {
+        const fetchConvertCity = async () => {
+            const auth = `Bearer ${token}`;
+            var config = {
+                method: 'get',
+                url: `${API.ipAddress}/convert-city/${game.location.region}`,
+                headers: {
+                    'Authorization': `${auth}`
+                }
+            };
+            await axios(config)
+                .then(function (response) {
+                    setConvertCity(response.data.city.english_name);
+                })
+                .catch(function (error) {
+                    alert(error.message);
+                })
+        };
+        fetchConvertCity();
+    }, []);
     const saveGameDeatilsHandler = async () => {
         if (attendances.length < game.limit_participants || selectedIndex != 0) {
             var myHeaders = new Headers();
@@ -81,7 +105,6 @@ const GameDetails = (props) => {
         }
 
     };
-    // console.log(attendances);
     useEffect(() => {
         // props.navigation.addListener('didFocus',
         //     payload => {
@@ -138,8 +161,30 @@ const GameDetails = (props) => {
     useEffect(() => {
         props.navigation.setParams({ save: saveGameDeatilsHandler });
     }, [selectedIndex]);
+    const handleWeather = () => {
+        setModalVisible(true);
+    };
+    useEffect(() => {
+        const fetchWeather = async () => {
+            let config = {
+                method: 'get',
+                url: `http://api.weatherapi.com/v1/forecast.json?key=${API.api_key_weather}&q=${convertCity}`,
+            };
+            await axios(config)
+                .then(function (response) {
+                    setWeather(response.data);
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        };
+        if (convertCity) {
+            fetchWeather();
+        }
+    }, [convertCity]);
     return (
         <ScrollView>
+            {modalVisible && <MessageDialog setModalVisible={setModalVisible} modalVisible={modalVisible} city={convertCity} weather={weather} cityHeb={game.location.region} />}
             <View style={PageStyle.container} >
 
                 <ButtonGroup
@@ -192,6 +237,9 @@ const GameDetails = (props) => {
                 <ActionButton buttonColor={AppStyles.color.tint}>
                     <ActionButton.Item buttonColor='#9b59b6' title="הזמן חברים" onPress={() => props.navigation.navigate("ProfilesListScreen", { teamId: game.team.id })}>
                         <FontAwesome5 name="user-friends" size={18} color="black" />
+                    </ActionButton.Item>
+                    <ActionButton.Item buttonColor='#9b59b6' title="מזג אויר" onPress={() => handleWeather()}>
+                        <MaterialCommunityIcons name="weather-cloudy" size={24} color="black" />
                     </ActionButton.Item>
                 </ActionButton>}
 
