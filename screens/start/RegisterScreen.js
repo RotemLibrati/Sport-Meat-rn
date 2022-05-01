@@ -18,22 +18,27 @@ const RegisterScreen = props => {
   const [city, setCity] = useState('');
   const yourSex = ['זכר', 'נקבה'];
   const finishRegistration = () => {
-    let formdata = new FormData();
-    formdata.append("username", username);
-    formdata.append("password", password);
-    formdata.append("email", email);
-    formdata.append("phone_number", phoneNumber);
-    formdata.append("age", age);
-    formdata.append("city", city);
-    formdata.append("sex", sex);
-    fetch(`${API.ipAddress}/register`, {
-      method: "POST",
-      body: formdata
-    })
-      .then(resp => resp.json())
-      .then(resp => console.log(resp))
-      .catch(error => console.log(error));
-    props.navigation.goBack();
+    if (username && password && email && phoneNumber && age && city && sex && phoneNumber) {
+      let formdata = new FormData();
+      formdata.append("username", username);
+      formdata.append("password", password);
+      formdata.append("email", email);
+      formdata.append("phone_number", phoneNumber);
+      formdata.append("age", age);
+      formdata.append("city", city);
+      formdata.append("sex", sex);
+      fetch(`${API.ipAddress}/register`, {
+        method: "POST",
+        body: formdata
+      })
+        .then(resp => resp.json())
+        .then(resp => console.log(resp))
+        .catch(error => console.log(error));
+      props.navigation.goBack();
+    } else {
+      alert("נא לוודא שכל השדות מולאו");
+    }
+
   };
 
 
@@ -89,13 +94,15 @@ const RegisterScreen = props => {
             placeholderTextColor={AppStyles.color.grey}
             underlineColorAndroid="transparent"
           /></View>
-          <View style={InputStyle.inputContainerView}>
+        <View style={InputStyle.inputContainerView}>
           <TextInput
             style={InputStyle.bodyInput}
             placeholder="מספר טלפון"
             onChangeText={setPhoneNumber}
             value={phoneNumber}
+            keyboardType="numeric"
             placeholderTextColor={AppStyles.color.grey}
+
             underlineColorAndroid="transparent"
           /></View>
         <View style={InputStyle.inputContainerView}>
