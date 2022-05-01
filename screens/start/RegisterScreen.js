@@ -20,7 +20,7 @@ const RegisterScreen = props => {
   const finishRegistration = () => {
     if (username && password && email && phoneNumber && age && city && sex && phoneNumber) {
       if (!validate(email)){
-        return alert("Email is not correct");
+        return 
       }
       let formdata = new FormData();
       formdata.append("username", username);
@@ -46,15 +46,18 @@ const RegisterScreen = props => {
   const validate = (text) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     if (reg.test(text) === false) {
+      alert("אימייל לא תקין");
       return false;
     }
     else {
       setEmail(text);
-      return true;
     }
-  }
-
-
+    if (phoneNumber.length !== 10){
+      alert("מספר טלפון לא תקין");
+      return false;
+    }
+    return true;
+  };
   return (
     <ScrollView>
       <View style={PageStyle.container}>
@@ -115,6 +118,7 @@ const RegisterScreen = props => {
             value={phoneNumber}
             keyboardType="numeric"
             placeholderTextColor={AppStyles.color.grey}
+            
 
             underlineColorAndroid="transparent"
           /></View>
