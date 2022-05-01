@@ -19,6 +19,9 @@ const RegisterScreen = props => {
   const yourSex = ['זכר', 'נקבה'];
   const finishRegistration = () => {
     if (username && password && email && phoneNumber && age && city && sex && phoneNumber) {
+      if (!validate(email)){
+        return alert("Email is not correct");
+      }
       let formdata = new FormData();
       formdata.append("username", username);
       formdata.append("password", password);
@@ -40,6 +43,16 @@ const RegisterScreen = props => {
     }
 
   };
+  const validate = (text) => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (reg.test(text) === false) {
+      return false;
+    }
+    else {
+      setEmail(text);
+      return true;
+    }
+  }
 
 
   return (
