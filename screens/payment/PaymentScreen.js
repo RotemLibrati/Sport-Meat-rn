@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView, Text } from "react-native";
 import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
 import { PageStyle } from "../../components/styles/AppStyles";
 import Button from "react-native-button";
+import API from '../../ApiService';
 const s = StyleSheet.create({
     switch: {
         alignSelf: "center",
@@ -31,6 +32,34 @@ export default class PaymentScreen extends Component {
     _onFocus = (field) => console.log("focusing", field);
     _setUseLiteCreditCardInput = (useLiteCreditCardInput) => this.setState({ useLiteCreditCardInput });
 
+
+
+    paymentHandler = () => {
+        let team = this.props.navigation.getParam('teamObject', null);
+        let location = this.props.navigation.getParam('location', null);
+        let date = this.props.navigation.getParam('date', null);
+        let city = this.props.navigation.getParam('city', null);
+
+        let formdata = new FormData();
+        formdata.append("reciver", `${team.admin.email}`);
+        formdata.append("subject", ` תשלום עבור משחק ב${location}`);
+        formdata.append("body", `שלום ${team.admin.user.username}
+        רכשת משחק במגרש ${location} שנמצא ב${city} בתאריך ${date}.
+        הודעה זו הנה אישור תשלום שניתן להציג במקום.
+        בהצלחה.`);
+
+        let requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        fetch(`${API.ipAddress}/send-email`,
+            requestOptions)
+            .then(res => res.text())
+            .catch(error => console.log(error));
+        this.props.navigation.navigate("MainScreen");
+    }
     render() {
         const { navigation } = this.props;
         return (
@@ -73,8 +102,8 @@ export default class PaymentScreen extends Component {
                         }
                     </View>
                     <Button
-                        onPress={() => this.props.navigation.navigate("MainScreen")}
-                        containerStyle={[PageStyle.buttonStyle, { marginTop: -50}]}
+                        onPress={() => this.paymentHandler()}
+                        containerStyle={[PageStyle.buttonStyle, { marginTop: -50 }]}
                         style={PageStyle.buttonTextStyle}>
                         סיום
                     </Button>

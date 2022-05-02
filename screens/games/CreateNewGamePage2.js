@@ -22,6 +22,7 @@ const CreateNewGamePage2 = props => {
     const editGame = props.navigation.getParam("editGame", null);
     const [isLoading, setIsLoading] = useState(true);
     const [gameField, setGameField] = useState([]);
+    const [teamObject, setTeamObject] = useState();
 
     useEffect(() => {
         const fetchTeam = async () => {
@@ -36,6 +37,7 @@ const CreateNewGamePage2 = props => {
                 .then(function (response) {
                     console.log(response.data.team.sport);
                     typeSport = response.data.team.sport;
+                    setTeamObject(response.data.team);
                     fetchGameField();
                 })
                 .catch(function (error) {
@@ -70,9 +72,9 @@ const CreateNewGamePage2 = props => {
     return (
         isLoading ? (<Loading />) : (
             game ? (<GameFieldList gameField={gameField} date={date} time={time}
-                type={typeSport} limitParticipants={limitParticipants} team={team} navigation={props.navigation} editGame={editGame} game={game}/>) :(
+                type={typeSport} limitParticipants={limitParticipants} team={team} teamObject={teamObject} navigation={props.navigation} editGame={editGame} game={game}/>) :(
             <GameFieldList gameField={gameField} date={date} time={time}
-                type={typeSport} limitParticipants={limitParticipants} team={team} navigation={props.navigation} editGame={editGame} typeTeam={typeTeam}/>)
+                type={typeSport} limitParticipants={limitParticipants} team={team} teamObject={teamObject} navigation={props.navigation} editGame={editGame} typeTeam={typeTeam}/>)
         )
     )
 };

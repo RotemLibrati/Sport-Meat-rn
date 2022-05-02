@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Alert, TextInput, FlatList, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { AppStyles } from '../styles/AppStyles';
@@ -11,6 +11,9 @@ const GameFieldList = props => {
     const [search, setSearch] = useState('');
     const [filterData, setFilterData] = useState(props.gameField);
     const [masterData, setMasterData] = useState(props.gameField);
+    // useEffect(() => {
+    //     alert(props.teamObject);
+    // },[])
     const searchFilter = (text) => {
         if (text) {
             const newData = masterData.filter((item) => {
@@ -53,7 +56,7 @@ const GameFieldList = props => {
             requestOptions)
             .then(function (response) {
                 if (item.payment) {
-                    props.navigation.navigate("PaymentScreen", { date: props.date, time: props.time, location: item.name });
+                    props.navigation.navigate("PaymentScreen", { date: props.date, time: props.time, location: item.name, city: item.region, team: props.team, teamObject: props.teamObject });
                 } else {
                     if (response.status === 500){
                         alert("קיים משחק במיקום ובזמן הזה, המשחק לא נוצר");
@@ -85,7 +88,7 @@ const GameFieldList = props => {
             requestOptions)
             .then(function () {
                 if (item.availability.includes("תשלום")) {
-                    props.navigation.navigate("PaymentScreen", { date: props.date, time: props.time, location: item.name });
+                    props.navigation.navigate("PaymentScreen", { date: props.date, time: props.time, location: item.name, city: item.region, team: props.team, teamObject: props.teamObject });
                 } else {
                     Alert.alert("עדכנת את פרטי המשחק");
                     props.navigation.popToTop();
