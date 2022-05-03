@@ -221,7 +221,7 @@ const GameDetails = (props) => {
                         containerStyle={styles.attendanceContainer}
                         style={styles.attendanceText}
                         onPress={InviteFriendsHandler}>
-                        הזמן את חברי הקבוצה
+                        שלח הודעה לחברי הקבוצה
                     </Button>
                 }
                 {game.team.admin.user.username === username &&
