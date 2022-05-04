@@ -10,8 +10,6 @@ const TermsScreen = () => {
             <Text style={styles.textStyle}>1. השימוש באפליקציה מותר לכל גיל.</Text>
             <Text style={styles.textStyle}>2. הנוסח כתוב בלשון זכר אך מתייחס לשני המינים.</Text>
             <Text style={styles.textStyle}>3. חובה לשמור על שפה נאותה - אין לקלל.</Text>
-            <Text style={styles.textStyle}>4. </Text>
-            <Text style={styles.textStyle}>5. </Text>
             
         </View>
     );

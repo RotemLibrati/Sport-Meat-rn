@@ -38,7 +38,6 @@ const CreateNewGamePage2 = props => {
                     console.log(response.data.team.sport);
                     typeSport = response.data.team.sport;
                     setTeamObject(response.data.team);
-                    alert(response.data.team);
                     fetchGameField();
                 })
                 .catch(function (error) {

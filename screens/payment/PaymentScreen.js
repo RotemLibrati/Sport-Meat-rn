@@ -36,6 +36,9 @@ export default class PaymentScreen extends Component {
 
     paymentHandler = () => {
         let formdata = new FormData();
+        let location = this.props.navigation.getParam('location', null);
+        let date = this.props.navigation.getParam('date', null);
+        let city = this.props.navigation.getParam('city', null);
         try {
             let team = this.props.navigation.getParam('teamObject', null);
             formdata.append("reciver", `${team.admin.email}`);
@@ -44,16 +47,14 @@ export default class PaymentScreen extends Component {
         הודעה זו הנה אישור תשלום שניתן להציג במקום.
         בהצלחה.`);
         } catch {
-            formdata.append("reciver", `rotemlibrati1@gmail.com`);
+            formdata.append("reciver", `rotemlibrati11@gmail.com`);
             formdata.append("body", `שלום 
         רכשת משחק במגרש ${location} שנמצא ב${city} בתאריך ${date}.
         הודעה זו הנה אישור תשלום שניתן להציג במקום.
         בהצלחה.`);
         }
 
-        let location = this.props.navigation.getParam('location', null);
-        let date = this.props.navigation.getParam('date', null);
-        let city = this.props.navigation.getParam('city', null);
+        
 
 
 
