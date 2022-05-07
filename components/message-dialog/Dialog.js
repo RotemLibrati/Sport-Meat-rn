@@ -1,33 +1,28 @@
-import React from 'react';
 import { StyleSheet, Text, View, Modal, Pressable } from 'react-native';
+import React from 'react';
 
-const MessageDialog = props => {
-    const { setModalVisible, modalVisible } = props;
+const Dialog = props => {
+    // const { setModalVisible, modalVisible } = props;
     return (
-        <View style={styles.centeredView}>
+        <View style={props.centeredView}>
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={true}
                 onRequestClose={() => {
-                    setModalVisible(!modalVisible);
+                    props.setModalVisible(!props.modalVisible);
                 }}
             >
-                <View style={styles.centeredView}>
+                <View style={props.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>כרגע ב{props.cityHeb}</Text>
-                        <Text style={styles.modalText}>{props.weather.current.temp_c} מעלות</Text>
-                        <Text style={styles.modalText}>רוח: {props.weather.current.wind_kph} קמ"ש</Text>
-                        <Text style={styles.modalText}>לחות: {props.weather.current.humidity}%</Text>
-
+                        <Text style={styles.modalText}>{props.message}</Text>
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
-                            onPress={() => {
-                                setModalVisible(!modalVisible)
-                            }}
+                            onPress={() => props.setModalVisible(!props.modalVisible)}
                         >
-                            <Text style={styles.textStyle}>תודה</Text>
+                            <Text style={styles.textStyle}>{props.messageButton}</Text>
                         </Pressable>
+                        {props.children}
                     </View>
                 </View>
             </Modal>
@@ -35,15 +30,18 @@ const MessageDialog = props => {
     );
 };
 
+
+
 const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22
+        marginTop: 22,
     },
     modalView: {
-        margin: 20,
+        margin: 50,
+        marginTop: 350,
         backgroundColor: "white",
         borderRadius: 20,
         padding: 35,
@@ -76,5 +74,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     }
 });
-
-export default MessageDialog;
+export default Dialog;
