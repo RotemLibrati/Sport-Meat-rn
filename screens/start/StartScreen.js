@@ -13,7 +13,7 @@ const StartScreen = props => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sport Meet</Text>
-      <Image style={styles.photo} source={require('../../assets/pictures/SportsMeet.jpg')}/>
+      <Image style={styles.photo} source={require('../../assets/pictures/logosportmeet2.jpg')}/>
       <Button
         containerStyle={styles.loginContainer}
         style={styles.loginText}
